@@ -5,9 +5,9 @@
   "description": "",
   "main": "./main.prod.js",
   "author": {
-    "name": "Greymass",
-    "email": "hello@greymass.com",
-    "url": "https://github.com/greymass"
+    "name": "Enumivo",
+    "email": "admin@enumivo.org",
+    "url": "https://github.com/enumivo"
   },
   "scripts": {
     "electron-rebuild": "node -r babel-register ../internals/scripts/ElectronRebuild.js",

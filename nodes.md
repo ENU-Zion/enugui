@@ -21,7 +21,7 @@ If you'd like to connect to one of the testnets, you can use:
 
 # ENU Nodes
 
-- (Offline, waiting for main ENU network) https://enu.greymass.com - operated by [greymass](https://greymass.com)
+- (Offline, waiting for main ENU network) https://enumivo.org - operated by [enumivo](https://enumivo.org)
 
 ### Additions
 

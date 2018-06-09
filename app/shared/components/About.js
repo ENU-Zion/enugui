@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Divider, Grid, Header, Image, Segment } from 'semantic-ui-react';
 import { I18n } from 'react-i18next';
 
-import logo from '../../renderer/assets/images/greymasstext.png';
+import logo from '../../renderer/assets/images/enumivotext.png';
 import WalletPanelButtonResetApp from './Wallet/Panel/Button/ResetApp';
 
 const { shell } = require('electron');
@@ -56,17 +56,17 @@ export default class About extends Component<Props> {
                 </Grid.Column>
                 <Grid.Column width={8}>
                   <Segment>
-                    <Image src={logo} alt="Greymass" />
+                    <Image src={logo} alt="Enumivo" />
                     <Segment basic padded>
-                      <p>{t('about_greymass_message_1')}</p>
+                      <p>{t('about_enumivo_message_1')}</p>
                       <p>
-                        {t('about_greymass_message_2')}
+                        {t('about_enumivo_message_2')}
                         {' '}
                         <a
-                          onClick={() => this.openLink('https://greymass.com')}
+                          onClick={() => this.openLink('https://enumivo.org')}
                           role="button"
                         >
-                          https://greymass.com
+                          https://enumivo.org
                         </a>.
                       </p>
                     </Segment>

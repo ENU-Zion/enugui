@@ -96,9 +96,9 @@ export default class MenuBuilder {
     const subMenuHelp = {
       label: 'Help',
       submenu: [
-        { label: 'Source Code (Github)', click() { shell.openExternal('https://github.com/greymass/enu-voter'); } },
-        { label: 'Report Bug (Github)', click() { shell.openExternal('https://github.com/greymass/enu-voter/issues'); } },
-        { label: 'Releases (Github)', click() { shell.openExternal('https://github.com/greymass/enu-voter/releases'); } }
+        { label: 'Source Code (Github)', click() { shell.openExternal('https://github.com/enumivo/enu-voter'); } },
+        { label: 'Report Bug (Github)', click() { shell.openExternal('https://github.com/enumivo/enu-voter/issues'); } },
+        { label: 'Releases (Github)', click() { shell.openExternal('https://github.com/enumivo/enu-voter/releases'); } }
       ]
     };
 
@@ -166,9 +166,9 @@ export default class MenuBuilder {
     }, {
       label: 'Help',
       submenu: [
-        { label: 'Source Code (Github)', click() { shell.openExternal('https://github.com/greymass/enu-voter'); } },
-        { label: 'Report Bug (Github)', click() { shell.openExternal('https://github.com/greymass/enu-voter/issues'); } },
-        { label: 'Releases (Github)', click() { shell.openExternal('https://github.com/greymass/enu-voter/releases'); } }
+        { label: 'Source Code (Github)', click() { shell.openExternal('https://github.com/enumivo/enu-voter'); } },
+        { label: 'Report Bug (Github)', click() { shell.openExternal('https://github.com/enumivo/enu-voter/issues'); } },
+        { label: 'Releases (Github)', click() { shell.openExternal('https://github.com/enumivo/enu-voter/releases'); } }
       ]
     }];
 

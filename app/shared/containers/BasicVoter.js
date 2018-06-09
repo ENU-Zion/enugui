@@ -22,7 +22,7 @@ import * as StakeActions from '../actions/stake';
 import * as TransferActions from '../actions/transfer';
 import * as VoteProducerActions from '../actions/system/voteproducer';
 
-import logo from '../../renderer/assets/images/greymass.png';
+import logo from '../../renderer/assets/images/enumivo.png';
 
 type Props = {
   actions: {
@@ -160,7 +160,7 @@ class BasicVoterContainer extends Component<Props> {
               active={activeItem === 'about'}
               onClick={this.handleItemClick}
             >
-              <img alt="Greymass" src={logo} />
+              <img alt="Enumivo" src={logo} />
             </Menu.Item>
           </Menu.Menu>
         </Menu>

@@ -1,13 +1,13 @@
-[![version](https://img.shields.io/github/release/greymass/enu-voter/all.svg)](https://github.com/greymass/enu-voter/releases)
-[![issues](https://img.shields.io/github/issues/greymass/enu-voter.svg)](https://github.com/greymass/enu-voter/issues)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/greymass/enu-voter/master/LICENSE)
-![downloads](https://img.shields.io/github/downloads/greymass/enu-voter/total.svg)
+[![version](https://img.shields.io/github/release/enumivo/enu-voter/all.svg)](https://github.com/enumivo/enu-voter/releases)
+[![issues](https://img.shields.io/github/issues/enumivo/enu-voter.svg)](https://github.com/enumivo/enu-voter/issues)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/enumivo/enu-voter/master/LICENSE)
+![downloads](https://img.shields.io/github/downloads/enumivo/enu-voter/total.svg)
 
 # enu-voter - ENU Block Producer Voting & Wallet
 
 `enu-voter` is a limited-functionality release of a light wallet being designed for the ENU blockchain. This application can be used to connect to a remote ENU API endpoint to perform producer voting actions and a few basic wallet commands.
 
-[![enu-voter screenshot](https://raw.githubusercontent.com/greymass/enu-voter/master/enu-voter.png)](https://raw.githubusercontent.com/greymass/enu-voter/master/enu-voter.png)
+[![enu-voter screenshot](https://raw.githubusercontent.com/enumivo/enu-voter/master/enu-voter.png)](https://raw.githubusercontent.com/enumivo/enu-voter/master/enu-voter.png)
 
 ### Features
 
@@ -23,14 +23,14 @@
 
 Current 0.1.2 release downloads:
 
-- [Windows Installer](https://github.com/greymass/enu-voter/releases/download/v0.1.2/enu-voter-setup-0.1.2.exe)
-- [macOS Package](https://github.com/greymass/enu-voter/releases/download/v0.1.2/enu-voter-0.1.2.dmg)
-- [Linux (deb)](https://github.com/greymass/enu-voter/releases/download/v0.1.2/enu-voter_0.1.2_amd64.deb)
-- [Linux (snap)](https://github.com/greymass/enu-voter/releases/download/v0.1.2/enu-voter_0.1.2_amd64.snap)
+- [Windows Installer](https://github.com/enumivo/enu-voter/releases/download/v0.1.2/enu-voter-setup-0.1.2.exe)
+- [macOS Package](https://github.com/enumivo/enu-voter/releases/download/v0.1.2/enu-voter-0.1.2.dmg)
+- [Linux (deb)](https://github.com/enumivo/enu-voter/releases/download/v0.1.2/enu-voter_0.1.2_amd64.deb)
+- [Linux (snap)](https://github.com/enumivo/enu-voter/releases/download/v0.1.2/enu-voter_0.1.2_amd64.snap)
 
 The latest release will always be available on the releases page of this repository:
 
-[https://github.com/greymass/enu-voter/releases](https://github.com/greymass/enu-voter/releases)
+[https://github.com/enumivo/enu-voter/releases](https://github.com/enumivo/enu-voter/releases)
 
 To determine which file you need, if you are a...
 
@@ -49,7 +49,7 @@ If you'd rather build the application yourself, please ensure you have nodejs/np
 **Note**: If you are configuring this Electron application within a Windows development environment, it will involve additional steps.
 
 ```
-git clone git@github.com:greymass/enu-voter.git enu-voter
+git clone git@github.com:enumivo/enu-voter.git enu-voter
 cd enu-voter
 yarn install
 ```
@@ -66,7 +66,7 @@ The files built will be located in the `releases` folder within the root project
 ### Running development mode
 
 ```
-git clone git@github.com:greymass/enu-voter.git enu-voter
+git clone git@github.com:enumivo/enu-voter.git enu-voter
 cd enu-voter
 yarn install
 yarn dev
@@ -74,4 +74,4 @@ yarn dev
 
 ### Credits
 
-The development of this application is being led by members of the [Greymass](https://greymass.com) team in an effort to let stakeholders participate in ENU’ governance.
+The development of this application is being led by members of the [Enumivo](https://enumivo.org) team in an effort to let stakeholders participate in ENU’ governance.
