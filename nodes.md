@@ -13,15 +13,14 @@ Even though your keys never leave the `enu-voter` applications, the API node you
 
 If you are concerned about revealing this information to any of these 3rd party API nodes, it is recommended you run your own API Node and connect to that.
 
-# Testnet Nodes
-
-If you'd like to connect to one of the testnets, you can use:
-
-- https://enu.jesta.us (Jungle Testnet)
-
 # ENU Nodes
 
 - (Offline, waiting for main ENU network) https://enumivo.org - operated by [enumivo](https://enumivo.org)
+
+- http://172.105.215.62:8000
+- http://172.104.182.81:8000
+- http://139.162.198.254:8000
+- http://45.33.118.116:8000
 
 ### Additions
 
