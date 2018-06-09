@@ -1,6 +1,6 @@
 import * as types from './types';
 
-import eos from './helpers/eos';
+import enu from './helpers/enu';
 
 export function getGlobals() {
   return (dispatch: () => void, getState) => {
@@ -8,7 +8,7 @@ export function getGlobals() {
       type: types.GET_GLOBALS_REQUEST
     });
     const { connection } = getState();
-    eos(connection).getTableRows(true, 'eosio', 'eosio', 'global').then((results) => dispatch({
+    enu(connection).getTableRows(true, 'enumivo', 'enumivo', 'global').then((results) => dispatch({
       type: types.GET_GLOBALS_SUCCESS,
       payload: { results }
     })).catch((err) => dispatch({

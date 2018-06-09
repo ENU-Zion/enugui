@@ -1,6 +1,6 @@
 import * as types from '../types';
 
-import eos from '../helpers/eos';
+import enu from '../helpers/enu';
 
 export function voteproducers(producers = []) {
   return (dispatch: () => void, getState) => {
@@ -13,7 +13,7 @@ export function voteproducers(producers = []) {
     });
     const { account } = settings;
     producers.sort();
-    return eos(connection).voteproducer(account, '', producers)
+    return enu(connection).voteproducer(account, '', producers)
       .then((tx) => dispatch({
         payload: { tx, producers },
         type: types.SYSTEM_VOTEPRODUCER_SUCCESS

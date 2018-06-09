@@ -1,6 +1,6 @@
 {
-  "name": "eos-voter",
-  "productName": "eos-voter",
+  "name": "enu-voter",
+  "productName": "enu-voter",
   "version": "0.1.2",
   "description": "",
   "scripts": {
@@ -29,8 +29,8 @@
   },
   "browserslist": "electron 1.6",
   "build": {
-    "productName": "eos-voter",
-    "appId": "com.greymass.eos-voter",
+    "productName": "enu-voter",
+    "appId": "com.greymass.enu-voter",
     "asar": true,
     "files": [
       "dist/",
@@ -68,11 +68,11 @@
     "linux": {
       "category": "Network",
       "desktop": {
-        "Name": "eos-voter",
+        "Name": "enu-voter",
         "Version": "0.1.0",
-        "GenericName": "EOS Voting Client + Wallet",
-        "X-GNOME-FullName": "eos-voter",
-        "Comment": "A simple voting interface and wallet for EOS accounts.",
+        "GenericName": "ENU Voting Client + Wallet",
+        "X-GNOME-FullName": "enu-voter",
+        "Comment": "A simple voting interface and wallet for ENU accounts.",
         "Type": "Application",
         "Terminal": "false",
         "StartupNotify": "false",
@@ -91,7 +91,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/greymass/eos-voter.git"
+    "url": "git+https://github.com/greymass/enu-voter.git"
   },
   "author": {
     "name": "Greymass",
@@ -100,14 +100,14 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/greymass/eos-voter/issues"
+    "url": "https://github.com/greymass/enu-voter/issues"
   },
   "keywords": [
-    "eos",
+    "enu",
     "voting",
     "wallet"
   ],
-  "homepage": "https://github.com/greymass/eos-voter#readme",
+  "homepage": "https://github.com/greymass/enu-voter#readme",
   "jest": {
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/fileMock.js",
@@ -206,7 +206,7 @@
     "electron-debug": "^2.0.0",
     "electron-log": "^2.2.14",
     "electron-store": "^2.0.0",
-    "eosjs": "^14.1.0",
+    "enujs": "^14.1.0",
     "history": "^4.7.2",
     "i": "^0.3.6",
     "i18next": "^11.3.2",

@@ -1,6 +1,6 @@
 {
-  "name": "eos-voter",
-  "productName": "eos-voter",
+  "name": "enu-voter",
+  "productName": "enu-voter",
   "version": "0.1.2",
   "description": "",
   "main": "./main.prod.js",

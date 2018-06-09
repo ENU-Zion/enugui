@@ -1,5 +1,5 @@
-const Eos = require('eosjs');
+const Enu = require('enujs');
 
-export default function eos(connection) {
-  return Eos(connection);
+export default function enu(connection) {
+  return Enu(connection);
 }

@@ -7,7 +7,7 @@ export default class WalletPanelFormStakeStats extends Component<Props> {
   render() {
     const {
       cpuOriginal,
-      EOSbalance,
+      ENUbalance,
       netOriginal
     } = this.props;
 
@@ -18,7 +18,7 @@ export default class WalletPanelFormStakeStats extends Component<Props> {
             <Segment.Group horizontal>
               <Segment>
                 <Header textAlign="center">
-                  {(EOSbalance).toFixed(4)} EOS
+                  {(ENUbalance).toFixed(4)} ENU
                   <Header.Subheader>
                     {t('amount_not_staked')}
                   </Header.Subheader>
@@ -26,7 +26,7 @@ export default class WalletPanelFormStakeStats extends Component<Props> {
               </Segment>
               <Segment>
                 <Header textAlign="center">
-                  {cpuOriginal.toFixed(4)} EOS
+                  {cpuOriginal.toFixed(4)} ENU
                   <Header.Subheader>
                     {t('cpu_staked')}
                   </Header.Subheader>
@@ -34,7 +34,7 @@ export default class WalletPanelFormStakeStats extends Component<Props> {
               </Segment>
               <Segment>
                 <Header textAlign="center">
-                  {netOriginal.toFixed(4)} EOS
+                  {netOriginal.toFixed(4)} ENU
                   <Header.Subheader>
                     {t('net_staked')}
                   </Header.Subheader>

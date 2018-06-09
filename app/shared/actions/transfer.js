@@ -1,6 +1,6 @@
 import * as types from './types';
 
-import eos from './helpers/eos';
+import enu from './helpers/enu';
 import { getCurrencyBalance } from './accounts';
 
 export function transfer(from, to, quantity, memo) {
@@ -11,7 +11,7 @@ export function transfer(from, to, quantity, memo) {
     dispatch({
       type: types.SYSTEM_TRANSFER_PENDING
     });
-    return eos(connection).transfer(
+    return enu(connection).transfer(
       from,
       to,
       quantity,

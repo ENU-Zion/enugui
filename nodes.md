@@ -1,12 +1,12 @@
 ## API Node Recommendations
 
-`eos-voter` is a light wallet, which means it relies on an external API node connected to the EOS blockchain network in order to function.
+`enu-voter` is a light wallet, which means it relies on an external API node connected to the ENU blockchain network in order to function.
 
-The list below contains EOS API nodes run by members of the EOS community that you can choose from.
+The list below contains ENU API nodes run by members of the ENU community that you can choose from.
 
 ### Privacy
 
-Even though your keys never leave the `eos-voter` applications, the API node you connect to can still reveal personally identifiable information about you. This information may include:
+Even though your keys never leave the `enu-voter` applications, the API node you connect to can still reveal personally identifiable information about you. This information may include:
 
 - Account Names
 - IP Addresses
@@ -17,11 +17,11 @@ If you are concerned about revealing this information to any of these 3rd party 
 
 If you'd like to connect to one of the testnets, you can use:
 
-- https://eos.jesta.us (Jungle Testnet)
+- https://enu.jesta.us (Jungle Testnet)
 
-# EOS Nodes
+# ENU Nodes
 
-- (Offline, waiting for main EOS network) https://eos.greymass.com - operated by [greymass](https://greymass.com)
+- (Offline, waiting for main ENU network) https://enu.greymass.com - operated by [greymass](https://greymass.com)
 
 ### Additions
 

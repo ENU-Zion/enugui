@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Grid, Image, Header, Message, Segment } from 'semantic-ui-react';
 import { I18n } from 'react-i18next';
 import FormConnectionContainer from '../containers/Form/Connection';
-import eos from '../../renderer/assets/images/eos.png';
+import enu from '../../renderer/assets/images/enu.png';
 
 const { shell } = require('electron');
 
@@ -40,7 +40,7 @@ export default class About extends Component<Props> {
                     color="teal"
                     textAlign="center"
                   >
-                    <Image src={eos} />
+                    <Image src={enu} />
                     <Header.Content>
                       {t('application_name')}
                       <Header.Subheader>
@@ -60,7 +60,7 @@ export default class About extends Component<Props> {
                     {t('welcome_more_servers_1')}
                     <p>
                       <a
-                        onClick={() => this.openLink('https://github.com/greymass/eos-voter/blob/master/nodes.md')}
+                        onClick={() => this.openLink('https://github.com/greymass/enu-voter/blob/master/nodes.md')}
                         role="link"
                       >
                         {t('welcome_more_servers_2')}

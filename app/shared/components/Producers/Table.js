@@ -76,7 +76,7 @@ export default class ProducersTable extends Component<Props> {
               <Grid>
                 <Grid.Column width="10">
                   <Header size="small">
-                    {activatedStake.toLocaleString()} {t('block_producer_eos_staked')} ({activatedStakePercent}%)
+                    {activatedStake.toLocaleString()} {t('block_producer_enu_staked')} ({activatedStakePercent}%)
                     <Header.Subheader>
                       <ProducersVoteWeight
                         weight={totalVoteWeight}

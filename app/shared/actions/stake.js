@@ -4,11 +4,11 @@ import * as types from './types';
 import { delegatebw } from './system/delegatebw';
 import { undelegatebw } from './system/undelegatebw';
 
-export function setStakeWithValidation(EOSbalance, account, netAmount, cpuAmount) {
+export function setStakeWithValidation(ENUbalance, account, netAmount, cpuAmount) {
   return (dispatch: () => void) => {
     const { nextStake, currentStake } = getNextAndCurrentStake(account, netAmount, cpuAmount);
 
-    if (dispatch(validate.validateStake(nextStake, currentStake, EOSbalance))) {
+    if (dispatch(validate.validateStake(nextStake, currentStake, ENUbalance))) {
       const increaseInStake = {
         netAmount: Math.max(0, (nextStake.netAmount - currentStake.netAmount)),
         cpuAmount: Math.max(0, (nextStake.cpuAmount - currentStake.cpuAmount))
@@ -39,11 +39,11 @@ export function setStakeWithValidation(EOSbalance, account, netAmount, cpuAmount
   };
 }
 
-export function setStakeConfirmingWithValidation(EOSbalance, account, netAmount, cpuAmount) {
+export function setStakeConfirmingWithValidation(ENUbalance, account, netAmount, cpuAmount) {
   return (dispatch: () => void) => {
     const { nextStake, currentStake } = getNextAndCurrentStake(account, netAmount, cpuAmount);
 
-    if (dispatch(validate.validateStake(nextStake, currentStake, EOSbalance))) {
+    if (dispatch(validate.validateStake(nextStake, currentStake, ENUbalance))) {
       return dispatch({ type: types.VALIDATE_STAKE_CONFIRMING });
     }
   };

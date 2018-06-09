@@ -45,13 +45,13 @@ export default class MenuBuilder {
 
   buildDarwinTemplate() {
     const subMenuAbout = {
-      label: 'eos-voter',
+      label: 'enu-voter',
       submenu: [
         { role: 'about' },
         { type: 'separator' },
         { label: 'Services', submenu: [] },
         { type: 'separator' },
-        { label: 'Hide eos-voter', accelerator: 'Command+H', selector: 'hide:' },
+        { label: 'Hide enu-voter', accelerator: 'Command+H', selector: 'hide:' },
         { label: 'Hide Others', accelerator: 'Command+Shift+H', selector: 'hideOtherApplications:' },
         { label: 'Show All', selector: 'unhideAllApplications:' },
         { type: 'separator' },
@@ -96,9 +96,9 @@ export default class MenuBuilder {
     const subMenuHelp = {
       label: 'Help',
       submenu: [
-        { label: 'Source Code (Github)', click() { shell.openExternal('https://github.com/greymass/eos-voter'); } },
-        { label: 'Report Bug (Github)', click() { shell.openExternal('https://github.com/greymass/eos-voter/issues'); } },
-        { label: 'Releases (Github)', click() { shell.openExternal('https://github.com/greymass/eos-voter/releases'); } }
+        { label: 'Source Code (Github)', click() { shell.openExternal('https://github.com/greymass/enu-voter'); } },
+        { label: 'Report Bug (Github)', click() { shell.openExternal('https://github.com/greymass/enu-voter/issues'); } },
+        { label: 'Releases (Github)', click() { shell.openExternal('https://github.com/greymass/enu-voter/releases'); } }
       ]
     };
 
@@ -166,9 +166,9 @@ export default class MenuBuilder {
     }, {
       label: 'Help',
       submenu: [
-        { label: 'Source Code (Github)', click() { shell.openExternal('https://github.com/greymass/eos-voter'); } },
-        { label: 'Report Bug (Github)', click() { shell.openExternal('https://github.com/greymass/eos-voter/issues'); } },
-        { label: 'Releases (Github)', click() { shell.openExternal('https://github.com/greymass/eos-voter/releases'); } }
+        { label: 'Source Code (Github)', click() { shell.openExternal('https://github.com/greymass/enu-voter'); } },
+        { label: 'Report Bug (Github)', click() { shell.openExternal('https://github.com/greymass/enu-voter/issues'); } },
+        { label: 'Releases (Github)', click() { shell.openExternal('https://github.com/greymass/enu-voter/releases'); } }
       ]
     }];
 

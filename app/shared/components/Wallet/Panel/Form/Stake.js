@@ -48,7 +48,7 @@ export default class WalletPanelFormStake extends Component<Props> {
       netOriginal
     } = this.state;
 
-    const EOSbalance = balance.EOS || 0;
+    const ENUbalance = balance.ENU || 0;
 
     return (
       <div>
@@ -57,14 +57,14 @@ export default class WalletPanelFormStake extends Component<Props> {
             <div>
               <WalletPanelFormStakeStats
                 cpuOriginal={cpuOriginal}
-                EOSbalance={EOSbalance}
+                ENUbalance={ENUbalance}
                 netOriginal={netOriginal}
               />
               <WalletPanelFormStakeSliders
                 actions={actions}
                 account={account}
                 cpuOriginal={cpuOriginal}
-                EOSbalance={EOSbalance}
+                ENUbalance={ENUbalance}
                 netOriginal={netOriginal}
                 onClose={onClose}
               />

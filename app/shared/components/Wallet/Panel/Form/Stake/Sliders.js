@@ -17,7 +17,7 @@ export default class WalletPanelFormStakeSliders extends Component<Props> {
     const {
       account,
       actions,
-      EOSbalance
+      ENUbalance
     } = this.props;
 
     const {
@@ -32,7 +32,7 @@ export default class WalletPanelFormStakeSliders extends Component<Props> {
 
     const { setStakeWithValidation } = actions;
 
-    setStakeWithValidation(EOSbalance, account, realNetAmount, realCpuAmount);
+    setStakeWithValidation(ENUbalance, account, realNetAmount, realCpuAmount);
     e.preventDefault();
     return false;
   }

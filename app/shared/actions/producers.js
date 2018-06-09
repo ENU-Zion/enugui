@@ -1,7 +1,7 @@
 import * as types from './types';
 import sortBy from 'lodash/sortBy';
 
-import eos from './helpers/eos';
+import enu from './helpers/enu';
 
 export function clearProducerCache() {
   return (dispatch: () => void) => {
@@ -17,10 +17,10 @@ export function getProducers() {
       type: types.GET_PRODUCERS_REQUEST
     });
     const { connection } = getState();
-    eos(connection).getTableRows({
+    enu(connection).getTableRows({
       json: true,
-      code: 'eosio',
-      scope: 'eosio',
+      code: 'enumivo',
+      scope: 'enumivo',
       table: 'producers',
       limit: 1000
     }).then((results) => {

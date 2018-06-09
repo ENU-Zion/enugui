@@ -1,6 +1,6 @@
 import * as types from '../types';
 import * as AccountActions from '../accounts';
-import eos from '../helpers/eos';
+import enu from '../helpers/enu';
 
 export function undelegatebw(delegator, receiver, netAmount, cpuAmount) {
   return (dispatch: () => void, getState) => {
@@ -15,12 +15,12 @@ export function undelegatebw(delegator, receiver, netAmount, cpuAmount) {
     const unstakeNetAmount = Math.round(netAmount * 10000) / 10000 || 0;
     const unstakeCpuAmount = Math.round(cpuAmount * 10000) / 10000 || 0;
 
-    return eos(connection).transaction(tr => {
+    return enu(connection).transaction(tr => {
       tr.undelegatebw({
         from: delegator,
         receiver,
-        unstake_net_quantity: `${unstakeNetAmount} EOS`,
-        unstake_cpu_quantity: `${unstakeCpuAmount} EOS`,
+        unstake_net_quantity: `${unstakeNetAmount} ENU`,
+        unstake_cpu_quantity: `${unstakeCpuAmount} ENU`,
         transfer: 0
       });
     }).then((tx) => {

@@ -1,7 +1,7 @@
 import * as types from './types';
 
 const CryptoJS = require('crypto-js');
-const ecc = require('eosjs-ecc');
+const ecc = require('enujs-ecc');
 
 export function setWalletKey(key, password) {
   return (dispatch: () => void, getState) => {

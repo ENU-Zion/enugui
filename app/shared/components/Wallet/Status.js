@@ -94,7 +94,7 @@ export default class WalletStatus extends Component<Props> {
             <Menu.Item
               name="staked"
               icon="power cord"
-              content="Staked EOS"
+              content="Staked ENU"
               active={activeItem === 'staked'}
               onClick={this.handleItemClick}
             />

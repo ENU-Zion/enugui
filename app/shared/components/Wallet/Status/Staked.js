@@ -36,7 +36,7 @@ export default class WalletStatusStaked extends Component<Props> {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell width={5}>{t('total_staked')}</Table.Cell>
-                    <Table.Cell>{totalStaked} EOS</Table.Cell>
+                    <Table.Cell>{totalStaked} ENU</Table.Cell>
                   </Table.Row>
                 </Table.Body>
               </Table>

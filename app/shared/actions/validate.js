@@ -1,9 +1,9 @@
 import { getCurrencyBalance } from './accounts';
 import * as types from './types';
 import * as chain from './chain';
-import eos from './helpers/eos';
+import enu from './helpers/enu';
 
-const ecc = require('eosjs-ecc');
+const ecc = require('enujs-ecc');
 
 export function validateAccount(account) {
   return (dispatch: () => void, getState) => {
@@ -19,7 +19,7 @@ export function validateAccount(account) {
     } = getState();
     try {
       // A generic info call to make sure it's working
-      eos(connection).getAccount(account).then((results) => {
+      enu(connection).getAccount(account).then((results) => {
         // Revalidate the key whenever it's part of the validation process
         if (settings.key) {
           dispatch(validateKey(settings.key));
@@ -57,7 +57,7 @@ export function validateNode(node) {
     });
     // Ensure there's a value to test
     if (node || node.length !== 0) {
-      // Establish EOS connection
+      // Establish ENU connection
       try {
         const {
           connection,
@@ -79,7 +79,7 @@ export function validateNode(node) {
           httpEndpoint
         };
         // A generic info call to make sure it's working
-        eos(modified).getInfo({}).then(result => {
+        enu(modified).getInfo({}).then(result => {
           // If we received a valid height, confirm this server can be connected to
           if (result.head_block_num > 1) {
             // Dispatch success
@@ -120,8 +120,8 @@ export function validateKey(key) {
       });
     }
     try {
-      // Establish EOS connection
-      eos(connection).getAccount(settings.account).then((account) => {
+      // Establish ENU connection
+      enu(connection).getAccount(settings.account).then((account) => {
         // Keys must resolve to one of these types of permissions
         const permissions = ['active', 'owner'];
         try {
@@ -168,7 +168,7 @@ export function validateKey(key) {
   };
 }
 
-export function validateStake(nextStake, currentStake, EOSbalance) {
+export function validateStake(nextStake, currentStake, ENUbalance) {
   return (dispatch: () => void) => {
     dispatch({ type: types.VALIDATE_STAKE_PENDING });
 
@@ -180,9 +180,9 @@ export function validateStake(nextStake, currentStake, EOSbalance) {
       return false;
     }
 
-    if (((nextStake.cpu_amount + currentStake.net_amount) > EOSbalance) ||
-        ((nextStake.net_amount + currentStake.cpu_amount) > EOSbalance) ||
-        ((nextStake.cpu_amount + nextStake.net_amount) > EOSbalance)) {
+    if (((nextStake.cpu_amount + currentStake.net_amount) > ENUbalance) ||
+        ((nextStake.net_amount + currentStake.cpu_amount) > ENUbalance) ||
+        ((nextStake.cpu_amount + nextStake.net_amount) > ENUbalance)) {
       dispatch({
         payload: { error: 'not_enough_balance' },
         type: types.VALIDATE_STAKE_FAILURE

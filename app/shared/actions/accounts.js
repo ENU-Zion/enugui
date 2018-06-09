@@ -1,6 +1,6 @@
 import * as types from './types';
 
-import eos from './helpers/eos';
+import enu from './helpers/enu';
 
 export function clearAccountCache() {
   return (dispatch: () => void) => {
@@ -21,7 +21,7 @@ export function getAccount(account = '') {
       settings
     } = getState();
     if (account && (settings.node || settings.node.length !== 0)) {
-      eos(connection).getAccount(account).then((results) => {
+      enu(connection).getAccount(account).then((results) => {
         // Trigger the action to load this accounts balances
         dispatch(getCurrencyBalance(account));
         // Dispatch the results of the account itself
@@ -53,7 +53,7 @@ export function getActions(account = '') {
       settings
     } = getState();
     if (account && (settings.node || settings.node.length !== 0)) {
-      eos(connection).getActions(account).then((results) => dispatch({
+      enu(connection).getActions(account).then((results) => dispatch({
         type: types.GET_ACTIONS_SUCCESS,
         payload: { results }
       })).catch((err) => dispatch({
@@ -80,7 +80,7 @@ export function getCurrencyBalance(account) {
       settings
     } = getState();
     if (account && (settings.node || settings.node.length !== 0)) {
-      return eos(connection).getCurrencyBalance('eosio.token', account).then((balances) => dispatch({
+      return enu(connection).getCurrencyBalance('enu.token', account).then((balances) => dispatch({
         type: types.GET_ACCOUNT_BALANCE_SUCCESS,
         payload: { balances, account_name: account }
       })).catch((err) => dispatch({
@@ -106,7 +106,7 @@ export function getAccountByKey(key) {
       settings
     } = getState();
     if (key && (settings.node || settings.node.length !== 0)) {
-      return eos(connection).getKeyAccounts(key).then((accounts) => dispatch({
+      return enu(connection).getKeyAccounts(key).then((accounts) => dispatch({
         type: types.GET_ACCOUNT_BY_KEY_SUCCESS,
         payload: { accounts }
       })).catch((err) => dispatch({
