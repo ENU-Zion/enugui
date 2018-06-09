@@ -1,13 +1,6 @@
-[![version](https://img.shields.io/github/release/enumivo/enugui/all.svg)](https://github.com/enumivo/enugui/releases)
-[![issues](https://img.shields.io/github/issues/enumivo/enugui.svg)](https://github.com/enumivo/enugui/issues)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/enumivo/enugui/master/LICENSE)
-![downloads](https://img.shields.io/github/downloads/enumivo/enugui/total.svg)
-
-# enugui - ENU Block Producer Voting & Wallet
+# enugui - Enumivo GUI Wallet
 
 `enugui` is a limited-functionality release of a light wallet being designed for the ENU blockchain. This application can be used to connect to a remote ENU API endpoint to perform producer voting actions and a few basic wallet commands.
-
-[![enugui screenshot](https://raw.githubusercontent.com/enumivo/enugui/master/enugui.png)](https://raw.githubusercontent.com/enumivo/enugui/master/enugui.png)
 
 ### Features
 
@@ -20,13 +13,6 @@
 ## Get enugui
 
 ### Releases
-
-Current 0.1.2 release downloads:
-
-- [Windows Installer](https://github.com/enumivo/enugui/releases/download/v0.1.2/enugui-setup-0.1.2.exe)
-- [macOS Package](https://github.com/enumivo/enugui/releases/download/v0.1.2/enugui-0.1.2.dmg)
-- [Linux (deb)](https://github.com/enumivo/enugui/releases/download/v0.1.2/enugui_0.1.2_amd64.deb)
-- [Linux (snap)](https://github.com/enumivo/enugui/releases/download/v0.1.2/enugui_0.1.2_amd64.snap)
 
 The latest release will always be available on the releases page of this repository:
 
@@ -72,6 +58,3 @@ yarn install
 yarn dev
 ```
 
-### Credits
-
-The development of this application is being led by members of the [Enumivo](https://enumivo.org) team in an effort to let stakeholders participate in ENU’ governance.
