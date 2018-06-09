@@ -1,6 +1,6 @@
 {
-  "name": "enu-voter",
-  "productName": "enu-voter",
+  "name": "enugui",
+  "productName": "enugui",
   "version": "0.1.2",
   "description": "",
   "main": "./main.prod.js",

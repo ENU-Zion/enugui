@@ -60,7 +60,7 @@ export default class About extends Component<Props> {
                     {t('welcome_more_servers_1')}
                     <p>
                       <a
-                        onClick={() => this.openLink('https://github.com/enumivo/enu-voter/blob/master/nodes.md')}
+                        onClick={() => this.openLink('https://github.com/enumivo/enugui/blob/master/nodes.md')}
                         role="link"
                       >
                         {t('welcome_more_servers_2')}

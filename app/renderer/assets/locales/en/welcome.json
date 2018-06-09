@@ -1,6 +1,6 @@
 {
   "welcome_created_by": "Created by",
-  "welcome_instructions_1": "To get started, enu-voter needs to connect to an ENU API node.",
+  "welcome_instructions_1": "To get started, enugui needs to connect to an ENU API node.",
   "welcome_instructions_2": "Enter the node you'd like to connect to.",
   "welcome_more_servers_1": "Not sure what server to use?",
   "welcome_more_servers_2": "Click here to view a list of options."

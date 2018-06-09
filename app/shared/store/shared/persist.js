@@ -1,7 +1,7 @@
 import createElectronStorage from 'redux-persist-electron-storage';
 
 const persistConfig = {
-  key: 'enu-voter-config',
+  key: 'enugui-config',
   storage: createElectronStorage(),
   whitelist: [
     'settings',

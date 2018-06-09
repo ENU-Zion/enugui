@@ -1,6 +1,6 @@
 {
-  "name": "enu-voter",
-  "productName": "enu-voter",
+  "name": "enugui",
+  "productName": "enugui",
   "version": "0.1.2",
   "description": "",
   "scripts": {
@@ -29,8 +29,8 @@
   },
   "browserslist": "electron 1.6",
   "build": {
-    "productName": "enu-voter",
-    "appId": "com.enumivo.enu-voter",
+    "productName": "enugui",
+    "appId": "com.enumivo.enugui",
     "asar": true,
     "files": [
       "dist/",
@@ -68,10 +68,10 @@
     "linux": {
       "category": "Network",
       "desktop": {
-        "Name": "enu-voter",
+        "Name": "enugui",
         "Version": "0.1.0",
         "GenericName": "ENU Voting Client + Wallet",
-        "X-GNOME-FullName": "enu-voter",
+        "X-GNOME-FullName": "enugui",
         "Comment": "A simple voting interface and wallet for ENU accounts.",
         "Type": "Application",
         "Terminal": "false",
@@ -91,7 +91,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/enumivo/enu-voter.git"
+    "url": "git+https://github.com/enumivo/enugui.git"
   },
   "author": {
     "name": "Enumivo",
@@ -100,14 +100,14 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/enumivo/enu-voter/issues"
+    "url": "https://github.com/enumivo/enugui/issues"
   },
   "keywords": [
     "enu",
     "voting",
     "wallet"
   ],
-  "homepage": "https://github.com/enumivo/enu-voter#readme",
+  "homepage": "https://github.com/enumivo/enugui#readme",
   "jest": {
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/fileMock.js",

@@ -61,7 +61,7 @@ if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true')
 
 // crash reporter for failures (NYI)
 crashReporter.start({
-  productName: 'enu-voter',
+  productName: 'enugui',
   companyName: '',
   submitURL: '',
   uploadToServer: false

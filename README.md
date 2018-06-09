@@ -1,13 +1,13 @@
-[![version](https://img.shields.io/github/release/enumivo/enu-voter/all.svg)](https://github.com/enumivo/enu-voter/releases)
-[![issues](https://img.shields.io/github/issues/enumivo/enu-voter.svg)](https://github.com/enumivo/enu-voter/issues)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/enumivo/enu-voter/master/LICENSE)
-![downloads](https://img.shields.io/github/downloads/enumivo/enu-voter/total.svg)
+[![version](https://img.shields.io/github/release/enumivo/enugui/all.svg)](https://github.com/enumivo/enugui/releases)
+[![issues](https://img.shields.io/github/issues/enumivo/enugui.svg)](https://github.com/enumivo/enugui/issues)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/enumivo/enugui/master/LICENSE)
+![downloads](https://img.shields.io/github/downloads/enumivo/enugui/total.svg)
 
-# enu-voter - ENU Block Producer Voting & Wallet
+# enugui - ENU Block Producer Voting & Wallet
 
-`enu-voter` is a limited-functionality release of a light wallet being designed for the ENU blockchain. This application can be used to connect to a remote ENU API endpoint to perform producer voting actions and a few basic wallet commands.
+`enugui` is a limited-functionality release of a light wallet being designed for the ENU blockchain. This application can be used to connect to a remote ENU API endpoint to perform producer voting actions and a few basic wallet commands.
 
-[![enu-voter screenshot](https://raw.githubusercontent.com/enumivo/enu-voter/master/enu-voter.png)](https://raw.githubusercontent.com/enumivo/enu-voter/master/enu-voter.png)
+[![enugui screenshot](https://raw.githubusercontent.com/enumivo/enugui/master/enugui.png)](https://raw.githubusercontent.com/enumivo/enugui/master/enugui.png)
 
 ### Features
 
@@ -17,30 +17,30 @@
 - **Local Wallet**: Set a password while importing your private key to create a local wallet. Your key will be encrypted locally using this password. This password will be required each time you need to unlock the wallet.
 - **Temporary Usage**: If you prefer not to store your keys within the application, simply choose not to set a password. When the application quits, your key will be forgotten.
 
-## Get enu-voter
+## Get enugui
 
 ### Releases
 
 Current 0.1.2 release downloads:
 
-- [Windows Installer](https://github.com/enumivo/enu-voter/releases/download/v0.1.2/enu-voter-setup-0.1.2.exe)
-- [macOS Package](https://github.com/enumivo/enu-voter/releases/download/v0.1.2/enu-voter-0.1.2.dmg)
-- [Linux (deb)](https://github.com/enumivo/enu-voter/releases/download/v0.1.2/enu-voter_0.1.2_amd64.deb)
-- [Linux (snap)](https://github.com/enumivo/enu-voter/releases/download/v0.1.2/enu-voter_0.1.2_amd64.snap)
+- [Windows Installer](https://github.com/enumivo/enugui/releases/download/v0.1.2/enugui-setup-0.1.2.exe)
+- [macOS Package](https://github.com/enumivo/enugui/releases/download/v0.1.2/enugui-0.1.2.dmg)
+- [Linux (deb)](https://github.com/enumivo/enugui/releases/download/v0.1.2/enugui_0.1.2_amd64.deb)
+- [Linux (snap)](https://github.com/enumivo/enugui/releases/download/v0.1.2/enugui_0.1.2_amd64.snap)
 
 The latest release will always be available on the releases page of this repository:
 
-[https://github.com/enumivo/enu-voter/releases](https://github.com/enumivo/enu-voter/releases)
+[https://github.com/enumivo/enugui/releases](https://github.com/enumivo/enugui/releases)
 
 To determine which file you need, if you are a...
 
-- **MacOS User**: Download either the DMG (`enu-voter-***.dmg`) or ZIP (`enu-voter-***-mac.zip`) file.
-- **Windows User**: Download the EXE (`enu-voter-***.exe`) file.
-- **Linux User**: Download either the SNAP (`enu-voter-***-_amd64.snap`) or DEB (`enu-voter-***-_amd64.deb`) file
+- **MacOS User**: Download either the DMG (`enugui-***.dmg`) or ZIP (`enugui-***-mac.zip`) file.
+- **Windows User**: Download the EXE (`enugui-***.exe`) file.
+- **Linux User**: Download either the SNAP (`enugui-***-_amd64.snap`) or DEB (`enugui-***-_amd64.deb`) file
 
 ### Security: Private Keys
 
-When using `enu-voter`, all transactions are signed within the application and your key is never transmitted. If a local wallet password is specified, the application will also save and encrypt your key for future use, using AES-256 encryption. The current password/key encryption scheme can [currently be found here](https://github.com/aaroncox/enu-voter/blob/master/app/shared/actions/wallet.js#L71-L86).
+When using `enugui`, all transactions are signed within the application and your key is never transmitted. If a local wallet password is specified, the application will also save and encrypt your key for future use, using AES-256 encryption. The current password/key encryption scheme can [currently be found here](https://github.com/aaroncox/enugui/blob/master/app/shared/actions/wallet.js#L71-L86).
 
 ### Build it yourself
 
@@ -49,8 +49,8 @@ If you'd rather build the application yourself, please ensure you have nodejs/np
 **Note**: If you are configuring this Electron application within a Windows development environment, it will involve additional steps.
 
 ```
-git clone git@github.com:enumivo/enu-voter.git enu-voter
-cd enu-voter
+git clone git@github.com:enumivo/enugui.git enugui
+cd enugui
 yarn install
 ```
 
@@ -66,8 +66,8 @@ The files built will be located in the `releases` folder within the root project
 ### Running development mode
 
 ```
-git clone git@github.com:enumivo/enu-voter.git enu-voter
-cd enu-voter
+git clone git@github.com:enumivo/enugui.git enugui
+cd enugui
 yarn install
 yarn dev
 ```
