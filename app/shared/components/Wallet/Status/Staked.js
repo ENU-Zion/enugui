@@ -106,7 +106,7 @@ export default class WalletStatusStaked extends Component<Props> {
                               {t('wallet_status_resources_usage')}
                             </Table.Cell>
                             <Table.Cell>
-                              {prettyBytes(net_limit.used)} / {prettyBytes(net_limit.max)}
+                              {(net_limit.used / 100000).toFixed(4)} sec / {(net_limit.max / 1000000).toFixed(4)} sec
                             </Table.Cell>
                           </Table.Row>
                         </Table.Body>
