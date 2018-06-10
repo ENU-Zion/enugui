@@ -28,7 +28,7 @@ export default class WalletPanelFormStakeSuccessMessage extends Component<Props>
                             <Segment basic padded textAlign="center">
                               <DangerLink
                                 content={system.DELEGATEBW_LAST_TRANSACTION.transaction_id}
-                                link={`http://enutracker.io/transactions/${system.DELEGATEBW_LAST_TRANSACTION.transaction_id}`}
+                                link={`https://track.enumivo.org/MainNet/tx/${system.DELEGATEBW_LAST_TRANSACTION.transaction_id}`}
                               />
                             </Segment>
                           </div>
@@ -44,7 +44,7 @@ export default class WalletPanelFormStakeSuccessMessage extends Component<Props>
                             <Segment basic padded textAlign="center">
                               <DangerLink
                                 content={system.UNDELEGATEBW_LAST_TRANSACTION.transaction_id}
-                                link={`http://enutracker.io/transactions/${system.UNDELEGATEBW_LAST_TRANSACTION.transaction_id}`}
+                                link={`https://track.enumivo.org/MainNet/tx/${system.UNDELEGATEBW_LAST_TRANSACTION.transaction_id}`}
                               />
                             </Segment>
                           </div>

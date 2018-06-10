@@ -4,16 +4,26 @@ import { I18n } from 'react-i18next';
 
 import { Form, Divider, Message, Button, Input } from 'semantic-ui-react';
 
+import WalletPanelFormStakeInputsConfirming from './Inputs/Confirming';
+
 import debounce from 'lodash/debounce';
 
-export default class WalletPanelFormStakeSliders extends Component<Props> {
+export default class WalletPanelFormStakeInputs extends Component<Props> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cpuAmount: props.cpuOriginal,
+      netAmount: props.netOriginal
+    }
+  }
+
   onChange = debounce((e, { name, value }) => {
     this.setState({
       [name]: parseFloat(value),
     });
   }, 300)
 
-  onConfirm = (e) => {
+  onSubmit = (e) => {
     const {
       account,
       actions,
@@ -30,16 +40,21 @@ export default class WalletPanelFormStakeSliders extends Component<Props> {
       realCpuAmount
     } = this.cleanUpStakeAmounts(account, netAmount, cpuAmount);
 
-    const { setStakeWithValidation } = actions;
+    this.setState({
+      netAmount: realNetAmount,
+      cpuAmount: realCpuAmount
+    });
 
-    setStakeWithValidation(ENUbalance, account, realNetAmount, realCpuAmount);
+    const { setStakeConfirmingWithValidation } = actions;
+
+    setStakeConfirmingWithValidation(ENUbalance, account, realNetAmount, realCpuAmount);
     e.preventDefault();
     return false;
   }
 
   onKeyPress = (e) => {
     if (e.key === 'Enter') {
-      this.onConfirm();
+      this.onSubmit(e);
     }
   }
 
@@ -47,35 +62,54 @@ export default class WalletPanelFormStakeSliders extends Component<Props> {
     const {
       cpu_weight,
       net_weight
-    } = account.total_resources;
+    } = account.self_delegated_bandwidth;
+
     const cleanedNetAmount = netAmount || net_weight;
     const cleanedCpuAmount = cpuAmount || cpu_weight;
 
-    this.setState({
-      netAmount: parseFloat(cleanedNetAmount),
-      cpuAmount: parseFloat(cleanedCpuAmount)
-    });
-
     return {
-      realNetAmount: this.state.netAmount,
-      realCpuAmount: this.state.cpuAmount
+      realNetAmount: parseFloat(cleanedNetAmount),
+      realCpuAmount: parseFloat(cleanedCpuAmount)
     };
   }
 
   render() {
     const {
+      account,
+      actions,
       cpuOriginal,
+      ENUbalance,
       netOriginal,
-      onClose
+      onClose,
+      validate
     } = this.props;
+    const {
+      cpuAmount,
+      netAmount
+    } = this.state;
 
+    if (validate.STAKE === 'CONFIRMING') {
+      return (
+        <WalletPanelFormStakeInputsConfirming
+          account={account}
+          actions={actions}
+          cleanUpStakeAmounts={this.cleanUpStakeAmounts}
+          cpuAmount={this.state.cpuAmount}
+          cpuOriginal={cpuOriginal}
+          ENUbalance={ENUbalance}
+          netAmount={this.state.netAmount}
+          netOriginal={netOriginal}
+          validate={validate}
+        />
+      );
+    }
     return (
       <I18n ns="stake">
         {
           (t) => (
             <Form
               onKeyPress={this.onKeyPress}
-              onSubmit={this.onConfirm}
+              onSubmit={this.onSubmit}
             >
               <Form.Group widths="equal">
                 <Form.Field
@@ -85,7 +119,7 @@ export default class WalletPanelFormStakeSliders extends Component<Props> {
                   label={t('update_staked_cpu_amount')}
                   name="cpuAmount"
                   onChange={this.onChange}
-                  defaultValue={cpuOriginal.toFixed(4)}
+                  defaultValue={cpuAmount.toFixed(4)}
                 />
                 <Form.Field
                   control={Input}
@@ -93,7 +127,7 @@ export default class WalletPanelFormStakeSliders extends Component<Props> {
                   label={t('update_staked_net_amount')}
                   name="netAmount"
                   onChange={this.onChange}
-                  defaultValue={netOriginal.toFixed(4)}
+                  defaultValue={netAmount.toFixed(4)}
                 />
               </Form.Group>
               <Divider />

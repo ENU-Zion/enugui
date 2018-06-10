@@ -172,17 +172,20 @@ export function validateStake(nextStake, currentStake, ENUbalance) {
   return (dispatch: () => void) => {
     dispatch({ type: types.VALIDATE_STAKE_PENDING });
 
-    if (nextStake.cpu_amount < 0 || nextStake.net_amount < 0) {
+    const decimalRegex = /^\d+(\.\d{1,4})?$/;
+
+    if (!decimalRegex.test(nextStake.cpuAmount) || !decimalRegex.test(nextStake.netAmount)) {
       dispatch({
-        payload: { error: 'negative_stake_amount' },
+        payload: { error: 'not_valid_stake_amount' },
         type: types.VALIDATE_STAKE_FAILURE
       });
       return false;
     }
 
-    if (((nextStake.cpu_amount + currentStake.net_amount) > ENUbalance) ||
-        ((nextStake.net_amount + currentStake.cpu_amount) > ENUbalance) ||
-        ((nextStake.cpu_amount + nextStake.net_amount) > ENUbalance)) {
+    const totalNextState = nextStake.cpuAmount + nextStake.netAmount;
+    const totalCurrentStake = currentStake.netAmount - currentStake.cpuAmount;
+
+    if ((totalNextState - totalCurrentStake) > ENUbalance) {
       dispatch({
         payload: { error: 'not_enough_balance' },
         type: types.VALIDATE_STAKE_FAILURE
@@ -191,6 +194,14 @@ export function validateStake(nextStake, currentStake, ENUbalance) {
     }
 
     return true;
+  };
+}
+
+export function clearValidationState() {
+  return (dispatch: () => void) => {
+    dispatch({
+      type: types.RESET_VALIDATION_STATES
+    });
   };
 }
 
