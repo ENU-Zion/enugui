@@ -16,8 +16,8 @@ export default class WalletStatusStaked extends Component<Props> {
       total_resources
     } = account;
     const delegated_bandwidth = {
-      cpu_weight: `${(parseFloat(total_resources.cpu_weight) - parseFloat(self_delegated_bandwidth.cpu_weight)).toFixed(4)} EOS`,
-      net_weight: `${(parseFloat(total_resources.net_weight) - parseFloat(self_delegated_bandwidth.net_weight)).toFixed(4)} EOS`
+      cpu_weight: `${(parseFloat(total_resources.cpu_weight) - parseFloat(self_delegated_bandwidth.cpu_weight)).toFixed(4)} ENU`,
+      net_weight: `${(parseFloat(total_resources.net_weight) - parseFloat(self_delegated_bandwidth.net_weight)).toFixed(4)} ENU`
     }
     const totalStaked = (parseFloat(total_resources.cpu_weight) + parseFloat(total_resources.net_weight)).toFixed(4);
     return (

@@ -17,14 +17,14 @@ class FormMessageTransactionSuccess extends Component<Props> {
     if (transaction) {
       links.push(<DangerLink
         content={transaction.transaction_id}
-        link={`https://eospark.com/MainNet/tx/${transaction.transaction_id}`}
+        link={`https://explorer.enumivo.org/MainNet/tx/${transaction.transaction_id}`}
       />);
     }
     if (transactions) {
       transactions.map((tx) => {
         links.push(<DangerLink
           content={tx.transaction_id}
-          link={`https://eospark.com/MainNet/tx/${tx.transaction_id}`}
+          link={`https://explorer.enumivo.org/MainNet/tx/${tx.transaction_id}`}
         />);
       })
     }
@@ -46,7 +46,7 @@ class FormMessageTransactionSuccess extends Component<Props> {
                 {link}
               </p>
             ))}
-            <p>(linked to eospark.com)</p>
+            <p>(linked to explorer.enumivo.org)</p>
           </Segment>
           <Message
             icon

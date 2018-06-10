@@ -78,7 +78,7 @@ export default class WalletPanelFormStakeInputs extends Component<Props> {
       account,
       actions,
       cpuOriginal,
-      EOSbalance,
+      ENUbalance,
       netOriginal,
       onClose,
       validate
@@ -96,7 +96,7 @@ export default class WalletPanelFormStakeInputs extends Component<Props> {
           cleanUpStakeAmounts={this.cleanUpStakeAmounts}
           cpuAmount={this.state.cpuAmount}
           cpuOriginal={cpuOriginal}
-          EOSbalance={EOSbalance}
+          ENUbalance={ENUbalance}
           netAmount={this.state.netAmount}
           netOriginal={netOriginal}
           validate={validate}

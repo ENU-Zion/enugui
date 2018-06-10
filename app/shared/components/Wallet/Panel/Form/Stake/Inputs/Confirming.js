@@ -12,7 +12,7 @@ export default class WalletPanelFormStakeInputsConfirming extends Component<Prop
       actions,
       cleanUpStakeAmounts,
       cpuAmount,
-      EOSbalance,
+      ENUbalance,
       netAmount
     } = this.props;
 
@@ -23,7 +23,7 @@ export default class WalletPanelFormStakeInputsConfirming extends Component<Prop
 
     const { setStakeWithValidation } = actions;
 
-    setStakeWithValidation(EOSbalance, account, realNetAmount, realCpuAmount);
+    setStakeWithValidation(ENUbalance, account, realNetAmount, realCpuAmount);
   }, 300)
 
   render() {
@@ -46,19 +46,19 @@ export default class WalletPanelFormStakeInputsConfirming extends Component<Prop
               <Segment padding size="large">
                 <Header>
                   {(netDifference > 0) ? (
-                    <p>{`${t('about_to_stake_to_net')} +${netDifference} EOS (${netAmount} EOS after)`}</p>
+                    <p>{`${t('about_to_stake_to_net')} +${netDifference} ENU (${netAmount} ENU after)`}</p>
                   ) : ''}
 
                   {(netDifference < 0) ? (
-                    <p>{`${t('about_to_unstake_from_net')} -${-netDifference} EOS (${netAmount} EOS after)`}</p>
+                    <p>{`${t('about_to_unstake_from_net')} -${-netDifference} ENU (${netAmount} ENU after)`}</p>
                   ) : ''}
 
                   {(cpuDifference > 0) ? (
-                    <p>{`${t('about_to_stake_to_cpu')} +${cpuDifference} EOS (${cpuAmount} EOS after)`}</p>
+                    <p>{`${t('about_to_stake_to_cpu')} +${cpuDifference} ENU (${cpuAmount} ENU after)`}</p>
                   ) : ''}
 
                   {(cpuDifference < 0) ? (
-                    <p>{`${t('about_to_unstake_from_cpu')} -${-cpuDifference} EOS (${cpuAmount} EOS after)`}</p>
+                    <p>{`${t('about_to_unstake_from_cpu')} -${-cpuDifference} ENU (${cpuAmount} ENU after)`}</p>
                   ) : ''}
                 </Header>
               </Segment>
