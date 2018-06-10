@@ -5,7 +5,8 @@ import { Icon, Segment } from 'semantic-ui-react';
 import WalletPanelFormStakeStats from './Stake/Stats';
 import WalletPanelFormStakeFailureMessage from './Stake/FailureMessage';
 import WalletPanelFormStakeSuccessMessage from './Stake/SuccessMessage';
-import WalletPanelFormStakeSliders from './Stake/Sliders';
+import WalletPanelFormStakeInputs from './Stake/Inputs';
+import FormMessageTransactionSuccess from '../../../Global/Form/Message/TransactionSuccess';
 
 type Props = {
   actions: {},
@@ -24,7 +25,8 @@ export default class WalletPanelFormStake extends Component<Props> {
     const {
       cpu_weight,
       net_weight
-    } = account.total_resources;
+    } = account.self_delegated_bandwidth;
+
     this.state = {
       cpuAmount: parseFloat(cpu_weight),
       cpuOriginal: parseFloat(cpu_weight),
@@ -50,38 +52,58 @@ export default class WalletPanelFormStake extends Component<Props> {
 
     const ENUbalance = balance.ENU || 0;
 
+    const lastTransactions = [];
+    if (
+      system.DELEGATEBW_LAST_TRANSACTION
+      && system.DELEGATEBW_LAST_TRANSACTION.transaction_id
+    ) {
+      lastTransactions.push(system.DELEGATEBW_LAST_TRANSACTION);
+    }
+    if (
+      system.UNDELEGATEBW_LAST_TRANSACTION
+      && system.UNDELEGATEBW_LAST_TRANSACTION.transaction_id
+    ) {
+      lastTransactions.push(system.UNDELEGATEBW_LAST_TRANSACTION);
+    }
+
     return (
       <div>
-        {(validate.STAKE === 'ERROR' || validate.STAKE === 'NULL')
+        {(system.DELEGATEBW === 'SUCCESS')
           ? (
+            <FormMessageTransactionSuccess
+              onClose={onClose}
+              transactions={lastTransactions}
+            />
+          )
+          : (system.DELEGATEBW === 'PENDING' || system.UNDELEGATEBW === 'PENDING')
+          ? (
+            <Segment basic textAlign="center">
+              <Icon size="huge" loading name="spinner" />
+            </Segment>
+          )
+          : (
             <div>
               <WalletPanelFormStakeStats
                 cpuOriginal={cpuOriginal}
                 ENUbalance={ENUbalance}
                 netOriginal={netOriginal}
               />
-              <WalletPanelFormStakeSliders
+              <WalletPanelFormStakeInputs
                 actions={actions}
                 account={account}
                 cpuOriginal={cpuOriginal}
                 ENUbalance={ENUbalance}
                 netOriginal={netOriginal}
                 onClose={onClose}
+                validate={validate}
               />
+              <WalletPanelFormStakeFailureMessage onClose={onClose} system={system} validate={validate} />
             </div>
           )
-          : ''
         }
-        <WalletPanelFormStakeFailureMessage onClose={onClose} system={system} validate={validate} />
-        <WalletPanelFormStakeSuccessMessage onClose={onClose} system={system} />
-        {(system.DELEGATEBW === 'PENDING' || system.UNDELEGATEBW === 'PENDING')
-          ? (
-            <Segment basic textAlign="center">
-              <Icon size="huge" loading name="spinner" />
-            </Segment>
-          )
-          : ''
-        }
+
+
+
       </div>
     );
   }

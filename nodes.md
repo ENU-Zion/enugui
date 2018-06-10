@@ -24,10 +24,4 @@ If you are concerned about revealing this information to any of these 3rd party 
 
 ### Additions
 
-If you are a node operator and would like your node added to the list above, please submit a pull request for this file.
-
-Add your node to the bottom of the list above. The format of this should be:
-
-```
-- https://domain.com:port - operated by [your name/organization](http://website.com)
-```
+We will update this list as the community finds more reliable 3rd party nodes for usage with this tool.

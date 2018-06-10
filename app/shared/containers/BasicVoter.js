@@ -4,12 +4,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { Menu, Segment } from 'semantic-ui-react';
+import { Segment } from 'semantic-ui-react';
 
 import About from '../components/About';
 import Producers from '../components/Producers';
+import TabMenu from '../components/TabMenu';
 import Wallet from '../components/Wallet';
-import WalletLockState from '../components/Wallet/LockState';
 
 import * as AccountsActions from '../actions/accounts';
 import * as ChainActions from '../actions/chain';
@@ -22,7 +22,6 @@ import * as StakeActions from '../actions/stake';
 import * as TransferActions from '../actions/transfer';
 import * as VoteProducerActions from '../actions/system/voteproducer';
 
-import logo from '../../renderer/assets/images/enumivo.png';
 
 type Props = {
   actions: {
@@ -106,6 +105,7 @@ class BasicVoterContainer extends Component<Props> {
     const {
       actions,
       keys,
+      settings,
       validate,
       wallet
     } = this.props;
@@ -125,45 +125,15 @@ class BasicVoterContainer extends Component<Props> {
     }
     return (
       <div>
-        <Menu
-          attached
-          inverted
-          size="large"
-        >
-          <Menu.Item
-            name="producers"
-            icon="check square"
-            content="Producer Voting"
-            active={activeItem === 'producers'}
-            onClick={this.handleItemClick}
-          />
-
-          <Menu.Item
-            name="wallet"
-            icon="protect"
-            content="Wallet"
-            active={activeItem === 'wallet'}
-            onClick={this.handleItemClick}
-          />
-
-          <Menu.Menu position="right">
-            <WalletLockState
-              actions={actions}
-              key="lockstate"
-              keys={keys}
-              validate={validate}
-              wallet={wallet}
-            />
-            <Menu.Item
-              name="about"
-              position="right"
-              active={activeItem === 'about'}
-              onClick={this.handleItemClick}
-            >
-              <img alt="Enumivo" src={logo} />
-            </Menu.Item>
-          </Menu.Menu>
-        </Menu>
+        <TabMenu
+          actions={actions}
+          activeItem={activeItem}
+          handleItemClick={this.handleItemClick}
+          locked={(!keys.key)}
+          settings={settings}
+          validate={validate}
+          wallet={wallet}
+        />
         <Segment
           attached="bottom"
           basic
