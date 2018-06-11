@@ -10,7 +10,7 @@
 - **Local Wallet**: Set a password while importing your private key to create a local wallet. Your key will be encrypted locally using this password. This password will be required each time you need to unlock the wallet.
 - **Temporary Usage**: If you prefer not to store your keys within the application, simply choose not to set a password. When the application quits, your key will be forgotten.
 
-## Get enugui
+## Get EnuGui
 
 The latest release will always be available on the releases page of this repository:
 

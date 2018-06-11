@@ -1,6 +1,6 @@
 {
-"application_name": "enugui",
-"application_version": "v0.1.3",
+  "application_name": "enugui",
+  "application_version": "v0.1.4",
   "block_height": "Block Height",
   "cancel": "Cancel",
   "close": "Close",
