@@ -53,14 +53,11 @@ class FormMessageTransactionSuccess extends Component<Props> {
             size="large"
             warning
           >
-            <Icon
-              loading
-              name="circle notched"
-            />
             <Message.Content>
               <Message.Header>{t('global_transaction_complete_warning_title')}</Message.Header>
               {t('global_transaction_complete_warning_message')}
             </Message.Content>
+            
           </Message>
         </Modal.Content>
         <Modal.Actions>
