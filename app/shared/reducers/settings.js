@@ -1,7 +1,7 @@
 import * as types from '../actions/types';
 
 const initialState = {
-  acceptedConstitution: false,
+  acceptedConstitution: true,
   account: '',
   lang: 'en',
   node: ''
