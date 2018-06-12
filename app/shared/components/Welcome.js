@@ -8,6 +8,7 @@ import enu from '../../renderer/assets/images/enu.png';
 const { shell } = require('electron');
 
 const languages = [
+  { key: 'cn', value: 'cn', flag: 'cn', text: '中文' },
   { key: 'en', value: 'en', flag: 'us', text: 'English' },
   { key: 'fr', value: 'fr', flag: 'fr', text: 'Français' },
   { key: 'ja', value: 'ja', flag: 'jp', text: '日本語' },
@@ -71,7 +72,9 @@ class Welcome extends Component<Props> {
                     <p>{t('welcome_instructions_2')}</p>
                   </Segment>
                   <Message info>
-                    {t('welcome_more_servers_1')}
+                    <Header>
+                      {t('welcome_more_servers_1')}
+                    </Header>
                     <p>
                       <a
                         onClick={() => this.openLink('https://github.com/enumivo/enugui/blob/master/nodes.md')} 

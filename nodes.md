@@ -15,8 +15,6 @@ If you are concerned about revealing this information to any of these 3rd party 
 
 # ENU Nodes
 
-- (Offline, waiting for main ENU network) https://enumivo.org - operated by [enumivo](https://enumivo.org)
-
 - http://172.105.215.62:8000
 - http://172.104.182.81:8000
 - http://139.162.198.254:8000

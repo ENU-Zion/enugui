@@ -2,8 +2,10 @@
 // @flow
 import React, { Component } from 'react';
 import { I18n } from 'react-i18next';
-import { Button, Divider, Grid, Header, Icon, List, Message, Modal, Segment, Table } from 'semantic-ui-react';
+import { Button, Divider, Grid, Header, Icon, Message, Modal, Segment, Table } from 'semantic-ui-react';
 import { chunk, last, times } from 'lodash';
+
+import WalletMessageContractVoteProducer from '../../../Global/Message/Contract/VoteProducer';
 
 export default class ProducersVotingPreviewSelection extends Component<Props> {
   render() {
@@ -25,7 +27,7 @@ export default class ProducersVotingPreviewSelection extends Component<Props> {
     if (lastRow && lastRow.length < 4) {
       times((4 - lastRow.length), i => {
         lastRow.push((
-          <Table.Cell key={`blank-${i}`} />
+          <Table.Cell width={4} key={`blank-${i}`} />
         ));
       });
     }
@@ -74,6 +76,13 @@ export default class ProducersVotingPreviewSelection extends Component<Props> {
                   )
                   : ''
                 }
+                <WalletMessageContractVoteProducer
+                  data={{
+                    signer: '',
+                    producers: selected.join(', '),
+                    voter: ''
+                  }}
+                />
                 <Divider />
                 <Button
                   onClick={onClose}
