@@ -21,5 +21,5 @@
   "about_to_unstake_from_net": "Vous êtes sur le point de désattribuer en Bandwidth: ",
   "about_to_stake_to_cpu": "Vous êtes sur le point d'attribuer en CPU: ",
   "about_to_unstake_from_cpu": "Vous êtes sur le point de désattribuer en CPU: ",
-  "undelegate_explanation": "Tout ENU désattribué ne sera pas indisponible pendant 3 jours. Après cette période d'attente, il apparaîtra comme disponible"
+  "undelegate_explanation": "Tout ENU désattribué sera indisponible pendant 3 jours. Après cette période d'attente, il apparaîtra comme disponible"
 }
