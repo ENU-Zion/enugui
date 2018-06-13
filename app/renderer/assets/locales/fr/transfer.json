@@ -10,6 +10,6 @@
   "transfer_label_from": "Compte d'origine ",
   "transfer_label_to": "Compte du destinataire",
   "transfer_label_quantity": "Quantité",
-  "transfer_label_token_and_quantity": "Selèction des Tokens + Quantité",
+  "transfer_label_token_and_quantity": "Sélection des Tokens + Quantité",
   "transfer_label_memo": "Message"
 }
