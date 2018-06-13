@@ -1,6 +1,6 @@
 {
   "about_opensource_title": "Cette application est open source",
-  "about_opensource_message": " Nous sommes ouverts à toutes contributions. Si vous êtes intéressé à nous aider, veuillez nous contacter sur Github",
+  "about_opensource_message": " Nous sommes ouverts à toutes contributions. Si nous aider vous intéresse à nous aider, veuillez nous contacter sur Github",
   "about_opensource_link": "https://github.com/enumivo/enugui",
   "about_message_1": "enugui est une application de bureau autonome qui vous connecte directement à la blockchain ENU via le point de terminaison API de votre choix",
   "about_message_2": "Vos clés privées ne quittent jamais l'application, et sont toujours stockées de manière cryptée, offrant le plus haut niveau de sécurité qu'un portefeuille crypto peut offrir",
