@@ -1,6 +1,6 @@
 {
   "block_producer":"区块生产者",
-  "block_producer_enu_staked":"ENU全球放样",
+  "block_producer_enu_staked":"节点ENU抵押量",
   "block_producer_last_produced":"上一区块",
   "block_producer_last_production_status":"状态",
   "block_producer_last_active":"上次活动",
@@ -13,7 +13,7 @@
   "producer_none_loaded":"没有生成器数据加载...",
   "producer_voter_voting_as":"投票为:",
   "producer_voted_connected_to":"连接到:",
-  "producer_voter_total_staked":"总计放样",
+  "producer_voter_total_staked":"投票者ENU抵押量",
   "producer_voter_save_changes":"提交对区块链的更改",
   "producer_voter_no_changes":"没有更改保存",
   "producer_voter_votes_used":"总投票数",
