@@ -24,7 +24,7 @@ To determine which file you need, if you are a...
 
 ### Security: Private Keys
 
-When using `enugui`, all transactions are signed within the application and your key is never transmitted. If a local wallet password is specified, the application will also save and encrypt your key for future use, using AES-256 encryption. The current password/key encryption scheme can [currently be found here](https://github.com/aaroncox/enugui/blob/master/app/shared/actions/wallet.js#L71-L86).
+When using `enugui`, all transactions are signed within the application and your key is never transmitted. If a local wallet password is specified, the application will also save and encrypt your key for future use, using AES-256 encryption.
 
 ### Endpoints
 
