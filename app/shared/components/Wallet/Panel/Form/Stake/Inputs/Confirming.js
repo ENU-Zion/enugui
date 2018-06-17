@@ -1,12 +1,10 @@
 // @flow
 import React, { Component } from 'react';
 import { I18n } from 'react-i18next';
-import { Button, Divider, Header, Icon, Segment } from 'semantic-ui-react';
-
-import debounce from 'lodash/debounce';
+import { Button, Divider, Icon, Segment, Message } from 'semantic-ui-react';
 
 export default class WalletPanelFormStakeInputsConfirming extends Component<Props> {
-  onConfirm = debounce(() => {
+  onConfirm = () => {
     const {
       account,
       actions,
@@ -24,11 +22,12 @@ export default class WalletPanelFormStakeInputsConfirming extends Component<Prop
     const { setStakeWithValidation } = actions;
 
     setStakeWithValidation(ENUbalance, account, realNetAmount, realCpuAmount);
-  }, 300)
+  }
 
   render() {
     const {
       actions,
+      onClose,
       cpuAmount,
       netAmount,
       cpuOriginal,
@@ -42,29 +41,31 @@ export default class WalletPanelFormStakeInputsConfirming extends Component<Prop
       <I18n ns="stake">
         {
           (t) => (
-            <Segment padding basic>
-              <Segment padding size="large">
-                <Header>
-                  {(netDifference > 0) ? (
-                    <p>{`${t('about_to_stake_to_net')} +${netDifference} ENU (${netAmount} ENU after)`}</p>
-                  ) : ''}
+            <Segment padding='true' basic>
+              <Segment padding='true' size="large">
+                {(netDifference > 0) ? (
+                  <p>{t('about_to_stake_to_net')} <b>{netDifference.toFixed(4)} ENU</b><br /> ({t('you_will_have')} {netAmount.toFixed(4)} {t('enu_in_net_after')})</p>
+                ) : ''}
 
-                  {(netDifference < 0) ? (
-                    <p>{`${t('about_to_unstake_from_net')} -${-netDifference} ENU (${netAmount} ENU after)`}</p>
-                  ) : ''}
+                {(netDifference < 0) ? (
+                  <p>{t('about_to_unstake_from_net')} <b>{(-netDifference).toFixed(4)} ENU</b><br />  ({t('you_will_have')} {netAmount.toFixed(4)} {t('enu_in_net_after')})</p>
+                ) : ''}
 
-                  {(cpuDifference > 0) ? (
-                    <p>{`${t('about_to_stake_to_cpu')} +${cpuDifference} ENU (${cpuAmount} ENU after)`}</p>
-                  ) : ''}
+                {(cpuDifference > 0) ? (
+                  <p>{t('about_to_stake_to_cpu')} <b>{cpuDifference.toFixed(4)} ENU</b><br /> ({t('you_will_have')} {cpuAmount.toFixed(4)} {t('enu_in_cpu_after')})</p>
+                ) : ''}
 
-                  {(cpuDifference < 0) ? (
-                    <p>{`${t('about_to_unstake_from_cpu')} -${-cpuDifference} ENU (${cpuAmount} ENU after)`}</p>
-                  ) : ''}
-                </Header>
+                {(cpuDifference < 0) ? (
+                  <p>{t('about_to_unstake_from_cpu')} <b>{(-cpuDifference).toFixed(4)} ENU</b><br /> ({t('you_will_have')} {cpuAmount.toFixed(4)} {t('enu_in_cpu_after')})</p>
+                ) : ''}
+
+                {(netAmount < 1 || cpuAmount < 1) ? (
+                  <Message warning>{t('will_have_less_than_one_enu_staked')}</Message>
+                ) : ''}
               </Segment>
               <Divider />
               <Button
-                onClick={actions.clearValidationState}
+                onClick={onClose}
               >
                 <Icon name="x" /> {t('cancel')}
               </Button>

@@ -12,15 +12,15 @@ export function delegatebw(delegator, receiver, netAmount, cpuAmount) {
       type: types.SYSTEM_DELEGATEBW_PENDING
     });
 
-    const stakeNetAmount = Math.round(netAmount * 10000) / 10000 || 0;
-    const stakeCpuAmount = Math.round(cpuAmount * 10000) / 10000 || 0;
+    const stakeNetAmount = netAmount || 0;
+    const stakeCpuAmount = cpuAmount || 0;
 
     return enu(connection).transaction(tr => {
       tr.delegatebw({
         from: delegator,
         receiver,
-        stake_net_quantity: `${stakeNetAmount} ENU`,
-        stake_cpu_quantity: `${stakeCpuAmount} ENU`,
+        stake_net_quantity: `${stakeNetAmount.toFixed(4)} ENU`,
+        stake_cpu_quantity: `${stakeCpuAmount.toFixed(4)} ENU`,
         transfer: 0
       });
     }).then((tx) => {

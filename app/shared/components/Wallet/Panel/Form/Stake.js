@@ -3,10 +3,12 @@ import React, { Component } from 'react';
 import { Icon, Segment } from 'semantic-ui-react';
 
 import WalletPanelFormStakeStats from './Stake/Stats';
-import WalletPanelFormStakeFailureMessage from './Stake/FailureMessage';
-import WalletPanelFormStakeSuccessMessage from './Stake/SuccessMessage';
 import WalletPanelFormStakeInputs from './Stake/Inputs';
 import FormMessageTransactionSuccess from '../../../Global/Form/Message/TransactionSuccess';
+
+import FormMessageError from '../../../Global/Form/Message/Error';
+
+import { Decimal } from 'decimal.js';
 
 type Props = {
   actions: {},
@@ -27,11 +29,14 @@ export default class WalletPanelFormStake extends Component<Props> {
       net_weight
     } = account.self_delegated_bandwidth;
 
+    const parsed_cpu_weight = cpu_weight.split(' ')[0];
+    const parsed_net_weight = net_weight.split(' ')[0];
+
     this.state = {
-      cpuAmount: parseFloat(cpu_weight),
-      cpuOriginal: parseFloat(cpu_weight),
-      netAmount: parseFloat(net_weight),
-      netOriginal: parseFloat(net_weight)
+      cpuAmount: new Decimal(parsed_cpu_weight),
+      cpuOriginal: new Decimal(parsed_cpu_weight),
+      netAmount: new Decimal(parsed_net_weight),
+      netOriginal: new Decimal(parsed_net_weight)
     };
   }
 
@@ -65,10 +70,9 @@ export default class WalletPanelFormStake extends Component<Props> {
     ) {
       lastTransactions.push(system.UNDELEGATEBW_LAST_TRANSACTION);
     }
-
     return (
       <div>
-        {(system.DELEGATEBW === 'SUCCESS')
+        {(system.DELEGATEBW === 'SUCCESS' || system.UNDELEGATEBW === 'SUCCESS')
           ? (
             <FormMessageTransactionSuccess
               onClose={onClose}
@@ -81,7 +85,8 @@ export default class WalletPanelFormStake extends Component<Props> {
               <Icon size="huge" loading name="spinner" />
             </Segment>
           )
-          : (
+          : (validate.STAKE == 'NULL' || validate.STAKE == 'CONFIRMING')
+          ? (
             <div>
               <WalletPanelFormStakeStats
                 cpuOriginal={cpuOriginal}
@@ -97,13 +102,17 @@ export default class WalletPanelFormStake extends Component<Props> {
                 onClose={onClose}
                 validate={validate}
               />
-              <WalletPanelFormStakeFailureMessage onClose={onClose} system={system} validate={validate} />
             </div>
+          ) :
+          (
+            <FormMessageError
+              error={validate.STAKE_ERROR ||
+                     system.DELEGATEBW_LAST_ERROR ||
+                     system.UNDELEGATEBW_LAST_ERROR}
+              onClose={onClose}
+            />
           )
         }
-
-
-
       </div>
     );
   }

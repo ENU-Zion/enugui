@@ -1,7 +1,7 @@
 {
-  "name": "enugui",
-  "productName": "enugui",
-  "version": "0.1.5",
+  "name": "EnuGui",
+  "productName": "EnuGui",
+  "version": "0.1.6",
   "description": "",
   "scripts": {
     "build": "concurrently \"npm run build-main\" \"npm run build-renderer\"",
@@ -65,13 +65,19 @@
         "nsis"
       ]
     },
+    "nsis": {
+      "allowToChangeInstallationDirectory": true,
+      "oneClick": false,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "shortcutName": "EnuGui"
+    },
     "linux": {
       "category": "Network",
       "desktop": {
-        "Name": "enugui",
-        "Version": "0.1.5",
-        "GenericName": "Enumivo GUI Wallet",
-        "X-GNOME-FullName": "enugui",
+        "Name": "EnuGui",
+        "GenericName": "Enumivo Gui Wallet",
+        "X-GNOME-FullName": "EnuGui",
         "Comment": "A light wallet for the Enumivo blockchain.",
         "Type": "Application",
         "Terminal": "false",
@@ -208,8 +214,9 @@
   },
   "dependencies": {
     "crypto-js": "^3.1.9-1",
+    "decimal.js": "^10.0.1",
     "electron-store": "^2.0.0",
-    "enujs": "^14.1.0",
+    "enujs": "15.0.0",
     "history": "^4.7.2",
     "i": "^0.3.6",
     "i18next": "^11.3.2",
