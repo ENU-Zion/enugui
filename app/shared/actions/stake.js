@@ -4,11 +4,13 @@ import * as types from './types';
 import { delegatebw } from './system/delegatebw';
 import { undelegatebw } from './system/undelegatebw';
 
+import {Decimal} from 'decimal.js';
+
 export function setStakeWithValidation(ENUbalance, account, netAmount, cpuAmount) {
   return (dispatch: () => void) => {
     const { nextStake, currentStake } = getNextAndCurrentStake(account, netAmount, cpuAmount);
 
-    if (dispatch(validate.validateStake(nextStake, currentStake, ENUbalance))) {
+    if (dispatch(validate.validateStake(nextStake, currentStake))) {
       const increaseInStake = {
         netAmount: Math.max(0, (nextStake.netAmount - currentStake.netAmount)),
         cpuAmount: Math.max(0, (nextStake.cpuAmount - currentStake.cpuAmount))
@@ -43,7 +45,7 @@ export function setStakeConfirmingWithValidation(ENUbalance, account, netAmount,
   return (dispatch: () => void) => {
     const { nextStake, currentStake } = getNextAndCurrentStake(account, netAmount, cpuAmount);
 
-    if (dispatch(validate.validateStake(nextStake, currentStake, ENUbalance))) {
+    if (dispatch(validate.validateStake(nextStake, currentStake))) {
       return dispatch({ type: types.VALIDATE_STAKE_CONFIRMING });
     }
   };
@@ -68,8 +70,8 @@ function getNextAndCurrentStake(account, netAmount, cpuAmount) {
   } = account.self_delegated_bandwidth;
 
   const currentStake = {
-    cpuAmount: parseFloat(cpu_weight),
-    netAmount: parseFloat(net_weight)
+    cpuAmount: new Decimal(cpu_weight.split(' ')[0]),
+    netAmount: new Decimal(net_weight.split(' ')[0])
   };
 
   return {

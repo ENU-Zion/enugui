@@ -1,7 +1,7 @@
 {
-  "name": "enugui",
-  "productName": "enugui",
-  "version": "0.1.5",
+  "name": "EnuGui",
+  "productName": "EnuGui",
+  "version": "0.1.6",
   "description": "",
   "scripts": {
     "build": "concurrently \"npm run build-main\" \"npm run build-renderer\"",
@@ -20,6 +20,7 @@
     "package-all": "npm run build && build -mwl --publish never",
     "package-linux": "npm run build && build --linux --publish never",
     "package-win": "npm run build && build --win --x64 --publish never",
+    "package-win32": "npm run build && build --win --publish never",
     "postinstall": "node -r babel-register internals/scripts/CheckNativeDep.js && npm run flow-typed && npm run build-dll && electron-builder install-app-deps && node node_modules/fbjs-scripts/node/check-dev-engines.js package.json",
     "prestart": "npm run build",
     "release": "npm run build && build -mwl",
@@ -65,13 +66,19 @@
         "nsis"
       ]
     },
+    "nsis": {
+      "allowToChangeInstallationDirectory": true,
+      "oneClick": false,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "shortcutName": "EnuGui"
+    },
     "linux": {
       "category": "Network",
       "desktop": {
-        "Name": "enugui",
-        "Version": "0.1.5",
-        "GenericName": "Enumivo GUI Wallet",
-        "X-GNOME-FullName": "enugui",
+        "Name": "EnuGui",
+        "GenericName": "Enumivo Gui Wallet",
+        "X-GNOME-FullName": "EnuGui",
         "Comment": "A light wallet for the Enumivo blockchain.",
         "Type": "Application",
         "Terminal": "false",
@@ -208,8 +215,9 @@
   },
   "dependencies": {
     "crypto-js": "^3.1.9-1",
+    "decimal.js": "^10.0.1",
     "electron-store": "^2.0.0",
-    "enujs": "^14.1.0",
+    "enujs": "15.0.0",
     "history": "^4.7.2",
     "i": "^0.3.6",
     "i18next": "^11.3.2",

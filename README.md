@@ -1,6 +1,6 @@
-# enugui - Enumivo GUI Wallet
+# EnuGui - Enumivo GUI Wallet
 
-`enugui` is a limited-functionality release of a light wallet being designed for the ENU blockchain. This application can be used to connect to a remote ENU API endpoint to perform producer voting actions and a few basic wallet commands.
+`EnuGui` is a limited-functionality release of a light wallet being designed for the ENU blockchain. This application can be used to connect to a remote ENU API endpoint to perform producer voting actions and a few basic wallet commands.
 
 ### Features
 
@@ -24,7 +24,7 @@ To determine which file you need, if you are a...
 
 ### Security: Private Keys
 
-When using `enugui`, all transactions are signed within the application and your key is never transmitted. If a local wallet password is specified, the application will also save and encrypt your key for future use, using AES-256 encryption.
+When using `EnuGui`, all transactions are signed within the application and your key is never transmitted. If a local wallet password is specified, the application will also save and encrypt your key for future use, using AES-256 encryption.
 
 ### Endpoints
 

@@ -7,6 +7,7 @@ import { Form, Divider, Message, Button, Input } from 'semantic-ui-react';
 import WalletPanelFormStakeInputsConfirming from './Inputs/Confirming';
 
 import debounce from 'lodash/debounce';
+import { Decimal } from 'decimal.js';
 
 export default class WalletPanelFormStakeInputs extends Component<Props> {
   constructor(props) {
@@ -54,7 +55,19 @@ export default class WalletPanelFormStakeInputs extends Component<Props> {
 
   onKeyPress = (e) => {
     if (e.key === 'Enter') {
-      this.onSubmit(e);
+      const {
+        cpuOriginal,
+        netOriginal,
+      } = this.props;
+      const {
+        cpuAmount,
+        netAmount
+      } = this.state;
+      if (!Decimal(cpuOriginal).equals(cpuAmount) || !Decimal(netOriginal).equals(netAmount)) {
+        this.onSubmit(e);
+      }
+      e.preventDefault();
+      return false;
     }
   }
 
@@ -64,12 +77,12 @@ export default class WalletPanelFormStakeInputs extends Component<Props> {
       net_weight
     } = account.self_delegated_bandwidth;
 
-    const cleanedNetAmount = netAmount || net_weight;
-    const cleanedCpuAmount = cpuAmount || cpu_weight;
+    const cleanedNetAmount = netAmount === '' ? net_weight : netAmount;
+    const cleanedCpuAmount = cpuAmount === '' ? cpu_weight : cpuAmount;
 
     return {
-      realNetAmount: parseFloat(cleanedNetAmount),
-      realCpuAmount: parseFloat(cleanedCpuAmount)
+      realNetAmount: new Decimal(cleanedNetAmount),
+      realCpuAmount: new Decimal(cleanedCpuAmount)
     };
   }
 
@@ -87,6 +100,7 @@ export default class WalletPanelFormStakeInputs extends Component<Props> {
       cpuAmount,
       netAmount
     } = this.state;
+    const disabled = Decimal(cpuOriginal).equals(cpuAmount) && Decimal(netOriginal).equals(netAmount)
 
     if (validate.STAKE === 'CONFIRMING') {
       return (
@@ -99,6 +113,7 @@ export default class WalletPanelFormStakeInputs extends Component<Props> {
           ENUbalance={ENUbalance}
           netAmount={this.state.netAmount}
           netOriginal={netOriginal}
+          onClose={onClose}
           validate={validate}
         />
       );
@@ -145,6 +160,7 @@ export default class WalletPanelFormStakeInputs extends Component<Props> {
               <Button
                 content={t('update_staked_coins')}
                 color="green"
+                disabled={disabled}
                 floated="right"
                 primary
               />
