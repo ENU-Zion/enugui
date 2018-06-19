@@ -21,8 +21,8 @@
   "update_staked_coins": "ステーク中残高を更新",
   "update_staked_cpu_amount": "CPUにステークするENUを設定",
   "update_staked_net_amount": "帯域にステークするENUを設定",
-  "enu_in_cpu_after": "ENU in CPU after",
-  "enu_in_net_after": "ENU in Bandwidth after",
-  "you_will_have": "You will have",
-  "will_have_less_than_one_enu_staked": "You will have less than 1 ENU staked to Bandwidth and/or CPU. That may prevent you from carrying out transactions when the network is busy."
+  "enu_in_cpu_after": "ENUがCPUにステークされます",
+  "enu_in_net_after": "ENUが帯域にステークされます",
+  "you_will_have": "確認後、",
+  "will_have_less_than_one_enu_staked": "帯域またはCPUへのステークが1 ENU未満になります。ネットワークが混雑している場合に、トランザクションを送信できなくなる可能性があります。"
 }
