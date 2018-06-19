@@ -45,13 +45,13 @@ export default class MenuBuilder {
 
   buildDarwinTemplate() {
     const subMenuAbout = {
-      label: 'enugui',
+      label: 'EnuGui',
       submenu: [
         { role: 'about' },
         { type: 'separator' },
         { label: 'Services', submenu: [] },
         { type: 'separator' },
-        { label: 'Hide enugui', accelerator: 'Command+H', selector: 'hide:' },
+        { label: 'Hide EnuGui', accelerator: 'Command+H', selector: 'hide:' },
         { label: 'Hide Others', accelerator: 'Command+Shift+H', selector: 'hideOtherApplications:' },
         { label: 'Show All', selector: 'unhideAllApplications:' },
         { type: 'separator' },

@@ -1,7 +1,7 @@
 {
   "name": "EnuGui",
   "productName": "EnuGui",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "",
   "scripts": {
     "build": "concurrently \"npm run build-main\" \"npm run build-renderer\"",
@@ -30,7 +30,7 @@
   },
   "browserslist": "electron 1.6",
   "build": {
-    "productName": "enugui",
+    "productName": "EnuGui",
     "appId": "com.enumivo.enugui",
     "asar": true,
     "files": [

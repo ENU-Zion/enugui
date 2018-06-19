@@ -33,7 +33,7 @@
   "producer_voter_preview_transaction_successful_title": "투표가 성공적으로 제출되었습니다.",
   "producer_voter_preview_transaction_successful_message": "이 작업은 블록체인에 기록되었습니다. 거래 정보는 아래에서 확인할 수 있습니다.",
   "producer_voter_preview_close": "닫기",
-  "producer_welcome_header": "enugui에 오신 것을 환영합니다.",
+  "producer_welcome_header": "EnuGui에 오신 것을 환영합니다.",
   "producer_welcome_subheader": "",
   "producer_welcome_p1": "",
   "producer_welcome_p2": "",
