@@ -12,17 +12,8 @@ export function undelegatebw(delegator, receiver, netAmount, cpuAmount) {
       type: types.SYSTEM_UNDELEGATEBW_PENDING
     });
 
-    const unstakeNetAmount = netAmount || 0;
-    const unstakeCpuAmount = cpuAmount || 0;
-
     return enu(connection).transaction(tr => {
-      tr.undelegatebw({
-        from: delegator,
-        receiver,
-        unstake_net_quantity: `${unstakeNetAmount.toFixed(4)} ENU`,
-        unstake_cpu_quantity: `${unstakeCpuAmount.toFixed(4)} ENU`,
-        transfer: 0
-      });
+      tr.undelegatebw(undelegatebwParams(delegator, receiver, netAmount, cpuAmount));
     }).then((tx) => {
       dispatch(AccountActions.getAccount(delegator));
       return dispatch({
@@ -36,6 +27,20 @@ export function undelegatebw(delegator, receiver, netAmount, cpuAmount) {
   };
 }
 
+export function undelegatebwParams(delegator, receiver, netAmount, cpuAmount) {
+  const unstakeNetAmount = netAmount || 0;
+  const unstakeCpuAmount = cpuAmount || 0;
+
+  return {
+    from: delegator,
+    receiver,
+    unstake_net_quantity: `${unstakeNetAmount.toFixed(4)} ENU`,
+    unstake_cpu_quantity: `${unstakeCpuAmount.toFixed(4)} ENU`,
+    transfer: 0
+  };
+}
+
 export default {
-  undelegatebw
+  undelegatebw,
+  undelegatebwParams
 };

@@ -6,8 +6,9 @@
   "amount_not_staked": "Available ENU (Unstaked)",
   "confirm_stake":"Confirm",
   "cpu_staked": "ENU staked in CPU",
+  "enu_in_cpu_after": "ENU in CPU after",
+  "enu_in_net_after": "ENU in Bandwidth after",
   "net_staked": "ENU staked in Bandwidth",
-  "not_enough_balance": "You do not have enough balance.",
   "stake_button_cta": "Update Staked ENU",
   "stake_form":"Staking Coins",
   "stake_modal_title":"Update Staked ENU Amounts",
@@ -21,8 +22,9 @@
   "update_staked_coins": "Update Staked Balances",
   "update_staked_cpu_amount": "Set ENU staked in CPU",
   "update_staked_net_amount": "Set ENU staked in Bandwidth",
-  "enu_in_cpu_after": "ENU in CPU after",
-  "enu_in_net_after": "ENU in Bandwidth after",
+  "will_have_less_than_one_enu_staked": "You will have less than 1 ENU staked to Bandwidth and/or CPU. That may prevent you from carrying out transactions when the network is busy.",
   "you_will_have":"You will have",
-  "will_have_less_than_one_enu_staked": "You will have less than 1 ENU staked to Bandwidth and/or CPU. That may prevent you from carrying out transactions when the network is busy."
+  "about_to_unstake": "You are about to stake/unstake some coins, please note that all coins that were unstaked will have to be claimed in 72 hours.",
+  "have_already_unstaked":"You are currently unstaking ",
+  "unstaking_will_be_reset": ". If you proceed to unstake to this new value, it will replace this previous request, and reset the 72 hour count down."
 }

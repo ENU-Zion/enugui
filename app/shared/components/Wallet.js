@@ -10,12 +10,14 @@ import WalletStatus from './Wallet/Status';
 type Props = {
   actions: {},
   accounts: {},
+  globals: {},
   keys: {},
   settings: {},
   validate: {},
   wallet: {},
   balances: {},
-  system: {}
+  system: {},
+  transaction: {}
 };
 
 export default class Wallet extends Component<Props> {
@@ -26,9 +28,11 @@ export default class Wallet extends Component<Props> {
       actions,
       accounts,
       balances,
+      globals,
       keys,
       settings,
       system,
+      transaction,
       validate,
       wallet
     } = this.props;
@@ -44,6 +48,7 @@ export default class Wallet extends Component<Props> {
               keys={keys}
               settings={settings}
               system={system}
+              transaction={transaction}
               validate={validate}
               wallet={wallet}
             />
@@ -53,6 +58,7 @@ export default class Wallet extends Component<Props> {
               actions={actions}
               accounts={accounts}
               balances={balances}
+              globals={globals}
               keys={keys}
               settings={settings}
               wallet={wallet}
