@@ -1,5 +1,13 @@
 # EnuGui - Enumivo GUI Wallet
 
+[English](https://github.com/enumivo/enugui/blob/master/README.md) - 
+[한글](https://github.com/enumivo/enugui/blob/master/README.kr.md) - 
+[中文](https://github.com/enumivo/enugui/blob/master/README.zh.md) - 
+[日本語](https://github.com/enumivo/enugui/blob/master/README.ja.md) - 
+[Русский](https://github.com/enumivo/enugui/blob/master/README.ru.md)
+
+# EnuGui - Enumivo GUI Wallet
+
 `EnuGui` is a limited-functionality release of a light wallet being designed for the ENU blockchain. This application can be used to connect to a remote ENU API endpoint to perform producer voting actions and a few basic wallet commands.
 
 ### Features

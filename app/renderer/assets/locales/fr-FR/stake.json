@@ -6,8 +6,9 @@
   "amount_not_staked": "ENU disponible (Non Attribué)",
   "confirm_stake": "Confirmer",
   "cpu_staked": "ENU attribué au CPU",
+  "enu_in_cpu_after": "ENU en CPU après",
+  "enu_in_net_after": "ENU en Bandwidth après",
   "net_staked": "ENU attribué au Bandwidth",
-  "not_enough_balance": "Vous n'avez pas assez de ENU.",
   "stake_button_cta": "Mettez vos ressources à jour",
   "stake_form": "Attribué des ENU",
   "stake_modal_title": "Mettez vos ressources à jour",
@@ -21,8 +22,9 @@
   "update_staked_coins": "Mettre à jour les ENU attribué",
   "update_staked_cpu_amount": "Quantité de ENU attribué en ressource CPU",
   "update_staked_net_amount": "Quantité de ENU attribué en ressource Bandwidth",
-  "enu_in_cpu_after": "ENU en CPU après",
-  "enu_in_net_after": "ENU en Bandwidth après",
+  "will_have_less_than_one_enu_staked": "You will have less than 1 ENU staked to Bandwidth and/or CPU. That may prevent you from carrying out transactions when the network is busy.",
   "you_will_have": "Vous aurez",
-  "will_have_less_than_one_enu_staked": "You will have less than 1 ENU staked to Bandwidth and/or CPU. That may prevent you from carrying out transactions when the network is busy."
+  "about_to_unstake": "You are about to stake/unstake some coins, please note that all coins that were unstaked will have to be claimed in 72 hours.",
+  "have_already_unstaked": "You are currently unstaking ",
+  "unstaking_will_be_reset": ". If you proceed to unstake to this new value, it will replace this previous request, and reset the 72 hour count down."
 }

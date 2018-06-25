@@ -1,7 +1,7 @@
 {
   "name": "EnuGui",
   "productName": "EnuGui",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "",
   "scripts": {
     "build": "concurrently \"npm run build-main\" \"npm run build-renderer\"",
@@ -32,6 +32,7 @@
   "build": {
     "productName": "EnuGui",
     "appId": "com.enumivo.enugui",
+    "artifactName": "${os}-${productName}-${version}-${arch}.${ext}",
     "asar": true,
     "files": [
       "dist/",
@@ -42,6 +43,9 @@
       "main.prod.js.map",
       "package.json"
     ],
+    "publish": {
+      "provider": "github"
+    },
     "dmg": {
       "icon": "app/renderer/assets/icons/mac/icon.icns",
       "contents": [
@@ -63,7 +67,13 @@
     "win": {
       "icon": "app/renderer/assets/icons/win/icon.ico",
       "target": [
-        "nsis"
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
       ]
     },
     "nsis": {
@@ -87,8 +97,16 @@
       },
       "icon": "app/renderer/assets/icons/png",
       "target": [
+        {
+          "target": "deb",
+          "arch": [
+            "armv7l",
+            "arm64",
+            "x64",
+            "ia32"
+          ]
+        },
         "AppImage",
-        "deb",
         "snap"
       ]
     },
@@ -159,7 +177,7 @@
     "detect-port": "^1.2.3",
     "devtron": "^1.4.0",
     "electron": "^2.0.2",
-    "electron-builder": "^20.15.1",
+    "electron-builder": "20.14.7",
     "electron-debug": "^2.0.0",
     "electron-devtools-installer": "^2.2.4",
     "electron-log": "^2.2.14",
@@ -217,6 +235,7 @@
     "crypto-js": "^3.1.9-1",
     "decimal.js": "^10.0.1",
     "electron-store": "^2.0.0",
+    "electron-updater": "^2.21.10",
     "enujs": "15.0.0",
     "history": "^4.7.2",
     "i": "^0.3.6",

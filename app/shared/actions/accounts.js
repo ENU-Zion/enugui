@@ -1,5 +1,6 @@
-import * as types from './types';
+import { forEach } from 'lodash';
 
+import * as types from './types';
 import enu from './helpers/enu';
 
 export function clearAccountCache() {
@@ -7,6 +8,21 @@ export function clearAccountCache() {
     dispatch({
       type: types.CLEAR_ACCOUNT_CACHE
     });
+  };
+}
+
+export function clearBalanceCache() {
+  return (dispatch: () => void) => {
+    dispatch({
+      type: types.CLEAR_BALANCE_CACHE
+    });
+  };
+}
+
+export function refreshAccountBalances(account) {
+  return (dispatch: () => void) => {
+    dispatch(clearBalanceCache());
+    return dispatch(getCurrencyBalance(account));
   };
 }
 
@@ -114,19 +130,43 @@ export function getCurrencyBalance(account) {
       settings
     } = getState();
     if (account && (settings.node || settings.node.length !== 0)) {
-      return enu(connection).getCurrencyBalance('enu.token', account).then((balances) => dispatch({
-        type: types.GET_ACCOUNT_BALANCE_SUCCESS,
-        payload: { balances, account_name: account }
-      })).catch((err) => dispatch({
-        type: types.GET_ACCOUNT_BALANCE_FAILURE,
-        payload: { err, account_name: account }
-      }));
+      const { customTokens } = settings;
+      let selectedTokens = ['enu.token:ENU'];
+      if (customTokens && customTokens.length > 0) {
+        selectedTokens = [...customTokens, ...selectedTokens];
+      }
+      forEach(selectedTokens, (namespace) => {
+        const [contract, symbol] = namespace.split(':');
+        enu(connection).getCurrencyBalance(contract, account, symbol).then((results) =>
+          dispatch({
+            type: types.GET_ACCOUNT_BALANCE_SUCCESS,
+            payload: {
+              account_name: account,
+              contract,
+              symbol,
+              tokens: formatBalances(results)
+            }
+          }))
+          .catch((err) => dispatch({
+            type: types.GET_ACCOUNT_BALANCE_FAILURE,
+            payload: { err, account_name: account }
+          }));
+      });
     }
     dispatch({
       type: types.GET_ACCOUNT_BALANCE_FAILURE,
       payload: { account_name: account },
     });
   };
+}
+
+function formatBalances(balances) {
+  const formatted = {};
+  for (let i = 0; i < balances.length; i += 1) {
+    const [amount, symbol] = balances[i].split(' ');
+    formatted[symbol] = parseFloat(amount);
+  }
+  return formatted;
 }
 
 export function getAccountByKey(key) {
@@ -168,5 +208,6 @@ export default {
   clearAccountCache,
   getAccount,
   getAccountByKey,
-  getCurrencyBalance
+  getCurrencyBalance,
+  refreshAccountBalances
 };
