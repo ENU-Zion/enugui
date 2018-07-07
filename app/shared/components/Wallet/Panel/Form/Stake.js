@@ -121,7 +121,7 @@ class WalletPanelFormStake extends Component<Props> {
     const cpuChange = cpuAmount.minus(cpuOriginal);
     const netChange = netAmount.minus(netOriginal);
 
-    if (Math.max(0, cpuChange) + Math.max(0, netChange) > ENUbalance) {
+    if (Decimal.max(0, cpuChange).plus(Decimal.max(0, netChange)).greaterThan(ENUbalance)) {
       return 'not_enough_balance';
     }
 

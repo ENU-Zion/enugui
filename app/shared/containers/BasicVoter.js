@@ -15,16 +15,19 @@ import Wallet from '../components/Wallet';
 import ModalConstitution from '../components/Global/Modal/Constitution';
 
 import * as AccountsActions from '../actions/accounts';
+import * as BuyRamActions from '../actions/system/buyrambytes';
 import * as ChainActions from '../actions/chain';
 import * as GlobalsActions from '../actions/globals';
 import * as ProducersActions from '../actions/producers';
+import * as SellRamActions from '../actions/system/sellram';
 import * as SettingsActions from '../actions/settings';
-import * as ValidateActions from '../actions/validate';
-import * as WalletActions from '../actions/wallet';
 import * as StakeActions from '../actions/stake';
 import * as TransactionActions from '../actions/transaction';
 import * as TransferActions from '../actions/transfer';
+import * as ValidateActions from '../actions/validate';
 import * as VoteProducerActions from '../actions/system/voteproducer';
+import * as WalletActions from '../actions/wallet';
+import * as SystemStateActions from '../actions/system/systemstate';
 
 type Props = {
   actions: {
@@ -53,7 +56,6 @@ class BasicVoterContainer extends Component<Props> {
     const {
       actions,
       history,
-      keys,
       settings
     } = this.props;
 
@@ -74,7 +76,7 @@ class BasicVoterContainer extends Component<Props> {
           forEach(settings.customTokens, (token) => {
             const [contract, symbol] = token.split(':');
             getCurrencyStats(contract, symbol.toUpperCase());
-          })
+          });
         }
       }
     }
@@ -114,7 +116,6 @@ class BasicVoterContainer extends Component<Props> {
     } = this.state;
     const {
       actions,
-      globals,
       keys,
       settings,
       validate,
@@ -169,6 +170,7 @@ class BasicVoterContainer extends Component<Props> {
 function mapStateToProps(state) {
   return {
     accounts: state.accounts,
+    actionHistories: state.actions,
     balances: state.balances,
     chain: state.chain,
     globals: state.globals,
@@ -186,16 +188,19 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       ...AccountsActions,
+      ...BuyRamActions,
       ...ChainActions,
       ...GlobalsActions,
       ...ProducersActions,
+      ...SellRamActions,
       ...SettingsActions,
-      ...ValidateActions,
-      ...WalletActions,
       ...StakeActions,
+      ...SystemStateActions,
       ...TransactionActions,
       ...TransferActions,
-      ...VoteProducerActions
+      ...ValidateActions,
+      ...VoteProducerActions,
+      ...WalletActions
     }, dispatch)
   };
 }

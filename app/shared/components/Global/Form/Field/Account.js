@@ -5,38 +5,55 @@ import { Form, Input } from 'semantic-ui-react';
 
 import debounce from 'lodash/debounce';
 
-export default class FormFieldAccount extends Component<Props> {
-  state = { value: '' };
-  onChange = debounce((e, { name, value }) => {
-    const parsed = value;
+export default class GlobalFormFieldAccount extends Component<Props> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: props.value
+    };
+  }
+  onChange = (e, { name, value }) => {
+    const parsed = value.trim().toLowerCase();
+    const valid = !!(parsed.match(/^[a-z12345.]+$/g));
     this.setState({
       value: parsed
     }, () => {
-      this.props.onChange(e, { name, value: parsed });
+      this.props.onChange(e, {
+        name,
+        value: parsed,
+        valid
+      });
     });
-  }, 300)
+  }
+  reset = () => this.setState({ value: '' });
   render() {
     const {
       autoFocus,
       disabled,
+      fluid,
       icon,
       label,
       loading,
       name,
-      value
+      width
     } = this.props;
+    const {
+      value
+    } = this.state;
     return (
       <Form.Field
         autoFocus={autoFocus}
         control={Input}
         disabled={disabled}
-        fluid
+        fluid={fluid}
         icon={icon}
         label={label}
         loading={loading}
         name={name}
         onChange={this.onChange}
-        defaultValue={value}
+        ref={ref => { this.input = ref; }}
+        value={value}
+        width={width}
       />
     );
   }

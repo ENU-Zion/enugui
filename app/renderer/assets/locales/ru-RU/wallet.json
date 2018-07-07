@@ -13,6 +13,7 @@
   "wallet_account_lookup_modal_accounts_found_none": "Учётных записей с совпадающим ключом не найдено",
   "wallet_account_lookup_modal_key_invalid": "Введенный ключ не является действительным открытым ключом ENU",
   "wallet_actions": "Действия Кошелька",
+  "wallet_actions_advanced": "Advanced Actions",
   "wallet_actions_dangerous": "Предупреждение: Опасная Зона",
   "wallet_status_balances": "Балансы Кошелька",
   "wallet_status_balances_none": "Этот кошелек не имеет баланса.",
@@ -28,9 +29,10 @@
   "wallet_status_resources_staked": "Объем зарезервированных ресурсов",
   "wallet_status_resources_delegated": "Делегированные ресурсы",
   "wallet_status_resources_usage": "Использование ресурсов",
-  "wallet_status_tab_token_balances": "Балансы Токенов",
+  "wallet_status_tab_token_balances": "Balances",
   "wallet_status_tab_staked": "Закреплённые ENU",
-  "wallet_status_tab_account_data": "Учётные данные",
+  "wallet_status_tab_account_history": "History",
+  "wallet_status_tab_account_data": "Data",
   "wallet_panel_form_create_wallet_header": "Импорт учётной записи",
   "wallet_panel_form_create_wallet_body": "Чтобы использовать приложение, введите имя учётной записи и закрытый ключ.",
   "wallet_panel_form_will_save": "Имя учётной записи и закрытый ключ будут зашифрованы и сохранены в приложении. Чтобы разблокировать ключ потребуется пароль.",
@@ -61,6 +63,7 @@
   "wallet_status_add_custom_token_header": "Token Balances",
   "wallet_status_add_custom_token_subheader": "The token balances of this account for all tracked contracts ('enu.token' only by default).",
   "wallet_panel_wallet_broadcast": "Broadcast Signed Transaction",
+  "wallet_mode_explain_hot": "This wallet is running as a 'Hot' wallet, meaning it can create, sign, and broadcast transactions without the assistance of any other wallet.",
   "wallet_mode_explain_cold": "This wallet is running as a 'Cold' wallet, meaning it should be run offline and is unable to broadcast transactions. Broadasting must be done via a watch wallet.",
   "wallet_mode_explain_watch": "This wallet is running as a 'Watch' wallet, meaning it will not store private keys and cannot sign transactions. Signing must be done via a cold wallet."
 }
