@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Button, Divider, Form, Header, Icon, Segment } from 'semantic-ui-react';
 import { translate } from 'react-i18next';
 
-import FormFieldAccount from '../../../../Global/Form/Field/Account';
+import GlobalFormFieldAccount from '../../../../Global/Form/Field/Account';
 import FormFieldGeneric from '../../../../Global/Form/Field/Generic';
 import FormFieldMultiToken from '../../../../Global/Form/Field/MultiToken';
 import FormMessageError from '../../../../Global/Form/Message/Error';
@@ -152,15 +152,17 @@ class WalletPanelFormTransfer extends Component<Props> {
             />
           ) : (
             <Segment basic clearing>
-              <FormFieldAccount
+              <GlobalFormFieldAccount
                 disabled
+                fluid
                 label={t('transfer_label_from')}
                 name="from"
                 onChange={this.onChange}
                 value={settings.account}
               />
-              <FormFieldAccount
+              <GlobalFormFieldAccount
                 autoFocus
+                fluid
                 label={t('transfer_label_to')}
                 name="to"
                 onChange={this.onChange}

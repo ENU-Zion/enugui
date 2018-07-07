@@ -10,7 +10,7 @@ import ProducersVoteWeight from '../Vote/Weight';
 class ProducersTableRow extends Component<Props> {
   shouldComponentUpdate = (nextProps) =>
     !isEqual(this.props.producer.key, nextProps.producer.key)
-    || !isEqual(this.props.validUser, nextProps.validUser)
+    || !isEqual(this.props.isValidUser, nextProps.isValidUser)
     || !isEqual(this.props.isSelected, nextProps.isSelected);
 
   render() {
@@ -19,11 +19,13 @@ class ProducersTableRow extends Component<Props> {
       isSelected,
       producer,
       position,
+      isProxying,
+      isValidUser,
       removeProducer,
       t,
-      totalVoteWeight,
-      validUser
+      totalVoteWeight
     } = this.props;
+
     const epoch = 946684800000;
     const lastProduced = (producer.last_produced_block_time * 500) + epoch;
     const isActive = (Date.now() - lastProduced) < 1000;
@@ -45,7 +47,7 @@ class ProducersTableRow extends Component<Props> {
         >
           <Button
             color={isSelected ? 'blue' : 'grey'}
-            disabled={!validUser}
+            disabled={!isValidUser || isProxying}
             icon={isSelected ? 'checkmark box' : 'minus square outline'}
             onClick={
               (isSelected)

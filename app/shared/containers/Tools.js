@@ -6,11 +6,21 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import compose from 'lodash/fp/compose';
 
-import { Tab } from 'semantic-ui-react';
+import { Menu, Tab } from 'semantic-ui-react';
 
 import Tools from '../components/Tools';
 import ToolsKeys from '../components/Tools/Keys';
-import ToolsState from '../components/Tools/State';
+import ToolsStateChain from '../components/Tools/State/Chain';
+import ToolsStateGlobals from '../components/Tools/State/Globals';
+import ToolsStateWallet from '../components/Tools/State/Wallet';
+import ToolsProxy from '../components/Tools/Proxy';
+import ToolsWallets from '../components/Tools/Wallets';
+
+import * as RegProxyActions from '../actions/system/regproxy';
+import * as SystemStateActions from '../actions/system/systemstate';
+import * as UnregProxyActions from '../actions/system/unregproxy';
+import * as WalletActions from '../actions/wallet';
+import * as WalletsActions from '../actions/wallets';
 
 class ToolsContainer extends Component<Props> {
   props: Props;
@@ -22,12 +32,37 @@ class ToolsContainer extends Component<Props> {
         render: () => <Tab.Pane><Tools {...this.props} /></Tab.Pane>,
       },
       {
+        menuItem: <Menu.Header className="ui">{t('tools_menu_wallet_header')}</Menu.Header>
+      },
+      {
+        menuItem: t('tools_menu_wallets'),
+        render: () => <Tab.Pane><ToolsWallets {...this.props} /></Tab.Pane>,
+      },
+      {
         menuItem: t('tools_menu_keys'),
         render: () => <Tab.Pane><ToolsKeys {...this.props} /></Tab.Pane>,
       },
       {
+        menuItem: <Menu.Header className="ui">{t('tools_menu_utilities_header')}</Menu.Header>
+      },
+      {
+        menuItem: t('tools_menu_proxy'),
+        render: () => <Tab.Pane><ToolsProxy {...this.props} /></Tab.Pane>,
+      },
+      {
+        menuItem: <Menu.Header className="ui">{t('tools_menu_state_header')}</Menu.Header>
+      },
+      {
         menuItem: t('tools_menu_state'),
-        render: () => <Tab.Pane><ToolsState {...this.props} /></Tab.Pane>,
+        render: () => <Tab.Pane><ToolsStateWallet {...this.props} /></Tab.Pane>,
+      },
+      {
+        menuItem: t('tools_menu_state_globals'),
+        render: () => <Tab.Pane><ToolsStateGlobals {...this.props} /></Tab.Pane>,
+      },
+      {
+        menuItem: t('tools_menu_state_chain'),
+        render: () => <Tab.Pane><ToolsStateChain {...this.props} /></Tab.Pane>,
       }
     ];
     return (
@@ -47,14 +82,27 @@ class ToolsContainer extends Component<Props> {
 
 function mapStateToProps(state) {
   return {
-    settings: state.settings
+    accounts: state.accounts,
+    app: state.app,
+    chain: state.chain,
+    globals: state.globals,
+    keys: state.keys,
+    settings: state.settings,
+    system: state.system,
+    validate: state.validate,
+    wallet: state.wallet,
+    wallets: state.wallets,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-
+      ...RegProxyActions,
+      ...SystemStateActions,
+      ...UnregProxyActions,
+      ...WalletActions,
+      ...WalletsActions,
     }, dispatch)
   };
 }

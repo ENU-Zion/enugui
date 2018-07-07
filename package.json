@@ -1,8 +1,8 @@
 {
   "name": "EnuGui",
   "productName": "EnuGui",
-  "version": "0.2.2",
-  "description": "",
+  "version": "0.3.0",
+  "description": "Simple light wallet and block producer voting tool for the Enumivo blockchain",
   "scripts": {
     "build": "concurrently \"npm run build-main\" \"npm run build-renderer\"",
     "build-dll": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.dev.dll.js --colors",

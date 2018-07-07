@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
 import { debounce, filter, findIndex } from 'lodash';
-import { Grid, Header, Input, Loader, Segment, Transition, Table } from 'semantic-ui-react';
+import { Grid, Header, Input, Segment, Transition, Table } from 'semantic-ui-react';
 
 import ProducersVoteWeight from './Vote/Weight';
 import ProducersTableRow from './Table/Row';
@@ -35,11 +35,13 @@ class ProducersTable extends Component<Props> {
     const {
       amount,
       globals,
+      isProxying,
+      isValidUser,
       producers,
       selected,
-      t,
-      validUser
+      t
     } = this.props;
+
     const {
       query
     } = this.state;
@@ -74,13 +76,14 @@ class ProducersTable extends Component<Props> {
             return (
               <ProducersTableRow
                 addProducer={this.props.addProducer}
-                key={producer.key}
+                key={`${isProxying}-${producer.key}`}
+                isProxying={isProxying}
                 isSelected={isSelected}
                 position={idx + 1}
                 producer={producer}
                 removeProducer={this.props.removeProducer}
                 totalVoteWeight={totalVoteWeight}
-                validUser={validUser}
+                isValidUser={isValidUser}
               />
             );
           })}
@@ -103,7 +106,8 @@ class ProducersTable extends Component<Props> {
                     producer={producer}
                     removeProducer={this.props.removeProducer}
                     totalVoteWeight={totalVoteWeight}
-                    validUser={validUser}
+                    isValidUser={isValidUser}
+                    isProxying={isProxying}
                   />
                 );
               })}
@@ -115,7 +119,7 @@ class ProducersTable extends Component<Props> {
     return (
       <Segment basic loading={loading} vertical>
         <Grid>
-          <Grid.Column width="10">
+          <Grid.Column width={8}>
             <Header size="small">
               {activatedStake.toLocaleString()} {t('block_producer_enu_staked')} ({activatedStakePercent}%)
               <Header.Subheader>
@@ -127,7 +131,7 @@ class ProducersTable extends Component<Props> {
               </Header.Subheader>
             </Header>
           </Grid.Column>
-          <Grid.Column width="6" textAlign="right">
+          <Grid.Column width={8} key="ProducersVotingPreview" textAlign="right">
             <Input
               icon="search"
               onChange={this.onSearchChange}

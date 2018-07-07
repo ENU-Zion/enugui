@@ -1,15 +1,16 @@
 // @flow
 import React, { Component } from 'react';
-import { Header, Grid, Loader, Segment, Visibility } from 'semantic-ui-react';
+import { Divider, Header, Grid, Loader, Segment, Visibility } from 'semantic-ui-react';
 import { translate } from 'react-i18next';
 
-import SidebarConnection from '../containers/Sidebar/Connection';
+import SidebarAccount from '../containers/Sidebar/Account';
 import WalletPanel from './Wallet/Panel';
 
 
 import ProducersSelector from './Producers/Selector';
 import ProducersTable from './Producers/Table';
 import ProducersVotingPreview from './Producers/Modal/Preview';
+import ProducersProxy from './Producers/Proxy';
 
 type Props = {
   actions: {
@@ -46,6 +47,7 @@ class Producers extends Component<Props> {
       previewing: false,
       querying: false,
       selected: [],
+      selected_account: false,
       selected_loaded: false,
       submitting: false,
     };
@@ -58,7 +60,7 @@ class Producers extends Component<Props> {
 
   componentWillReceiveProps(nextProps) {
     const { validate } = this.props;
-    const { system } = nextProps;
+    const { settings, system } = nextProps;
     const nextValidate = nextProps.validate;
     // On a new node connection, update props + producers
     if (
@@ -83,15 +85,25 @@ class Producers extends Component<Props> {
       });
     }
     // If no selected are loaded, attempt to retrieve them from the props
-    if (!this.state.selected_loaded) {
-      const { accounts, settings } = nextProps;
+    if (
+      !this.state.selected_loaded
+      || this.state.selected_account !== settings.account
+      || (nextProps.producers.proxy && nextProps.producers.proxy !== this.state.selected_account)
+    ) {
+      const { accounts } = nextProps;
       // If an account is loaded, attempt to load it's votes
       if (settings.account && accounts[settings.account]) {
         const account = accounts[settings.account];
         if (account.voter_info) {
+          const selected_account = account.voter_info.proxy || account.account_name;
+          let selected = account.voter_info.producers
+          if (selected_account !== settings.account && accounts[selected_account]) {
+            selected = accounts[selected_account].voter_info.producers;
+          }
           // If the voter_info entry exists, load those votes into state
           this.setState({
-            selected: account.voter_info.producers,
+            selected,
+            selected_account,
             selected_loaded: true
           });
         } else {
@@ -198,6 +210,7 @@ class Producers extends Component<Props> {
         actions={actions}
         accounts={accounts}
         balances={balances}
+        globals={globals}
         key="WalletPanel"
         keys={keys}
         settings={settings}
@@ -207,29 +220,47 @@ class Producers extends Component<Props> {
         wallet={wallet}
       />
     )];
-    const validUser = ((keys && keys.key) || settings.walletMode === 'watch');
+    const isValidUser = !!((keys && keys.key) || settings.walletMode === 'watch');
+    const account = accounts[settings.account];
+    const isProxying = !!(account && account.voter_info && account.voter_info.proxy);
     const modified = (selected.sort().toString() !== producers.selected.sort().toString());
-    if (validUser) {
+    if (isValidUser) {
       sidebar = (
         <React.Fragment>
-          <ProducersVotingPreview
+          <ProducersProxy
+            account={account}
             actions={actions}
-            lastError={lastError}
-            lastTransaction={lastTransaction}
-            open={previewing}
-            onClose={() => this.previewProducerVotes(false)}
-            onConfirm={this.submitProducerVotes.bind(this)}
-            onOpen={() => this.previewProducerVotes(true)}
-            selected={selected}
+            keys={keys}
+            isProxying={isProxying}
+            isValidUser={isValidUser}
             settings={settings}
-            submitting={submitting}
             system={system}
           />
+
+          <Divider hidden />
+
+          {(!isProxying) ? (
+            <ProducersVotingPreview
+              actions={actions}
+              lastError={lastError}
+              lastTransaction={lastTransaction}
+              open={previewing}
+              onClose={() => this.previewProducerVotes(false)}
+              onConfirm={this.submitProducerVotes.bind(this)}
+              onOpen={() => this.previewProducerVotes(true)}
+              selected={selected}
+              settings={settings}
+              submitting={submitting}
+              system={system}
+            />
+          ) : ''}
+
           <ProducersSelector
             account={accounts[settings.account]}
+            isProxying={isProxying}
             modified={modified}
-            selected={selected}
             removeProducer={this.removeProducer.bind(this)}
+            selected={selected}
             submitProducerVotes={() => this.previewProducerVotes(true)}
             submitting={submitting}
           />
@@ -241,9 +272,10 @@ class Producers extends Component<Props> {
         <Grid divided>
           <Grid.Row>
             <Grid.Column width={6}>
-              <SidebarConnection
+              <SidebarAccount
                 actions={actions}
                 history={history}
+                wallet={wallet}
               />
               {sidebar}
             </Grid.Column>
@@ -258,16 +290,21 @@ class Producers extends Component<Props> {
                    once={false}
                  >
                    <ProducersTable
+                     account={accounts[settings.account]}
+                     actions={actions}
                      addProducer={this.addProducer.bind(this)}
                      amount={amount}
                      attached="top"
                      globals={globals}
+                     isProxying={isProxying}
                      isQuerying={this.isQuerying}
+                     keys={keys}
                      producers={producers}
                      removeProducer={this.removeProducer.bind(this)}
                      resetDisplayAmount={this.resetDisplayAmount}
                      selected={selected}
-                     validUser={validUser}
+                     system={system}
+                     isValidUser={isValidUser}
                    />
                  </Visibility>
                ), (
