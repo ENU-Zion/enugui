@@ -1,6 +1,6 @@
 import * as types from '../types';
 
-import eos from '../helpers/eos';
+import enu from '../helpers/enu';
 
 export function buyrambytes(amount) {
   return (dispatch: () => void, getState) => {
@@ -15,7 +15,7 @@ export function buyrambytes(amount) {
 
     const { account } = settings;
 
-    return eos(connection).buyrambytes({
+    return enu(connection).buyrambytes({
       payer: account,
       receiver: account,
       bytes: Number(amount)

@@ -65,13 +65,13 @@ export function getRamStats() {
     });
     const { connection } = getState();
     const query = {
-      scope: 'eosio',
-      code: 'eosio',
+      scope: 'enumivo',
+      code: 'enumivo',
       table: 'rammarket',
       json: true
     };
 
-    eos(connection).getTableRows(query).then((results) => {
+    enu(connection).getTableRows(query).then((results) => {
       const { rows } = results;
       const baseBalance = rows[0].base.balance.split(' ')[0];
       const quoteBalance = rows[0].quote.balance.split(' ')[0];

@@ -1,6 +1,6 @@
 import * as types from '../types';
 
-import eos from '../helpers/eos';
+import enu from '../helpers/enu';
 
 export function sellram(amount) {
   return (dispatch: () => void, getState) => {
@@ -15,7 +15,7 @@ export function sellram(amount) {
 
     const { account } = settings;
 
-    return eos(connection).sellram({
+    return enu(connection).sellram({
       account,
       bytes: Number(amount)
     }).then((tx) => dispatch({

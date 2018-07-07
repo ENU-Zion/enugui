@@ -28,7 +28,7 @@ class WalletStatusActionsTableRowGeneric extends Component<Props> {
             {' - '}
             <DangerLink
               content={t('actions_link_content')}
-              link={`https://eospark.com/MainNet/tx/${action.trx_id}`}
+              link={`http://enumivo.qsx.io/transactions/${action.trx_id}`}
             />
           </Header>
           <Header

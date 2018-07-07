@@ -141,7 +141,7 @@ class WalletPanelFormRamBuy extends Component<Props> {
       return 'ram_has_to_be_over_minimum_value';
     }
 
-    if (!balance.EOS || Decimal(balance.EOS).lessThan(priceOfRam)) {
+    if (!balance.ENU || Decimal(balance.ENU).lessThan(priceOfRam)) {
       return 'not_enough_balance';
     }
 
@@ -247,7 +247,7 @@ class WalletPanelFormRamBuy extends Component<Props> {
         {(shouldShowConfirm)
           ? (
             <WalletPanelFormRamBuyConfirming
-              EOSbalance={balance.EOS}
+              ENUbalance={balance.ENU}
               onBack={this.onBack}
               onConfirm={this.onConfirm}
               priceOfRam={priceOfRam}

@@ -58,7 +58,7 @@ class WalletStatusActionsTableRow extends Component<Props> {
       trx_id
     } = action.action_trace;
     // Filter out duplicate actions returned by API
-    if ([settings.account, 'eosio'].indexOf(receipt.receiver) === -1) {
+    if ([settings.account, 'enumivo'].indexOf(receipt.receiver) === -1) {
       return false;
     }
     return (
@@ -86,7 +86,7 @@ class WalletStatusActionsTableRow extends Component<Props> {
               >
                 <DangerLink
                   content={`${trx_id.substr(0, 4)}...${trx_id.substr(-4)}`}
-                  link={`https://eospark.com/MainNet/tx/${action.action_trace.trx_id}`}
+                  link={`http://enumivo.qsx.io/transactions/${action.action_trace.trx_id}`}
                 />
               </Table.Cell>
             </React.Fragment>

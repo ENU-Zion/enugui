@@ -52,7 +52,7 @@ class WalletStatusActionsTable extends Component<Props> {
               <Header.Content>
                 <DangerLink
                   content={t('actions_table_view_explorer')}
-                  link={`https://eospark.com/MainNet/account/${settings.account}`}
+                  link={`http://http://enumivo.qsx.io/accounts/${settings.account}`}
                 />
               </Header.Content>
             </Message.Header>

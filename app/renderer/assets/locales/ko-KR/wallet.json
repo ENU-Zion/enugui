@@ -35,7 +35,7 @@
   "wallet_status_tab_account_data": "계정 정보",
 =======
   "wallet_status_tab_token_balances": "Balances",
-  "wallet_status_tab_staked": "스테이킹된 EOS",
+  "wallet_status_tab_staked": "스테이킹된 ENU",
   "wallet_status_tab_account_history": "History",
   "wallet_status_tab_account_data": "Data",
 >>>>>>> upstream/master

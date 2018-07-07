@@ -39,7 +39,7 @@ class WalletPanelFormRamSellConfirming extends Component<Props> {
           <Header>
             {t('ram_sell_confirming_message_one')}
             <font color="red">{ ` ${ramToSellInKbs} kBs ` }</font>
-            {`${t('ram_confirming_message_kbs_in_ram_for')} ~${priceOfRam.toFixed(4)} EOS.`}
+            {`${t('ram_confirming_message_kbs_in_ram_for')} ~${priceOfRam.toFixed(4)} ENU.`}
           </Header>
           <Header>
             {`${t('ram_confirming_message_will_have')} ${ramQuota.minus(ramToSell).dividedBy(1024)} kBs ${t('ram_confirming_message_kbs_in_ram_left')}`}

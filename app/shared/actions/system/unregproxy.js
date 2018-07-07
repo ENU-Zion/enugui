@@ -1,7 +1,7 @@
 import * as types from '../types';
 
 import { getAccount } from '../accounts';
-import eos from '../helpers/eos';
+import enu from '../helpers/enu';
 
 export function unregproxy() {
   return (dispatch: () => void, getState) => {
@@ -14,7 +14,7 @@ export function unregproxy() {
     dispatch({
       type: types.SYSTEM_UNREGPROXY_PENDING
     });
-    return eos(connection).regproxy({
+    return enu(connection).regproxy({
       proxy: account,
       isproxy: 0
     }).then((tx) => {
