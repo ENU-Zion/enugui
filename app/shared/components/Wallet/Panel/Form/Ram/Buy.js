@@ -3,14 +3,14 @@ import React, { Component } from 'react';
 import { translate } from 'react-i18next';
 import { Decimal } from 'decimal.js';
 
-import { Segment, Form, Divider, Grid, Button } from 'semantic-ui-react';
+import { Segment, Form, Divider, Grid, Button, Menu } from 'semantic-ui-react';
 
-import WalletPanelFormRamBuyConfirming from './Buy/Confirming';
+import WalletPanelFormRamConfirming from './Confirming';
 import WalletPanelFormRamStats from './Stats';
 import FormMessageError from '../../../../Global/Form/Message/Error';
-import FormFieldGeneric from '../../../../Global/Form/Field/Generic';
 
-import calculatePriceOfRam from './helpers/calculatePriceOfRam';
+import WalletPanelFormRamByAmount from './ByAmount';
+import WalletPanelFormRamByCost from './ByCost';
 
 type Props = {
   actions: {},
@@ -28,9 +28,10 @@ class WalletPanelFormRamBuy extends Component<Props> {
     const { account } = props;
 
     this.state = {
-      ramUsage: Decimal(account.ram_usage),
-      ramQuota: Decimal(account.ram_quota),
-      ramToBuyInKbs: 0,
+      activeTab: 'byRAMAmount',
+      ramUsage: account.ram_usage,
+      ramQuota: account.ram_quota,
+      ramToBuy: null,
       confirming: false,
       formError: null,
       submitDisabled: true
@@ -77,39 +78,12 @@ class WalletPanelFormRamBuy extends Component<Props> {
     }
   }
 
-  onError = (error) => {
-    let errorMessage;
-
-    if (error !== true) {
-      errorMessage = error;
-    }
-
+  onChange = (amountOfRam, priceOfRam) => {
     this.setState({
-      submitDisabled: true,
-      formError: errorMessage
-    });
-  }
-
-  onChange = (e, { value }) => {
-    const {
-      globals
-    } = this.props;
-
-    const decBaseBal = Decimal(globals.ram.base_balance);
-    const decQuoteBal = Decimal(globals.ram.quote_balance);
-    const decValueInBytes = Decimal(parseFloat(value)).times(1024);
-
-    let priceOfRam = 0;
-
-    if (decValueInBytes.greaterThan(0)) {
-      priceOfRam = calculatePriceOfRam(decBaseBal, decQuoteBal, decValueInBytes).times(1.005);
-    }
-
-    this.setState({
-      submitDisabled: false,
       formError: null,
-      ramToBuyInKbs: value,
-      priceOfRam
+      ramToBuy: amountOfRam,
+      submitDisabled: false,
+      priceOfRam: Decimal(priceOfRam).times(1.005)
     }, () => {
       const error = this.errorsInForm();
 
@@ -125,20 +99,18 @@ class WalletPanelFormRamBuy extends Component<Props> {
     } = this.props;
 
     const {
-      ramToBuyInKbs,
+      ramToBuy,
       priceOfRam
     } = this.state;
 
-    const decimalRegex = /^\d+(\.\d{1,3})?$/;
+    const decimalRegex = /^\d+$/;
 
-    if (!decimalRegex.test(ramToBuyInKbs)) {
+    if (!decimalRegex.test(ramToBuy)) {
       return 'ram_not_valid_amount';
     }
 
-    const decimalRamToBuy = Decimal(ramToBuyInKbs).times(1024);
-
-    if (!decimalRamToBuy.greaterThan(2)) {
-      return 'ram_has_to_be_over_minimum_value';
+    if (!(Number(ramToBuy) > 2)) {
+      return 'ram_has_to_be_over_minimum_amount';
     }
 
     if (!balance.ENU || Decimal(balance.ENU).lessThan(priceOfRam)) {
@@ -146,6 +118,19 @@ class WalletPanelFormRamBuy extends Component<Props> {
     }
 
     return false;
+  }
+
+  onError = (error) => {
+    let errorMessage;
+
+    if (error !== true) {
+      errorMessage = error;
+    }
+
+    this.setState({
+      submitDisabled: true,
+      formError: errorMessage
+    });
   }
 
   onBack = () => {
@@ -160,23 +145,33 @@ class WalletPanelFormRamBuy extends Component<Props> {
     } = this.props;
 
     const {
-      ramToBuyInKbs
+      priceOfRam,
+      ramToBuy
     } = this.state;
 
     const {
-      buyrambytes
+      activeTab,
+      buyrambytes,
+      buyram
     } = actions;
 
     this.setState({
       confirming: false
     });
 
-    buyrambytes(Decimal(ramToBuyInKbs).times(1024).floor());
+    if (activeTab === 'byRAMAmount') {
+      buyrambytes(ramToBuy);
+    } else {
+      buyram(priceOfRam);
+    }
   }
+
+  handleTabClick = (e, { name }) => this.setState({ activeTab: name, confirming: false })
 
   render() {
     const {
       balance,
+      globals,
       onClose,
       settings,
       system,
@@ -184,10 +179,12 @@ class WalletPanelFormRamBuy extends Component<Props> {
     } = this.props;
 
     const {
+      activeTab,
+      formError,
       priceOfRam,
       ramQuota,
       ramUsage,
-      ramToBuyInKbs,
+      ramToBuy,
       submitDisabled
     } = this.state;
 
@@ -201,58 +198,78 @@ class WalletPanelFormRamBuy extends Component<Props> {
       >
         {(shouldShowForm)
           ? (
-            <Form
-              onKeyPress={this.onKeyPress}
-              onSubmit={this.onSubmit}
-            >
-              <Grid>
-                <Grid.Column width={8}>
-                  <WalletPanelFormRamStats
-                    ramQuota={ramQuota}
-                    ramUsage={ramUsage}
-                  />
-                </Grid.Column>
-                <Grid.Column width={8}>
-                  <FormFieldGeneric
-                    autoFocus
-                    icon="database"
-                    label={t('ram_form_label_amount_to_buy')}
-                    loading={false}
-                    name="ram_to_buy"
-                    onChange={this.onChange}
-                    value={ramToBuyInKbs || '0.000'}
-                  />
-                </Grid.Column>
-              </Grid>
-              <FormMessageError
-                style={{ marginTop: '20px' }}
-                error={this.state.formError}
-              />
-              <Divider />
-              <Button
-                content={t('cancel')}
-                color="grey"
-                onClick={onClose}
-              />
-              <Button
-                content={t('ram_form_button_buy')}
-                color="green"
-                disabled={submitDisabled}
-                floated="right"
-                primary
-              />
-            </Form>
+            <div>
+              <Menu tabular>
+                <Menu.Item name="byRAMAmount" active={activeTab === 'byRAMAmount'} onClick={this.handleTabClick} />
+                <Menu.Item name="byEOSAmount" active={activeTab === 'byEOSAmount'} onClick={this.handleTabClick} />
+              </Menu>
+              <Form
+                onKeyPress={this.onKeyPress}
+                onSubmit={this.onSubmit}
+              >
+                <Grid>
+                  <Grid.Column width={8}>
+                    {(activeTab === 'byRAMAmount')
+                      ? (
+                        <WalletPanelFormRamByAmount
+                          amountOfRam={ramToBuy}
+                          formError={formError}
+                          globals={globals}
+                          onChange={this.onChange}
+                          onError={this.onError}
+                        />
+                      ) : (
+                        <WalletPanelFormRamByCost
+                          formError={formError}
+                          globals={globals}
+                          onChange={this.onChange}
+                          onError={this.onError}
+                          priceOfRam={priceOfRam}
+                        />
+                      )
+                    }
+                  </Grid.Column>
+                  <Grid.Column width={8}>
+                    <WalletPanelFormRamStats
+                      EOSbalance={balance.EOS}
+                      ramQuota={ramQuota}
+                      ramUsage={ramUsage}
+                    />
+                  </Grid.Column>
+                </Grid>
+
+                <FormMessageError
+                  style={{ marginTop: '20px' }}
+                  error={formError}
+                />
+                <Divider />
+                <Button
+                  content={t('cancel')}
+                  color="grey"
+                  onClick={onClose}
+                />
+                <Button
+                  content={t('ram_form_button_buy')}
+                  color="green"
+                  disabled={submitDisabled}
+                  floated="right"
+                  primary
+                />
+              </Form>
+            </div>
           ) : ''}
 
         {(shouldShowConfirm)
           ? (
-            <WalletPanelFormRamBuyConfirming
+            <WalletPanelFormRamConfirming
+              buying
+              ramAmount={ramToBuy}
+              newRamAmount={ramQuota + Number(ramToBuy)}
               ENUbalance={balance.ENU}
               onBack={this.onBack}
               onConfirm={this.onConfirm}
               priceOfRam={priceOfRam}
               ramQuota={ramQuota}
-              ramToBuyinKbs={ramToBuyInKbs}
               settings={settings}
             />
           ) : ''}
@@ -260,6 +277,5 @@ class WalletPanelFormRamBuy extends Component<Props> {
     );
   }
 }
-
 
 export default translate('ram')(WalletPanelFormRamBuy);

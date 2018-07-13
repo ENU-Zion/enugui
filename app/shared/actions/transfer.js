@@ -14,7 +14,7 @@ export function transfer(from, to, quantity, memo, symbol = 'ENU') {
     });
     try {
       const contracts = balances.__contracts;
-      const account = contracts[symbol];
+      const account = contracts[symbol].contract;
       return enu(connection).transaction(account, contract => {
         contract.transfer(
           from,

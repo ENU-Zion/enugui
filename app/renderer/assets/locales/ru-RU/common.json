@@ -1,6 +1,6 @@
 {
-  "application_name": "Настольное приложение для блокцепи ENU (EnuGui)",
-  "application_version": "v0.3.0",
+  "application_name": "EnuGui",
+  "application_version": "v0.3.3",
   "block_height": "Номер Блока",
   "cancel": "Отменить",
   "close": "Закрыть",
