@@ -1,7 +1,7 @@
 {
   "name": "EnuGui",
   "productName": "EnuGui",
-  "version": "0.3.0",
+  "version": "0.3.3",
   "description": "Simple light wallet and block producer voting tool for the Enumivo blockchain",
   "scripts": {
     "build": "concurrently \"npm run build-main\" \"npm run build-renderer\"",
@@ -85,6 +85,7 @@
     },
     "linux": {
       "category": "Network",
+      "description": "Simple light wallet and block producer voting tool for the Enumivo blockchain",
       "desktop": {
         "Name": "EnuGui",
         "GenericName": "Enumivo Gui Wallet",
@@ -109,6 +110,9 @@
         "AppImage",
         "snap"
       ]
+    },
+    "snap": {
+      "synopsis": "Simple light wallet and block producer voting tool for the Enumivo blockchain"
     },
     "directories": {
       "buildResources": "resources",
@@ -177,7 +181,7 @@
     "detect-port": "^1.2.3",
     "devtron": "^1.4.0",
     "electron": "^2.0.2",
-    "electron-builder": "20.14.7",
+    "electron-builder": "20.19.2",
     "electron-debug": "^2.0.0",
     "electron-devtools-installer": "^2.2.4",
     "electron-log": "^2.2.14",
@@ -234,6 +238,7 @@
   "dependencies": {
     "crypto-js": "^3.1.9-1",
     "decimal.js": "^10.0.1",
+    "electron-context-menu": "^0.10.0",
     "electron-store": "^2.0.0",
     "electron-updater": "^2.21.10",
     "enujs": "15.0.0",

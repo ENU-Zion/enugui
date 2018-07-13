@@ -3,7 +3,7 @@ import * as types from '../types';
 import { getAccount } from '../accounts';
 import enu from '../helpers/enu';
 
-export function buyrambytes(amount) {
+export function buyram(amount) {
   return (dispatch: () => void, getState) => {
     const {
       connection,
@@ -16,10 +16,10 @@ export function buyrambytes(amount) {
 
     const { account } = settings;
 
-    return enu(connection).buyrambytes({
+    return enu(connection).buyram({
       payer: account,
       receiver: account,
-      bytes: Number(amount)
+      quant: `${amount.toFixed(4)} ENU`
     }).then((tx) => {
       setTimeout(dispatch(getAccount(account)), 500);
 
@@ -35,5 +35,5 @@ export function buyrambytes(amount) {
 }
 
 export default {
-  buyrambytes
+  buyram
 };

@@ -6,7 +6,10 @@ const initialState = {
   // The loaded account
   account: '',
   // Custom tokens the wallet should be tracking
-  customTokens: [],
+  customTokens: [
+    // Always track the ENU token
+    'enu.token:ENU'
+  ],
   // Default language
   lang: 'en-US',
   // The node to connect to

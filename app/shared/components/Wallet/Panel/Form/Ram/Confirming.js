@@ -1,10 +1,10 @@
 // @flow
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
-import { Decimal } from 'decimal.js';
 import { Button, Header, Divider, Icon, Segment, Message } from 'semantic-ui-react';
 
-import WalletMessageContractBuyRamBytes from '../../../../../Global/Message/Contract/BuyRamBytes';
+import WalletMessageContractBuyRamBytes from '../../../../Global/Message/Contract/BuyRamBytes';
+import GlobalDataBytes from '../../../../Global/Data/Bytes';
 
 class WalletPanelFormRamBuyConfirming extends Component<Props> {
   onConfirm = () => {
@@ -17,15 +17,14 @@ class WalletPanelFormRamBuyConfirming extends Component<Props> {
 
   render() {
     const {
-      ramToBuyinKbs,
+      buying,
+      ramAmount,
       onBack,
       priceOfRam,
-      ramQuota,
+      newRamAmount,
       settings,
       t
     } = this.props;
-
-    const ramToBuy = Decimal(ramToBuyinKbs).times(1024);
 
     return (
       <Segment basic clearing padding="true">
@@ -37,12 +36,28 @@ class WalletPanelFormRamBuyConfirming extends Component<Props> {
             </Header.Subheader>
           </Header>
           <Header>
-            {t('ram_buy_confirming_message_one')}
-            <font color="green">{` ${ramToBuyinKbs} Kbs `}</font>
-            {` ${t('ram_confirming_message_kbs_in_ram_for')} ~${priceOfRam.toFixed(4)} ENU.`}
+            {(buying)
+              ? (
+                <span>{t('ram_buy_confirming_message_one')}</span>
+              ) : (
+                <span>{t('ram_sell_confirming_message_one')}</span>
+              )}
+
+            <font color="green">
+              <GlobalDataBytes
+                bytes={Number(ramAmount)}
+              />
+            </font>
+
+
+            {` ${t('ram_confirming_message_in_ram_for')} ~${priceOfRam.toFixed(4)} ENU.`}
           </Header>
           <Header>
-            {`${t('ram_confirming_message_will_have')} ${ramQuota.plus(ramToBuy).dividedBy(1024)} Kbs ${t('ram_confirming_message_kbs_in_ram_left')}`}
+            {t('ram_confirming_message_will_have')}
+            <GlobalDataBytes
+              bytes={newRamAmount}
+            />
+            {t('ram_confirming_message_in_ram_left')}
           </Header>
         </Segment>
 
@@ -52,12 +67,16 @@ class WalletPanelFormRamBuyConfirming extends Component<Props> {
 
         <Divider />
 
-        <WalletMessageContractBuyRamBytes
-          data={{
-            buyer: settings.account,
-            bytes: `${ramToBuyinKbs * 1024}kbs`,
-          }}
-        />
+
+        {(buying) ?
+          (
+            <WalletMessageContractBuyRamBytes
+              data={{
+                buyer: settings.account,
+                bytes: `${ramAmount} B`,
+              }}
+            />
+          ) : ''}
 
         <Button
           floated="left"
@@ -70,7 +89,7 @@ class WalletPanelFormRamBuyConfirming extends Component<Props> {
           floated="right"
           onClick={this.onConfirm}
         >
-          <Icon name="check" /> {t('ram_button_confirm_sell')}
+          <Icon name="check" /> {t('ram_button_confirm_transaction')}
         </Button>
       </Segment>
     );

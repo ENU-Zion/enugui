@@ -18,19 +18,44 @@ export default class FormFieldMultiToken extends Component<Props> {
       [name]: value,
     }, () => {
       const { asset, quantity } = this.state;
-      const parsed = (quantity > 0) ? `${parseFloat(quantity).toFixed(4)} ${asset}` : `0.0000 ${asset}`;
+      const { balances } = this.props;
+      const { contract, precision } = balances.__contracts[asset];
+      const parsed = (quantity > 0)
+        ? `${parseFloat(quantity).toFixed(precision[asset])} ${asset}`
+        : `${parseFloat(0).toFixed(precision[asset])} ${asset}`;
       this.props.onChange(e, { name: this.props.name, value: parsed });
     });
   }, 300)
   render() {
     const {
-      assets,
+      balances,
       autoFocus,
       label,
       loading,
-      name
+      name,
+      settings
     } = this.props;
-    const options = assets.map((asset) => ({ key: asset, text: asset, value: asset }));
+    const assets = Object.keys(balances[settings.account]);
+    const { customTokens } = settings;
+    // Determine which tokens are being tracked
+    const trackedTokens = (customTokens) ? customTokens.map((tokenName) => {
+      const [, symbol] = tokenName.split(':');
+      return symbol;
+    }) : ['ENU'];
+    const options = [];
+    // Iterate assets and build the options list based on tracked tokens
+    assets.forEach((asset) => {
+      if (
+        trackedTokens.indexOf(asset) !== -1
+        && (balances[settings.account] && balances[settings.account][asset] > 0)
+      ) {
+        options.push({
+          key: asset,
+          text: asset,
+          value: asset
+        });
+      }
+    });
     return (
       <div className="field">
         <label htmlFor={name}>

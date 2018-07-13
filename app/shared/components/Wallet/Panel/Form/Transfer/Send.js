@@ -169,13 +169,14 @@ class WalletPanelFormTransfer extends Component<Props> {
                 value={to}
               />
               <FormFieldMultiToken
-                assets={Object.keys(balances[settings.account])}
+                balances={balances}
                 icon="x"
                 label={t('transfer_label_token_and_quantity')}
                 loading={false}
                 maximum={balance[asset]}
                 name="quantity"
                 onChange={this.onChange}
+                settings={settings}
                 value={quantity}
               />
               <FormFieldGeneric

@@ -2,7 +2,7 @@ import * as types from '../actions/types';
 
 const initialState = {
   __contracts: {
-    'ENU': 'enu.token'
+    ENU: 'enu.token'
   }
 };
 
@@ -11,24 +11,22 @@ export default function balances(state = initialState, action) {
     case types.CLEAR_ACCOUNT_CACHE:
     case types.CLEAR_BALANCE_CACHE:
     case types.RESET_ALL_STATES: {
-      return {};
-    }
-    case types.GET_ACCOUNT_BALANCE_FAILURE: {
-      return state;
-    }
-    case types.GET_ACCOUNT_BALANCE_REQUEST: {
-      return state;
+      return initialState;
     }
     case types.GET_ACCOUNT_BALANCE_SUCCESS: {
       const {
         account_name,
         contract,
+        precision,
         symbol,
         tokens
       } = action.payload;
       return Object.assign({}, state, {
         __contracts: Object.assign({}, state.__contracts, {
-          [symbol.toUpperCase()]: contract
+          [symbol.toUpperCase()]: {
+            contract,
+            precision
+          }
         }),
         [account_name]: Object.assign({}, state[account_name], tokens)
       });
