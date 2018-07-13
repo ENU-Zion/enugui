@@ -7,8 +7,8 @@ const initialState = {
   account: '',
   // Custom tokens the wallet should be tracking
   customTokens: [
-    // Always track the EOS token
-    'eosio.token:EOS'
+    // Always track the ENU token
+    'enu.token:ENU'
   ],
   // Default language
   lang: 'en-US',

@@ -4,7 +4,7 @@ import sortBy from 'lodash/sortBy';
 import uniqWith from 'lodash/uniqWith';
 
 import * as types from './types';
-import eos from './helpers/eos';
+import enu from './helpers/enu';
 
 export function getCustomTokens(previous = false) {
   return (dispatch: () => void, getState) => {
@@ -22,7 +22,7 @@ export function getCustomTokens(previous = false) {
     if (previous) {
       query.lower_bound = previous[previous.length - 1].owner;
     }
-    eos(connection).getTableRows(query).then((results) => {
+    enu(connection).getTableRows(query).then((results) => {
       let { rows } = results;
       // If previous rows were returned
       if (previous) {

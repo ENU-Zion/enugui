@@ -201,7 +201,7 @@ class WalletPanelFormRamBuy extends Component<Props> {
             <div>
               <Menu tabular>
                 <Menu.Item name="byRAMAmount" active={activeTab === 'byRAMAmount'} onClick={this.handleTabClick} />
-                <Menu.Item name="byEOSAmount" active={activeTab === 'byEOSAmount'} onClick={this.handleTabClick} />
+                <Menu.Item name="byENUAmount" active={activeTab === 'byENUAmount'} onClick={this.handleTabClick} />
               </Menu>
               <Form
                 onKeyPress={this.onKeyPress}
@@ -231,7 +231,7 @@ class WalletPanelFormRamBuy extends Component<Props> {
                   </Grid.Column>
                   <Grid.Column width={8}>
                     <WalletPanelFormRamStats
-                      EOSbalance={balance.EOS}
+                      ENUbalance={balance.ENU}
                       ramQuota={ramQuota}
                       ramUsage={ramUsage}
                     />

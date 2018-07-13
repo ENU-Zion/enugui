@@ -85,7 +85,7 @@
     },
     "linux": {
       "category": "Network",
-      "description": "Simple light wallet and block producer voting tool for the EOS blockchain",
+      "description": "Simple light wallet and block producer voting tool for the Enumivo blockchain",
       "desktop": {
         "Name": "EnuGui",
         "GenericName": "Enumivo Gui Wallet",
@@ -112,7 +112,7 @@
       ]
     },
     "snap": {
-      "synopsis": "Simple light wallet and block producer voting tool for the EOS blockchain"
+      "synopsis": "Simple light wallet and block producer voting tool for the Enumivo blockchain"
     },
     "directories": {
       "buildResources": "resources",

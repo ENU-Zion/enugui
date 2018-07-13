@@ -71,7 +71,7 @@ class WalletPanelFormRamBuyByAmount extends Component<Props> {
       <div>
         <FormFieldToken
           autoFocus
-          label={t('ram_form_label_amount_in_eos')}
+          label={t('ram_form_label_amount_in_enu')}
           loading={false}
           name="ram_to_buy"
           onChange={this.onChange}

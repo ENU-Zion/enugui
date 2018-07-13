@@ -76,7 +76,7 @@ class WalletPanelFormRamBuyByAmount extends Component<Props> {
         />
         {(priceOfRam && !formError) ? (
           <h4 style={{ textAlign: 'center', margin: '30px' }}>
-            {`${t('ram_form_text_estimate')} ${priceOfRam.toFixed(4)} EOS.`}
+            {`${t('ram_form_text_estimate')} ${priceOfRam.toFixed(4)} ENU.`}
           </h4>
         ) : ''}
       </div>

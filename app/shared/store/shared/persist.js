@@ -44,13 +44,13 @@ const migrations = {
       !newSettings.customTokens
       || !newSettings.customTokens.length
     ) {
-      newSettings.customTokens = ['eosio.token:EOS'];
+      newSettings.customTokens = ['enu.token:ENU'];
     }
     if (
       newSettings.customTokens
-      && newSettings.customTokens.indexOf('eosio.token:EOS') === -1
+      && newSettings.customTokens.indexOf('enu.token:ENU') === -1
     ) {
-      newSettings.customTokens.push('eosio.token:EOS');
+      newSettings.customTokens.push('enu.token:ENU');
     }
     return Object.assign({}, state, {
       settings: newSettings
