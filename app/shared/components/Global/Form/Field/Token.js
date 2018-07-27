@@ -5,7 +5,7 @@ import { Form, Input } from 'semantic-ui-react';
 import { Decimal } from 'decimal.js';
 import debounce from 'lodash/debounce';
 
-export default class FormFieldToken extends Component<Props> {
+export default class GlobalFormFieldToken extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,11 +14,13 @@ export default class FormFieldToken extends Component<Props> {
   }
   onChange = debounce((e, { name, value }) => {
     const asset = 'ENU';
+    const valid = !!(value.match(/^\d+(\.\d{1,4})?$/g));
     const parsed = (value > 0) ? `${new Decimal(value).toFixed(4)} ${asset}` : `0.0000 ${asset}`;
+
     this.setState({
-      value: parsed,
+      value: parsed
     }, () => {
-      this.props.onChange(e, { name, value: parsed });
+      this.props.onChange(e, { name, value: parsed, valid });
     });
   }, 300)
 

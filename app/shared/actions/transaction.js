@@ -1,5 +1,59 @@
+import { set } from 'dot-prop-immutable';
+
 import * as types from './types';
 import enu from './helpers/enu';
+
+export function buildTransaction(contract, action, account, data) {
+  return (dispatch: () => void, getState) => {
+    const {
+      connection
+    } = getState();
+    // Modify forceActionDataHex to allow for viewing of the action data
+    const modified = set(connection, 'forceActionDataHex', false);
+    // Reset system state to clear any previous transactions
+    dispatch({
+      type: types.RESET_SYSTEM_STATES
+    });
+    // Issue the pending transaction event
+    dispatch({
+      type: types.SYSTEM_TRANSACTION_BUILD_PENDING
+    });
+    // Build the operation to perform
+    const op = {
+      actions: [
+        {
+          account: contract.account,
+          name: action,
+          authorization: [{
+            actor: account,
+            permission: 'active'
+          }],
+          data
+        }
+      ]
+    };
+    enu(modified)
+      .transaction(op, {
+        broadcast: false,
+        forceActionDataHex: false,
+        sign: false
+      })
+      .then((tx) => {
+        dispatch(setTransaction(JSON.stringify({
+          contract,
+          transaction: tx
+        })));
+        return dispatch({
+          payload: { tx },
+          type: types.SYSTEM_TRANSACTION_BUILD_SUCCESS
+        });
+      })
+      .catch((err) => dispatch({
+        payload: { err },
+        type: types.SYSTEM_TRANSACTION_BUILD_FAILURE
+      }));
+  };
+}
 
 export function broadcastTransaction(tx) {
   return (dispatch: () => void, getState) => {
@@ -35,45 +89,61 @@ export function clearTransaction() {
   };
 }
 
-export function setTransaction(tx) {
+export function setTransaction(data) {
   return (dispatch: () => void) => {
     try {
       dispatch({
         type: types.SET_TRANSACTION,
-        payload: {
-          transaction: JSON.parse(tx)
-        }
+        payload: JSON.parse(data)
       });
     } catch (err) {
       dispatch({
         type: types.SET_TRANSACTION_FAILURE,
-        payload: { err, tx }
+        payload: { err, data }
       });
     }
   };
 }
 
-export function signTransaction(tx) {
+export function signTransaction(tx, contract = false) {
   return (dispatch: () => void, getState) => {
     const {
       connection
     } = getState();
-    enu(connection)
+    const signer = enu(connection, true);
+    // If a contract was specified along with the transaction, load it.
+    if (contract && contract.account && contract.abi) {
+      signer.fc.abiCache.abi(contract.account, contract.abi);
+    }
+    // Sign the transaction
+    signer
       .transaction(tx.transaction.transaction, {
         broadcast: connection.broadcast,
         expireInSeconds: connection.expireInSeconds,
         sign: connection.sign
       })
-      .then((signed) =>
-        dispatch(setTransaction(JSON.stringify(signed))))
+      .then((signed) => {
+        if (signed.broadcast) {
+          return dispatch({
+            payload: { tx: signed },
+            type: types.SYSTEM_TRANSACTION_BROADCAST_SUCCESS
+          });
+        }
+        return dispatch(setTransaction(JSON.stringify({
+          contract,
+          transaction: signed
+        })));
+      })
       .catch((err) => dispatch({
         payload: { err, tx },
-        type: types.SIGN_TRANSACTION_FAILURE
+        type: types.SYSTEM_TRANSACTION_SIGN_FAILURE
       }));
   };
 }
 
 export default {
+  buildTransaction,
+  broadcastTransaction,
   clearTransaction,
   setTransaction,
   signTransaction

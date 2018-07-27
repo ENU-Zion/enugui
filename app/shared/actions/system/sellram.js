@@ -16,7 +16,7 @@ export function sellram(amount) {
 
     const { account } = settings;
 
-    return enu(connection).sellram({
+    return enu(connection, true).sellram({
       account,
       bytes: Number(amount)
     }).then((tx) => {

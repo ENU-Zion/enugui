@@ -3,28 +3,38 @@ import React, { Component } from 'react';
 import { translate } from 'react-i18next';
 import { Button, Header, Icon, Message, Modal, Segment } from 'semantic-ui-react';
 
-import DangerLink from '../../Modal/DangerLink';
+import ExplorerLink from '../../Modal/ExplorerLink';
 
 class GlobalTransactionMessageSuccess extends Component<Props> {
   render() {
     const {
+      blockExplorers,
       onClose,
+      settings,
       t,
       transaction,
       transactions
     } = this.props;
+
     const links = [];
+
     if (transaction) {
-      links.push(<DangerLink
+      links.push(<ExplorerLink
+        blockExplorers={blockExplorers}
         content={`${transaction.transaction_id.substr(0, 8)}...${transaction.transaction_id.substr(-8)}`}
-        link={`http://enumivo.qsx.io/transactions/${transaction.transaction_id}`}
+        linkData={transaction.transaction_id}
+        linkType="txid"
+        settings={settings}
       />);
     }
     if (transactions) {
       transactions.map((tx) =>
-        links.push(<DangerLink
+        links.push(<ExplorerLink
+          blockExplorers={blockExplorers}
           content={`${tx.transaction_id.substr(0, 8)}...${tx.transaction_id.substr(-8)}`}
-          link={`https://enumivo.qsx.io/transactions/${tx.transaction_id}`}
+          linkData={tx.transaction_id}
+          linkType="txid"
+          settings={settings}
         />));
     }
     return (
@@ -45,7 +55,7 @@ class GlobalTransactionMessageSuccess extends Component<Props> {
                 {link}
               </p>
             ))}
-            <p>(linked to http://enumivo.qsx.io/)</p>
+            <p>({`${t('global_transaction_complete_link_to')} ${settings.blockExplorer}`})</p>
           </Segment>
           <Message
             icon

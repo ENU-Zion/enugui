@@ -16,7 +16,7 @@ export function buyram(amount) {
 
     const { account } = settings;
 
-    return enu(connection).buyram({
+    return enu(connection, true).buyram({
       payer: account,
       receiver: account,
       quant: `${amount.toFixed(4)} ENU`

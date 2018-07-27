@@ -4,28 +4,36 @@ import { translate } from 'react-i18next';
 import { Table } from 'semantic-ui-react';
 import TimeAgo from 'react-timeago';
 
-import DangerLink from '../../../../Global/Modal/DangerLink';
+import ExplorerLink from '../../../../Global/Modal/ExplorerLink';
 
+import WalletStatusActionsTableRowNewaccount from './Row/Newaccount';
+import WalletStatusActionTableRowBuyram from './Row/Buyram';
+import WalletStatusActionsTableRowClaim from './Row/Claim';
+import WalletStatusActionTableRowClaimrewards from './Row/Claimrewards';
 import WalletStatusActionTableRowDelegatebw from './Row/Delegatebw';
 import WalletStatusActionTableRowGeneric from './Row/Generic';
 import WalletStatusActionTableRowRefund from './Row/Refund';
 import WalletStatusActionTableRowRegproxy from './Row/Regproxy';
+import WalletStatusActionTableRowSellram from './Row/Sellram';
 import WalletStatusActionTableRowTransfer from './Row/Transfer';
 import WalletStatusActionTableRowUndelegatebw from './Row/Undelegatebw';
+import WalletStatusActionTableRowUpdateauth from './Row/Updateauth';
 import WalletStatusActionTableRowVoteproducer from './Row/Voteproducer';
-import WalletStatusActionTableRowBuyram from './Row/Buyram';
-import WalletStatusActionTableRowSellram from './Row/Sellram';
 
 const rowComponentsMapping = {
-  delegatebw: WalletStatusActionTableRowDelegatebw,
-  refund: WalletStatusActionTableRowRefund,
-  regproxy: WalletStatusActionTableRowRegproxy,
-  transfer: WalletStatusActionTableRowTransfer,
-  undelegatebw: WalletStatusActionTableRowUndelegatebw,
-  voteproducer: WalletStatusActionTableRowVoteproducer,
   buyram: WalletStatusActionTableRowBuyram,
   buyrambytes: WalletStatusActionTableRowBuyram,
-  sellram: WalletStatusActionTableRowSellram
+  claim: WalletStatusActionsTableRowClaim,
+  claimrewards: WalletStatusActionTableRowClaimrewards,
+  delegatebw: WalletStatusActionTableRowDelegatebw,
+  newaccount: WalletStatusActionsTableRowNewaccount,
+  refund: WalletStatusActionTableRowRefund,
+  regproxy: WalletStatusActionTableRowRegproxy,
+  sellram: WalletStatusActionTableRowSellram,
+  transfer: WalletStatusActionTableRowTransfer,
+  undelegatebw: WalletStatusActionTableRowUndelegatebw,
+  updateauth: WalletStatusActionTableRowUpdateauth,
+  voteproducer: WalletStatusActionTableRowVoteproducer
 };
 
 class WalletStatusActionsTableRow extends Component<Props> {
@@ -47,6 +55,7 @@ class WalletStatusActionsTableRow extends Component<Props> {
   render() {
     const {
       action,
+      blockExplorers,
       chain,
       settings
     } = this.props;
@@ -62,6 +71,7 @@ class WalletStatusActionsTableRow extends Component<Props> {
     if ([settings.account, 'enumivo'].indexOf(receipt.receiver) === -1) {
       return false;
     }
+
     return (
       <Table.Row style={{ height: '60px' }}>
         <Table.Cell
@@ -70,6 +80,7 @@ class WalletStatusActionsTableRow extends Component<Props> {
         >
           <ComponentType
             action={action}
+            blockExplorers={blockExplorers}
             chain={chain}
             settings={settings}
           />
@@ -85,9 +96,12 @@ class WalletStatusActionsTableRow extends Component<Props> {
               <Table.Cell
                 width={3}
               >
-                <DangerLink
+                <ExplorerLink
+                  blockExplorers={blockExplorers}
                   content={`${trx_id.substr(0, 4)}...${trx_id.substr(-4)}`}
-                  link={`http://enumivo.qsx.io/transactions/${action.action_trace.trx_id}`}
+                  linkData={action.action_trace.trx_id}
+                  linkType="txid"
+                  settings={settings}
                 />
               </Table.Cell>
             </React.Fragment>

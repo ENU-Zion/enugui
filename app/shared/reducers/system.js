@@ -1,5 +1,7 @@
 import * as types from '../actions/types';
 
+import ENUContract from '../utils/ENU/Contract';
+
 export default function system(state = {}, action) {
   const { type } = action;
 
@@ -15,6 +17,8 @@ export default function system(state = {}, action) {
 
   const [, requestName, requestState] = matches;
 
+  const accountField = `${requestName}_LAST_ACCOUNT`;
+  const contractField = `${requestName}_LAST_CONTRACT`;
   const errField = `${requestName}_LAST_ERROR`;
   const txField = `${requestName}_LAST_TRANSACTION`;
 
@@ -26,6 +30,10 @@ export default function system(state = {}, action) {
   };
 
   if (action.payload) {
+    // Attach the account name associated to request when given
+    if (action.payload.account_name) {
+      newState[accountField] = action.payload.account_name;
+    }
     // Attempt to process any errors returned
     if (action.payload.err) {
       try {
@@ -38,6 +46,12 @@ export default function system(state = {}, action) {
     if (action.payload.tx) {
       newState[txField] = action.payload.tx;
     }
+    // Attach any returned ABIs
+    if (action.payload.contract) {
+      const { abi, account_name } = action.payload.contract;
+      newState[contractField] = new ENUContract(abi, account_name);
+    }
   }
+
   return newState;
 }

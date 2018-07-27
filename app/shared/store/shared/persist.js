@@ -3,7 +3,7 @@ import createElectronStorage from 'redux-persist-electron-storage';
 
 const migrations = {
   /*
-    Wallet Migration 2
+    2 - Wallet Migration
 
       - Creating a new `wallets` parameter that contains all wallets you can swap between.
       - Migrating the `walletMode` from the settings/current wallet into each individual wallet.
@@ -30,7 +30,7 @@ const migrations = {
     };
   },
   /*
-    Wallet Migration 3
+    3 - Wallet Migration
 
       - Ensure the customTokens field is set with the base token
 
@@ -56,11 +56,55 @@ const migrations = {
       settings: newSettings
     });
   },
+  /*
+  4 - Wallet Migration
+
+    - Correct format of all customTokens
+
+  */
+  4: (state) => {
+    const {
+      settings
+    } = state;
+    const newSettings = Object.assign({}, settings);
+    if (
+      newSettings.customTokens
+      && newSettings.customTokens.length > 0
+    ) {
+      newSettings.customTokens.forEach((token, idx) => {
+        const [contract, symbol] = token.split(':');
+        newSettings.customTokens[idx] = [contract.toLowerCase(), symbol.toUpperCase()].join(':');
+      });
+    }
+    return Object.assign({}, state, {
+      settings: newSettings
+    });
+  },
+  /*
+  5 - Settings Migration
+
+    - Add recentContracts array to existing settings
+
+  */
+  5: (state) => {
+    const {
+      settings
+    } = state;
+    const newSettings = Object.assign({}, settings);
+    if (
+      !newSettings.recentContracts
+    ) {
+      newSettings.recentContracts = [];
+    }
+    return Object.assign({}, state, {
+      settings: newSettings
+    });
+  },
 };
 
 const persistConfig = {
   key: 'enugui-config',
-  version: 3,
+  version: 5,
   migrate: createMigrate(migrations, { debug: true }),
   storage: createElectronStorage(),
   whitelist: [

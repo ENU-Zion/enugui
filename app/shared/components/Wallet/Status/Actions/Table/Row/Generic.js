@@ -5,12 +5,14 @@ import ReactJson from 'react-json-view';
 import { Header, Icon, Segment } from 'semantic-ui-react';
 import TimeAgo from 'react-timeago';
 
-import DangerLink from '../../../../../Global/Modal/DangerLink';
+import ExplorerLink from '../../../../../Global/Modal/ExplorerLink';
 
 class WalletStatusActionsTableRowGeneric extends Component<Props> {
   render() {
     const {
       action,
+      blockExplorers,
+      settings,
       t
     } = this.props;
     const {
@@ -26,9 +28,12 @@ class WalletStatusActionsTableRowGeneric extends Component<Props> {
           >
             <TimeAgo date={`${action.block_time}z`} />
             {' - '}
-            <DangerLink
+            <ExplorerLink
+              blockExplorers={blockExplorers}
               content={t('actions_link_content')}
-              link={`http://enumivo.qsx.io/transactions/${action.trx_id}`}
+              linkData={action.trx_id}
+              linkType="txid"
+              settings={settings}
             />
           </Header>
           <Header

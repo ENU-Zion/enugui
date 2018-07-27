@@ -15,8 +15,10 @@ import Wallet from '../components/Wallet';
 import ModalConstitution from '../components/Global/Modal/Constitution';
 
 import * as AccountsActions from '../actions/accounts';
+import * as BlockExplorersActions from '../actions/blockexplorers';
 import * as BuyRamBytesActions from '../actions/system/buyrambytes';
 import * as BuyRamActions from '../actions/system/buyram';
+import * as CreateAccountActions from '../actions/createaccount';
 import * as ChainActions from '../actions/chain';
 import * as GlobalsActions from '../actions/globals';
 import * as ProducersActions from '../actions/producers';
@@ -61,6 +63,7 @@ class BasicVoterContainer extends Component<Props> {
     } = this.props;
 
     const {
+      getBlockExplorers,
       getCurrencyStats
     } = actions;
 
@@ -74,6 +77,7 @@ class BasicVoterContainer extends Component<Props> {
           history.push('/');
         } else {
           getCurrencyStats();
+          getBlockExplorers();
           forEach(settings.customTokens, (token) => {
             const [contract, symbol] = token.split(':');
             getCurrencyStats(contract, symbol.toUpperCase());
@@ -133,7 +137,7 @@ class BasicVoterContainer extends Component<Props> {
         break;
       }
       case 'tools': {
-        activeTab = <Tools />;
+        activeTab = <Tools {...this.props} />;
         break;
       }
       default: {
@@ -173,6 +177,7 @@ function mapStateToProps(state) {
     accounts: state.accounts,
     actionHistories: state.actions,
     balances: state.balances,
+    blockExplorers: state.blockexplorers,
     chain: state.chain,
     globals: state.globals,
     keys: state.keys,
@@ -189,9 +194,11 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       ...AccountsActions,
+      ...BlockExplorersActions,
       ...BuyRamActions,
       ...BuyRamBytesActions,
       ...ChainActions,
+      ...CreateAccountActions,
       ...GlobalsActions,
       ...ProducersActions,
       ...SellRamActions,

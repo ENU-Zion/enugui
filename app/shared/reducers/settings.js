@@ -1,19 +1,27 @@
+import { get } from 'dot-prop-immutable';
+
 import * as types from '../actions/types';
 
 const initialState = {
   // If the active session has accepted the ENU constitution
   acceptedConstitution: true,
+  // If the wallet has ackknowledged understanding the smart contract tool
+  acceptedContractInterface: true,
   // The loaded account
   account: '',
+  // The block explorer used
+  blockExplorer: 'bloks.io',
   // Custom tokens the wallet should be tracking
   customTokens: [
     // Always track the ENU token
     'enu.token:ENU'
   ],
   // Default language
-  lang: 'en-US',
+  lang: '',
   // The node to connect to
   node: '',
+  // Recent contracts the wallet has recently used
+  recentContracts: [],
   // Allows the UI to start with only a connected node
   skipImport: false,
   // Window State Management
@@ -38,6 +46,16 @@ export default function settings(state = initialState, action) {
         account: '',
         walletInit: false,
         walletMode: 'hot'
+      });
+    }
+    case types.SYSTEM_GETABI_SUCCESS: {
+      const recentContracts = [...state.recentContracts];
+      const contractName = get(action, 'payload.contract.account_name');
+      if (!recentContracts.includes(contractName)) {
+        recentContracts.unshift(contractName);
+      }
+      return Object.assign({}, state, {
+        recentContracts: recentContracts.slice(0, 50)
       });
     }
     case types.SET_SETTING: {

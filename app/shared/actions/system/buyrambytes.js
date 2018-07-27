@@ -16,7 +16,7 @@ export function buyrambytes(amount) {
 
     const { account } = settings;
 
-    return enu(connection).buyrambytes({
+    return enu(connection, true).buyrambytes({
       payer: account,
       receiver: account,
       bytes: Number(amount)
