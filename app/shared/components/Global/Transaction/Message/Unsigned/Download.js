@@ -6,10 +6,13 @@ import ReactJson from 'react-json-view';
 
 const { ipcRenderer } = require('electron');
 
-class FormMessageTransactionSuccess extends Component<Props> {
+class GlobalTransactionMessageUnsignedDownload extends Component<Props> {
   promptSave = () => {
-    const { transaction } = this.props;
-    const data = JSON.stringify(transaction, null, 2);
+    const { contract, transaction } = this.props;
+    const data = JSON.stringify({
+      contract,
+      transaction
+    }, null, 2);
     ipcRenderer.send('saveFile', data);
   }
   render() {
@@ -45,7 +48,7 @@ class FormMessageTransactionSuccess extends Component<Props> {
               <Button
                 color="blue"
                 content={t('global_transaction_unsigned_save_file')}
-                icon="file"
+                icon="download"
                 onClick={this.promptSave}
               />
             </Segment>
@@ -77,4 +80,4 @@ class FormMessageTransactionSuccess extends Component<Props> {
   }
 }
 
-export default translate('global')(FormMessageTransactionSuccess);
+export default translate('global')(GlobalTransactionMessageUnsignedDownload);

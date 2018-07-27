@@ -6,7 +6,6 @@ import { translate } from 'react-i18next';
 import SidebarAccount from '../containers/Sidebar/Account';
 import WalletPanel from './Wallet/Panel';
 
-
 import ProducersSelector from './Producers/Selector';
 import ProducersTable from './Producers/Table';
 import ProducersVotingPreview from './Producers/Modal/Preview';
@@ -22,6 +21,7 @@ type Props = {
   },
   accounts: {},
   balances: {},
+  blockExplorers: {},
   globals: {},
   history: {},
   producers: {
@@ -55,7 +55,7 @@ class Producers extends Component<Props> {
 
   componentDidMount() {
     this.tick();
-    this.interval = setInterval(this.tick.bind(this), 15000);
+    this.interval = setInterval(this.tick.bind(this), 60000);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -128,10 +128,12 @@ class Producers extends Component<Props> {
       validate
     } = this.props;
     const {
-      getProducers
+      getProducers,
+      getProducersInfo
     } = actions;
     if (validate.NODE) {
       getProducers();
+      getProducersInfo();
     }
   }
 
@@ -185,6 +187,7 @@ class Producers extends Component<Props> {
       actions,
       accounts,
       balances,
+      blockExplorers,
       globals,
       history,
       keys,
@@ -210,6 +213,7 @@ class Producers extends Component<Props> {
         actions={actions}
         accounts={accounts}
         balances={balances}
+        blockExplorers={blockExplorers}
         globals={globals}
         key="WalletPanel"
         keys={keys}
@@ -220,16 +224,17 @@ class Producers extends Component<Props> {
         wallet={wallet}
       />
     )];
-    const isValidUser = !!((keys && keys.key) || settings.walletMode === 'watch');
+    const isValidUser = !!((keys && keys.key && settings.walletMode !== 'wait') || settings.walletMode === 'watch');
     const account = accounts[settings.account];
     const isProxying = !!(account && account.voter_info && account.voter_info.proxy);
     const modified = (selected.sort().toString() !== producers.selected.sort().toString());
-    if (isValidUser) {
+    if (isValidUser && settings.walletMode !== 'wait') {
       sidebar = (
         <React.Fragment>
           <ProducersProxy
             account={account}
             actions={actions}
+            blockExplorers={blockExplorers}
             keys={keys}
             isProxying={isProxying}
             isValidUser={isValidUser}
@@ -242,6 +247,7 @@ class Producers extends Component<Props> {
           {(!isProxying) ? (
             <ProducersVotingPreview
               actions={actions}
+              blockExplorers={blockExplorers}
               lastError={lastError}
               lastTransaction={lastTransaction}
               open={previewing}

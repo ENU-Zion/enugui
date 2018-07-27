@@ -14,7 +14,7 @@ export function unregproxy() {
     dispatch({
       type: types.SYSTEM_UNREGPROXY_PENDING
     });
-    return enu(connection).regproxy({
+    return enu(connection, true).regproxy({
       proxy: account,
       isproxy: 0
     }).then((tx) => {

@@ -12,7 +12,7 @@ export function undelegatebw(delegator, receiver, netAmount, cpuAmount) {
       type: types.SYSTEM_UNDELEGATEBW_PENDING
     });
 
-    return enu(connection).transaction(tr => {
+    return enu(connection, true).transaction(tr => {
       tr.undelegatebw(undelegatebwParams(delegator, receiver, netAmount, cpuAmount));
     }).then((tx) => {
       dispatch(AccountActions.getAccount(delegator));
@@ -28,8 +28,8 @@ export function undelegatebw(delegator, receiver, netAmount, cpuAmount) {
 }
 
 export function undelegatebwParams(delegator, receiver, netAmount, cpuAmount) {
-  const unstakeNetAmount = netAmount || 0;
-  const unstakeCpuAmount = cpuAmount || 0;
+  const unstakeNetAmount = parseFloat(netAmount) || 0;
+  const unstakeCpuAmount = parseFloat(cpuAmount) || 0;
 
   return {
     from: delegator,

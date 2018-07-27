@@ -15,7 +15,7 @@ export function transfer(from, to, quantity, memo, symbol = 'ENU') {
     try {
       const contracts = balances.__contracts;
       const account = contracts[symbol].contract;
-      return enu(connection).transaction(account, contract => {
+      return enu(connection, true).transaction(account, contract => {
         contract.transfer(
           from,
           to,
@@ -27,6 +27,17 @@ export function transfer(from, to, quantity, memo, symbol = 'ENU') {
         expireInSeconds: connection.expireInSeconds,
         sign: connection.sign
       }).then((tx) => {
+        // If this is an offline transaction, also store the ABI
+        if (!connection.sign && account !== 'enu.token') {
+          return enu(connection, true).getAbi(account).then((contract) =>
+            dispatch({
+              payload: {
+                contract,
+                tx
+              },
+              type: types.SYSTEM_TRANSFER_SUCCESS
+            }));
+        }
         dispatch(getCurrencyBalance(from));
         return dispatch({
           payload: { tx },

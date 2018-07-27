@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import compose from 'lodash/fp/compose';
-import debounce from 'lodash/debounce';
 import { translate } from 'react-i18next';
 import { Button, Checkbox, Container, Form, Input, Message } from 'semantic-ui-react';
 
@@ -52,7 +51,7 @@ class WelcomeConnectionContainer extends Component<Props> {
     // Immediately set the wallet into cold storage mode
     setWalletMode('cold');
     // Move to account stage
-    onStageSelect(1);
+    onStageSelect(2);
     e.preventDefault();
     return false;
   }
@@ -89,7 +88,7 @@ class WelcomeConnectionContainer extends Component<Props> {
     } = actions;
     setSettingWithValidation('node', node);
     if (onStageSelect) {
-      onStageSelect(1);
+      onStageSelect(2);
     }
     if (settings.walletMode === 'cold') {
       setWalletMode('hot');

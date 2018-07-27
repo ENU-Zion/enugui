@@ -10,7 +10,6 @@
   "enu_in_net_after": "ENUが帯域にステークされます",
   "net_staked": "帯域にステーク中のENU",
   "stake_button_cta": "ステーク中のENUを変更",
-  "stake_form": "ステーク中のコイン",
   "stake_modal_title": "ステーク中のENU数を変更",
   "stake_success": "追加のENUステークに成功しました。",
   "stake_updated": "ステークの更新に成功しました。",
@@ -24,7 +23,7 @@
   "update_staked_net_amount": "帯域にステークするENUを設定",
   "will_have_less_than_one_enu_staked": "帯域またはCPUへのステークが1 ENU未満になります。ネットワークが混雑している場合に、トランザクションを送信できなくなる可能性があります。",
   "you_will_have": "確認後、",
-  "about_to_unstake": "コインのステーク/ステーク解除をしようとしています。ステーク解除したコインは72時間後に請求する必要があることに注意して下さい。",
+  "about_to_unstake_tokens": "トークンのステーク解除をしようとしています。ステーク解除したトークンは72時間後に請求する必要があることに注意して下さい。",
   "have_already_unstaked": "現在ステーク解除中: ",
   "unstaking_will_be_reset": "。この新しい値でステーク解除を行うと、前回のリクエストと置き換えられ、72時間縛りがリセットされます。"
 }

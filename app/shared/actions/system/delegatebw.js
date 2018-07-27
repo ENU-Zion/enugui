@@ -12,7 +12,7 @@ export function delegatebw(delegator, receiver, netAmount, cpuAmount) {
       type: types.SYSTEM_DELEGATEBW_PENDING
     });
 
-    return enu(connection).transaction(tr => {
+    return enu(connection, true).transaction(tr => {
       tr.delegatebw(delegatebwParams(delegator, receiver, netAmount, cpuAmount));
     }).then((tx) => {
       dispatch(AccountActions.getAccount(delegator));
@@ -27,16 +27,16 @@ export function delegatebw(delegator, receiver, netAmount, cpuAmount) {
   };
 }
 
-export function delegatebwParams(delegator, receiver, netAmount, cpuAmount) {
-  const stakeNetAmount = netAmount || 0;
-  const stakeCpuAmount = cpuAmount || 0;
+export function delegatebwParams(delegator, receiver, netAmount, cpuAmount, transferTokens) {
+  const stakeNetAmount = parseFloat(netAmount) || 0;
+  const stakeCpuAmount = parseFloat(cpuAmount) || 0;
 
   return {
     from: delegator,
     receiver,
     stake_net_quantity: `${stakeNetAmount.toFixed(4)} ENU`,
     stake_cpu_quantity: `${stakeCpuAmount.toFixed(4)} ENU`,
-    transfer: 0
+    transfer: transferTokens ? 1 : 0
   };
 }
 

@@ -1,7 +1,7 @@
 {
   "name": "EnuGui",
   "productName": "EnuGui",
-  "version": "0.3.3",
+  "version": "0.4.1",
   "description": "",
   "main": "./main.prod.js",
   "author": {

@@ -1,13 +1,21 @@
-import * as types from './types';
 import sortBy from 'lodash/sortBy';
 import concat from 'lodash/concat';
 
 import enu from './helpers/enu';
+import * as types from './types';
 
 export function clearProducerCache() {
   return (dispatch: () => void) => {
     dispatch({
       type: types.CLEAR_PRODUCER_CACHE
+    });
+  };
+}
+
+export function clearProducerInfo() {
+  return (dispatch: () => void) => {
+    dispatch({
+      type: types.SYSTEM_PRODUCERJSON_CLEAR
     });
   };
 }
@@ -93,6 +101,90 @@ export function getProducers(previous = false) {
   };
 }
 
+export function getProducersInfo(previous = false) {
+  return (dispatch: () => void, getState) => {
+    dispatch({
+      type: types.SYSTEM_PRODUCERSJSON_PENDING
+    });
+    const { connection } = getState();
+    const query = {
+      json: true,
+      code: 'producerjson',
+      scope: 'producerjson',
+      table: 'producerjson',
+      limit: 1000
+    };
+    if (previous) {
+      query.lower_bound = previous[previous.length - 1].owner;
+    }
+    enu(connection).getTableRows(query).then((results) => {
+      let { rows } = results;
+      // If previous rows were returned
+      if (previous) {
+        // slice last element to avoid dupes
+        previous.pop();
+        // merge arrays
+        rows = concat(previous, rows);
+      }
+      // if there are missing results
+      if (results.more) {
+        // recurse
+        return dispatch(getProducersInfo(rows));
+      }
+      return dispatch({
+        type: types.SYSTEM_PRODUCERSJSON_SUCCESS,
+        payload: {
+          rows
+        }
+      });
+    }).catch((err) => dispatch({
+      type: types.SYSTEM_PRODUCERSJSON_FAILURE,
+      payload: { err },
+    }));
+  };
+}
+
+export function getProducerInfo(producer) {
+  return (dispatch: () => void, getState) => {
+    dispatch({
+      type: types.SYSTEM_PRODUCERJSON_PENDING,
+      payload: { producer }
+    });
+    const { connection } = getState();
+    const query = {
+      json: true,
+      code: 'producerjson',
+      scope: 'producerjson',
+      table: 'producerjson',
+      limit: 1,
+      table_key: 'owner',
+      lower_bound: producer
+    };
+    enu(connection).getTableRows(query).then((results) => {
+      const result = results.rows[0];
+      if (result.owner !== producer) {
+        return dispatch({
+          type: types.SYSTEM_PRODUCERJSON_FAILURE,
+          payload: { err: 'producer_not_available', producer },
+        });
+      }
+      return dispatch({
+        type: types.SYSTEM_PRODUCERJSON_SUCCESS,
+        payload: {
+          producer,
+          json: JSON.parse(result.json)
+        }
+      });
+    }).catch((err) => dispatch({
+      type: types.SYSTEM_PRODUCERJSON_FAILURE,
+      payload: { err, producer },
+    }));
+  };
+}
+
 export default {
-  getProducers
+  clearProducerInfo,
+  getProducerInfo,
+  getProducers,
+  getProducersInfo
 };

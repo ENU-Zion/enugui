@@ -9,6 +9,7 @@ import WalletStatusBalances from './Status/Balances';
 import WalletStatusResources from './Status/Resources';
 import WalletStatusStaked from './Status/Staked';
 import WalletStatusActions from './Status/Actions';
+import WalletStatusWaiting from './Status/Waiting';
 
 import StatsFetcher from '../../utils/StatsFetcher';
 
@@ -25,6 +26,7 @@ class WalletStatus extends Component<Props> {
       actionHistories,
       actions,
       balances,
+      blockExplorers,
       chain,
       globals,
       settings,
@@ -35,6 +37,10 @@ class WalletStatus extends Component<Props> {
     const {
       activeItem
     } = this.state;
+
+    if (settings.walletMode === 'wait') {
+      return <WalletStatusWaiting />;
+    }
 
     const account = accounts[settings.account] || {};
     const balance = balances[settings.account] || {};
@@ -78,6 +84,7 @@ class WalletStatus extends Component<Props> {
             <WalletStatusActions
               actionHistory={actionHistories[settings.account]}
               actions={actions}
+              blockExplorers={blockExplorers}
               chain={chain}
               settings={settings}
               validate={validate}

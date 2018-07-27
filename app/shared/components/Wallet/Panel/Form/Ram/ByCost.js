@@ -4,11 +4,11 @@ import { translate } from 'react-i18next';
 import { Decimal } from 'decimal.js';
 
 import FormFieldToken from '../../../../Global/Form/Field/Token';
-import calculateAmountOfRam from './helpers/calculateAmountOfRam';
+import calculateAmountOfRam from '../../../../helpers/calculateAmountOfRam';
 
 import GlobalDataBytes from '../../../../Global/Data/Bytes';
 
-class WalletPanelFormRamBuyByAmount extends Component<Props> {
+class WalletPanelFormRamBuyByCost extends Component<Props> {
   constructor(props) {
     super(props);
 
@@ -90,4 +90,4 @@ class WalletPanelFormRamBuyByAmount extends Component<Props> {
   }
 }
 
-export default translate('ram')(WalletPanelFormRamBuyByAmount);
+export default translate('ram')(WalletPanelFormRamBuyByCost);

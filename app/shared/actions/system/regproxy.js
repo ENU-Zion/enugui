@@ -16,7 +16,7 @@ export function regproxy() {
       type: types.SYSTEM_REGPROXY_PENDING
     });
 
-    return enu(connection).regproxy({
+    return enu(connection, true).regproxy({
       proxy: account,
       isproxy: 1
     }).then((tx) => {
