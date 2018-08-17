@@ -14,20 +14,6 @@ import FormMessageError from '../../Global/Form/Message/Error';
 import ToolsFormCreateAccountConfirming from './CreateAccount/Confirming';
 import calculatePriceOfRam from '../../helpers/calculatePriceOfRam';
 
-type Props = {
-  account: {},
-  accountName: null,
-  actions: {},
-  activeKey: null,
-  balance: {},
-  delegatedBw: null,
-  delegatedCpu: null,
-  globals: {},
-  ownerKey: null,
-  ramAmount: null,
-  system: {}
-};
-
 const formAttributes = ['accountName', 'activeKey', 'ownerKey', 'delegatedBw', 'delegatedCpu', 'ramAmount'];
 
 class ToolsFormCreateAccount extends Component<Props> {
@@ -283,6 +269,7 @@ class ToolsFormCreateAccount extends Component<Props> {
     const {
       accountName,
       activeKey,
+      contacts,
       delegatedBw,
       delegatedCpu,
       formErrors,
@@ -366,10 +353,11 @@ class ToolsFormCreateAccount extends Component<Props> {
                   onChange={this.onChange}
                 />
                 <GlobalFormFieldAccount
-                  value={accountName || ''}
+                  contacts={contacts}
                   label={t('tools_form_create_account_account_name')}
                   name="accountName"
                   onChange={this.onChange}
+                  value={accountName || ''}
                 />
                 <GlobalFormFieldRam
                   defaultValue={ramAmount || ''}

@@ -17,8 +17,6 @@ export function getTable(code, scope, table, limit = 1000, index = false, previo
       limit,
     };
     if (index && previous) {
-      // Adding a space in front of every lower bounds
-      //   related: https://github.com/ENUIO/eos/issues/4442
       query.lower_bound = ` ${previous[previous.length - 1][index]}`;
       query.table_key = index;
     }

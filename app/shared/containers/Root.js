@@ -3,11 +3,13 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import { ConnectedRouter } from 'react-router-redux';
-import { configureStore, history } from '../store/renderer/configureStore';
 
-import i18n from '../i18n';
-import UpdaterContainer from './Updater';
+import { configureStore, history } from '../store/renderer/configureStore';
 import { downloadProgress } from '../actions/app';
+import i18n from '../i18n';
+import IdleContainer from './Root/Idle';
+import UpdaterContainer from './Root/Updater';
+
 import {
   cancelTransaction,
   setTransaction
@@ -25,11 +27,13 @@ export default class Root extends Component<Props> {
     return (
       <I18nextProvider i18n={i18n}>
         <Provider store={store}>
-          <UpdaterContainer>
-            <ConnectedRouter history={history}>
-              <Routes />
-            </ConnectedRouter>
-          </UpdaterContainer>
+          <IdleContainer>
+            <UpdaterContainer>
+              <ConnectedRouter history={history}>
+                <Routes />
+              </ConnectedRouter>
+            </UpdaterContainer>
+          </IdleContainer>
         </Provider>
       </I18nextProvider>
     );

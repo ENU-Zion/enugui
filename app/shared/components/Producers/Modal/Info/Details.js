@@ -12,7 +12,10 @@ import WechatImage from '../../../../../renderer/assets/images/wechat.png';
 
 class ProducersModalInfoDetails extends Component<Props> {
   socialLink = (platform) => {
-    const { producerInfo } = this.props;
+    const {
+      producerInfo,
+      settings
+    } = this.props;
     const identifier = get(producerInfo, `org.social.${platform}`);
     const links = {
       facebook: 'https://facebook.com/__ID__',
@@ -89,6 +92,7 @@ class ProducersModalInfoDetails extends Component<Props> {
         <DangerLink
           content={icon}
           link={link}
+          settings={settings}
         />
       );
     }
@@ -97,7 +101,8 @@ class ProducersModalInfoDetails extends Component<Props> {
   render() {
     const {
       producerInfo,
-      t,
+      settings,
+      t
     } = this.props;
     return (
       <React.Fragment>
@@ -105,7 +110,7 @@ class ProducersModalInfoDetails extends Component<Props> {
           {t('producer_info_description')}
           <DangerLink
             content={t('producer_info_description_more')}
-            link="https://steemit.com/eos/@greymass/an-eos-smart-contract-for-block-producer-information"
+            settings={settings}
           />
         </p>
         <Segment.Group basic horizontal>
@@ -118,18 +123,21 @@ class ProducersModalInfoDetails extends Component<Props> {
                 <DangerLink
                   content={t('producers_info_website')}
                   link={get(producerInfo, 'org.website')}
+                  settings={settings}
                 />
               </List.Item>
               <List.Item>
                 <DangerLink
                   content={t('producers_info_disclosure')}
                   link={get(producerInfo, 'org.ownership_disclosure')}
+                  settings={settings}
                 />
               </List.Item>
               <List.Item>
                 <DangerLink
                   content={t('producers_info_code_of_conduct')}
                   link={get(producerInfo, 'org.code_of_conduct')}
+                  settings={settings}
                 />
               </List.Item>
             </List>
@@ -157,6 +165,7 @@ class ProducersModalInfoDetails extends Component<Props> {
             <DangerLink
               content={get(producerInfo, 'org.email')}
               link={`mailto:${get(producerInfo, 'org.email')}`}
+              settings={settings}
             />
             <Header>
               {t('producers_info_location')}

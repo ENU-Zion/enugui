@@ -1,13 +1,14 @@
-
 // @flow
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
+import { Grid, Header, Segment } from 'semantic-ui-react';
 
-import { Grid, Header, Progress, Responsive, Segment } from 'semantic-ui-react';
+import ResourcePercentage from '../../Global/Data/Resource/Percentage';
 
 class WalletStatusResources extends Component<Props> {
   render() {
     const {
+      displayResourcesAvailableSetting,
       statsFetcher,
       t
     } = this.props;
@@ -21,7 +22,12 @@ class WalletStatusResources extends Component<Props> {
     return (
       <Segment stacked>
         <Header dividing size="small">
-          {t('wallet_status_resources_title')}
+          {(displayResourcesAvailableSetting)
+          ? (
+              t('wallet_status_resources_title_available')
+            ) : (
+              t('wallet_status_resources_title_used')
+            )}
         </Header>
         <Grid columns={3} divided>
           <Grid.Row>
@@ -32,19 +38,15 @@ class WalletStatusResources extends Component<Props> {
                 size="small"
                 subheader={t('wallet_status_resources_ram_available_desc')}
               />
-              <Progress
+
+              <ResourcePercentage
                 color="teal"
-                label={(
-                  <div className="label">
-                    {ramUsage}%
-                    {' '}
-                    <Responsive as="span" minWidth={800} />
-                  </div>
-                )}
-                percent={ramUsage}
+                percentageUsed={ramUsage}
+                displayResourcesAvailableSetting={displayResourcesAvailableSetting}
                 size="tiny"
                 style={{ minWidth: 0 }}
               />
+
             </Grid.Column>
             <Grid.Column>
               <Header
@@ -53,16 +55,10 @@ class WalletStatusResources extends Component<Props> {
                 size="small"
                 subheader={t('wallet_status_resources_cpu_available_desc')}
               />
-              <Progress
+              <ResourcePercentage
                 color="teal"
-                label={(
-                  <div className="label">
-                    {cpuUsage}%
-                    {' '}
-                    <Responsive as="span" minWidth={800} />
-                  </div>
-                )}
-                percent={cpuUsage}
+                percentageUsed={cpuUsage}
+                displayResourcesAvailableSetting={displayResourcesAvailableSetting}
                 size="tiny"
                 style={{ minWidth: 0 }}
               />
@@ -74,16 +70,10 @@ class WalletStatusResources extends Component<Props> {
                 size="small"
                 subheader={t('wallet_status_resources_net_available_desc')}
               />
-              <Progress
+              <ResourcePercentage
                 color="teal"
-                label={(
-                  <div className="label">
-                    {netUsage}%
-                    {' '}
-                    <Responsive as="span" minWidth={800} />
-                  </div>
-                )}
-                percent={netUsage}
+                percentageUsed={netUsage}
+                displayResourcesAvailableSetting={displayResourcesAvailableSetting}
                 size="tiny"
                 style={{ minWidth: 0 }}
               />

@@ -1,7 +1,7 @@
 {
-  "name": "EnuGui",
-  "productName": "EnuGui",
-  "version": "0.4.1",
+  "name": "Enumivo",
+  "productName": "Enumivo",
+  "version": "0.5.0",
   "description": "",
   "main": "./main.prod.js",
   "author": {

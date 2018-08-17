@@ -63,7 +63,8 @@ class GlobalFormFieldKeyPublic extends Component<Props> {
       label,
       loading,
       name,
-      t
+      t,
+      width
     } = this.props;
 
     const {
@@ -95,10 +96,11 @@ class GlobalFormFieldKeyPublic extends Component<Props> {
         name={name}
         onChange={this.onChange}
         defaultValue={generated || value}
+        width={width}
       />
     );
   }
 }
 
 
-export default translate('tools')(GlobalFormFieldKeyPublic);
+export default translate('global')(GlobalFormFieldKeyPublic);
