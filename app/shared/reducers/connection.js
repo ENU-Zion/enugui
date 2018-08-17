@@ -1,11 +1,19 @@
+import { find } from 'lodash';
+
 import * as types from '../actions/types';
 
 const initialState = {
+  authorization: undefined,
+  chain: 'enu-mainnet',
   chainId: 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f',
   broadcast: true,
   expireInSeconds: 120,
   forceActionDataHex: false,
   httpEndpoint: null
+};
+
+const blockchains = {
+  cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f: 'enu-mainnet'
 };
 
 export default function connection(state = initialState, action) {
@@ -17,12 +25,15 @@ export default function connection(state = initialState, action) {
     // Update httpEndpoint based on node validation/change
     case types.VALIDATE_NODE_SUCCESS: {
       return Object.assign({}, state, {
+        chain: blockchains[action.payload.info.chain_id] || 'unknown',
+        chainId: action.payload.info.chain_id,
         httpEndpoint: action.payload.node
       });
     }
     // Remove key from connection if the wallet is locked/removed
     case types.WALLET_LOCK: {
       return Object.assign({}, state, {
+        authorization: undefined,
         keyProvider: [],
         keyProviderObfuscated: {}
       });
@@ -58,6 +69,7 @@ export default function connection(state = initialState, action) {
     case types.SET_WALLET_KEYS_ACTIVE:
     case types.SET_WALLET_KEYS_TEMPORARY: {
       return Object.assign({}, state, {
+        authorization: getAuthorization(action.payload.accountData, action.payload.pubkey),
         keyProviderObfuscated: {
           hash: action.payload.hash,
           key: action.payload.key
@@ -74,4 +86,20 @@ export default function connection(state = initialState, action) {
       return state;
     }
   }
+}
+
+function getAuthorization(account, pubkey) {
+  if (account) {
+    // Find the matching permission
+    const permission = find(account.permissions, (perm) =>
+      find(perm.required_auth.keys, (key) => key.key === pubkey));
+    if (permission) {
+      // Return an authorization for this key
+      return {
+        actor: account.account_name,
+        permission: permission.perm_name
+      };
+    }
+  }
+  return undefined;
 }

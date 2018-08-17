@@ -24,6 +24,18 @@ class GlobalModalDangerLink extends Component<Props> {
     this.setState({ open: true });
   }
 
+  openLinkOrWarning() {
+    const {
+      settings
+    } = this.props;
+
+    if (settings.skipLinkModal) {
+      this.openLink();
+    } else {
+      this.openWarning();
+    }
+  }
+
   close = () => this.setState({ open: false })
 
   render() {
@@ -33,14 +45,15 @@ class GlobalModalDangerLink extends Component<Props> {
     const {
       content,
       link,
+      settings,
       t
     } = this.props;
     let el = content || link;
     if (this.isSafeish(link)) {
       el = (
         <a
-          onClick={this.openWarning.bind(this)}
-          onKeyPress={this.openWarning.bind(this)}
+          onClick={this.openLinkOrWarning.bind(this)}
+          onKeyPress={this.openLinkOrWarning.bind(this)}
           role="link"
           style={{ cursor: 'pointer' }}
           tabIndex={0}
@@ -52,39 +65,42 @@ class GlobalModalDangerLink extends Component<Props> {
     return (
       <span>
         {el}
-        <Modal size="tiny" open={open} onClose={this.close}>
-          <Modal.Header>
-            {t('global_dangerlink_warning_title')}
-          </Modal.Header>
-          <Modal.Content>
-            <p>
-              {t('global_dangerlink_warning_body_1')}
-            </p>
-            <p>
-              URL: {link}
-            </p>
-            <Header>
-              {t('global_dangerlink_warning_body_2')}
-            </Header>
-            <p>
-              {t('global_dangerlink_warning_body_3')}
-            </p>
-          </Modal.Content>
-          <Modal.Actions>
-            <Button
-              content={t('cancel')}
-              onClick={this.close}
-              negative
-            />
-            <Button
-              positive
-              onClick={this.openLink.bind(this)}
-              icon="external"
-              labelPosition="right"
-              content={t('confirm')}
-            />
-          </Modal.Actions>
-        </Modal>
+        {(!settings.skipLinkModal)
+          ? (
+            <Modal size="tiny" open={open} onClose={this.close}>
+              <Modal.Header>
+                {t('global_dangerlink_warning_title')}
+              </Modal.Header>
+              <Modal.Content>
+                <p>
+                  {t('global_dangerlink_warning_body_1')}
+                </p>
+                <p>
+                  URL: {link}
+                </p>
+                <Header>
+                  {t('global_dangerlink_warning_body_2')}
+                </Header>
+                <p>
+                  {t('global_dangerlink_warning_body_3')}
+                </p>
+              </Modal.Content>
+              <Modal.Actions>
+                <Button
+                  content={t('cancel')}
+                  onClick={this.close}
+                  negative
+                />
+                <Button
+                  positive
+                  onClick={this.openLink.bind(this)}
+                  icon="external"
+                  labelPosition="right"
+                  content={t('confirm')}
+                />
+              </Modal.Actions>
+            </Modal>
+          ) : ''}
       </span>
     );
   }

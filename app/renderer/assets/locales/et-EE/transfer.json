@@ -1,9 +1,9 @@
 {
-  "transfer_send_button_cta": "Send Tokens",
-  "transfer_receive_button_cta": "Receive Tokens",
-  "transfer_modal_title": "Transfer Tokens",
-  "transfer_modal_transaction_successful_title": "Transfer successful!",
-  "transfer_modal_transaction_successful_message": "The requested transaction has been processed. The transaction ID can be found below.",
+  "transfer_send_button_cta": "Saada Osakuid",
+  "transfer_receive_button_cta": "Võta Vastu Osakuid",
+  "transfer_modal_title": "Osakute Ülekanne",
+  "transfer_modal_transaction_successful_title": "Ülekanne edukas!",
+  "transfer_modal_transaction_successful_message": "Taotletud tehing on töödeldud. Kande ID võid leida allpool.",
   "transfer_confirming_title": "Kontrolli oma Tehingut",
   "transfer_confirming_body": "Palun veendu, et selle tehingu saaja, kogus ja teade on õiged.",
   "transfer_warning_irreversible_title": "Tehingud on pöördumatud",
@@ -13,7 +13,10 @@
   "transfer_label_quantity": "Kogus",
   "transfer_label_token_and_quantity": "Osaku valik + Kogus",
   "transfer_label_memo": "Ülekande Teade",
-  "transfer_receive_modal_header": "Receive Tokens",
-  "transfer_receive_body_text": "To receive tokens simply give the following account name to the sender.",
-  "transfer_close": "Sulge"
+  "transfer_receive_modal_header": "Võta Vastu Osakuid",
+  "transfer_receive_body_text": "Osakute vastuvõtmiseks pead lihtsalt andma saatjale järgmise kontonime.",
+  "transfer_close": "Sulge",
+  "transfer_header_available": "available to transfer.",
+  "transfer_send_exchange_in_memo_one": "Are you trying to transfer to an exchange? If so put",
+  "transfer_send_exchange_in_memo_two": "as the Account Name and put the memo code given in the memo field."
 }

@@ -1,38 +1,34 @@
 // @flow
 import React, { Component } from 'react';
-import { Button, Divider, Form, Header, Icon, Segment } from 'semantic-ui-react';
+import { Button, Divider, Form, Message, Icon, Segment } from 'semantic-ui-react';
 import { translate } from 'react-i18next';
+import { findIndex } from 'lodash';
 
-import GlobalFormFieldAccount from '../../../../Global/Form/Field/Account';
-import GlobalFormFieldGeneric from '../../../../Global/Form/Field/Generic';
 import FormFieldMultiToken from '../../../../Global/Form/Field/MultiToken';
 import FormMessageError from '../../../../Global/Form/Message/Error';
+import GlobalFormFieldAccount from '../../../../Global/Form/Field/Account';
+import GlobalFormFieldMemo from '../../../../Global/Form/Field/Memo';
 import WalletPanelFormTransferSendConfirming from './Send/Confirming';
 
-class WalletPanelFormTransfer extends Component<Props> {
+import exchangeAccounts from '../../../../../constants/exchangeAccounts';
+
+class WalletPanelFormTransferSend extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
+      asset: 'ENU',
       confirming: false,
+      formError: false,
       from: props.settings.account,
       memo: '',
+      memoValid: true,
       quantity: '',
-      symbol: 'ENU',
+      submitDisabled: true,
       to: '',
+      toValid: true,
       waiting: false,
       waitingStarted: 0
     };
-  }
-
-  state = {};
-
-  onChange = (e, { name, value }) => {
-    const newState = { [name]: value };
-    if (name === 'quantity') {
-      const [, symbol] = value.split(' ');
-      newState.symbol = symbol;
-    }
-    this.setState(newState);
   }
 
   onConfirm = () => {
@@ -40,12 +36,11 @@ class WalletPanelFormTransfer extends Component<Props> {
       from,
       memo,
       quantity,
-      symbol,
+      asset,
       to
     } = this.state;
-
     this.setState({ confirming: false }, () => {
-      this.props.actions.transfer(from, to, quantity, memo, symbol);
+      this.props.actions.transfer(from, to, quantity, memo, asset);
     });
   }
 
@@ -76,21 +71,99 @@ class WalletPanelFormTransfer extends Component<Props> {
     return false;
   }
 
-  onSendClick = (e) => {
-    this.setState({
-      sending: true
-    });
+  onChange = (e, { name, value, valid }) => {
+    if (name === 'to') {
+      const {
+        settings
+      } = this.props;
+      const {
+        contacts
+      } = settings;
 
-    e.preventDefault();
-    return false;
+      const position = findIndex(contacts, { accountName: value });
+
+      if (position > -1) {
+        this.onChange(e, { name: 'memo', value: contacts[position].defaultMemo, valid: true });
+      }
+    }
+
+
+    const newState = { [name]: value };
+    if (name === 'quantity') {
+      const [, asset] = value.split(' ');
+      newState.asset = asset;
+    }
+
+    newState[`${name}Valid`] = valid;
+
+    newState.submitDisabled = false;
+    newState.formError = false;
+
+    this.setState(newState, () => {
+      const error = this.errorInForm();
+
+      if (error) {
+        this.onError(error);
+      }
+    });
   }
 
-  onReceiveClick = (e) => {
-    this.setState({
-      sending: false
-    });
+  onError = (error) => {
+    let formError;
 
-    e.preventDefault();
+    if (error !== true) {
+      formError = error;
+    }
+
+    this.setState({
+      formError,
+      submitDisabled: true
+    });
+  }
+
+  onBack = () => {
+    this.setState({
+      confirming: false
+    });
+  }
+
+  errorInForm = () => {
+    const {
+      memo,
+      memoValid,
+      quantity,
+      to,
+      toValid
+    } = this.state;
+
+    const {
+      settings
+    } = this.props;
+
+    if (!to || to === '') {
+      return true;
+    }
+
+    if (!quantity || quantity === '' || quantity === '0.0000') {
+      return true;
+    }
+
+    if (!toValid) {
+      return 'invalid_accountName';
+    }
+
+    if (!memoValid) {
+      return 'invalid_memo';
+    }
+
+    if (to === settings.account) {
+      return 'cannot_transfer_to_self';
+    }
+
+    if (exchangeAccounts.includes(to) && (!memo || memo.length === 0)) {
+      return 'transferring_to_exchange_without_memo';
+    }
+
     return false;
   }
 
@@ -103,50 +176,55 @@ class WalletPanelFormTransfer extends Component<Props> {
       t
     } = this.props;
     const {
+      asset,
       confirming,
+      formError,
       from,
       memo,
       quantity,
+      submitDisabled,
       symbol,
-      sending,
       to,
       waiting,
       waitingStarted
     } = this.state;
 
     const balance = balances[settings.account];
-    const asset = 'ENU';
-    const error = system.TRANSFER_LAST_ERROR;
-    const validTransfer = (quantity <= 0 || !to || !from);
+    console.table(this.state)
 
-    let errorMsg = JSON.stringify(error);
-    if (error && error.error) {
-      if (error.error.details[0]) {
-        errorMsg = error.error.details[0].message;
-      } else {
-        errorMsg = t('error.error.name');
-      }
+    let exchangeWarning;
+
+    if (memo && memo !== '') {
+      exchangeAccounts.forEach((exchangeAccount) => {
+        if (memo.match(`.*?${exchangeAccount}.*?`)) {
+          exchangeWarning = (
+            <Message warning>
+              {`${t('transfer_send_exchange_in_memo_one')} ${exchangeAccount} ${t('transfer_send_exchange_in_memo_two')}`}
+            </Message>
+          );
+        }
+      });
     }
-    if (error && error.message) {
-      errorMsg = error.message;
-    }
+
+    const hasWarnings = exchangeWarning;
 
     return (
       <Form
         loading={system.TRANSFER === 'PENDING'}
         onKeyPress={this.onKeyPress}
         onSubmit={this.onSubmit}
+        warning={hasWarnings}
       >
         {(confirming)
           ? (
             <WalletPanelFormTransferSendConfirming
+              asset={asset}
               balances={balances}
               from={from}
               memo={memo}
-              onClose={onClose}
+              onBack={this.onBack}
               onConfirm={this.onConfirm}
               quantity={quantity}
-              symbol={symbol}
               to={to}
               waiting={waiting}
               waitingStarted={waitingStarted}
@@ -154,15 +232,10 @@ class WalletPanelFormTransfer extends Component<Props> {
           ) : (
             <Segment basic clearing>
               <GlobalFormFieldAccount
-                disabled
-                fluid
-                label={t('transfer_label_from')}
-                name="from"
-                onChange={this.onChange}
-                value={settings.account}
-              />
-              <GlobalFormFieldAccount
                 autoFocus
+                contacts={settings.contacts}
+                enableContacts
+                enableExchanges
                 fluid
                 label={t('transfer_label_to')}
                 name="to"
@@ -180,7 +253,10 @@ class WalletPanelFormTransfer extends Component<Props> {
                 settings={settings}
                 value={quantity}
               />
-              <GlobalFormFieldGeneric
+              <p>
+                {`${balance[asset].toFixed(4)} ${asset} ${t('transfer_header_available')}`}
+              </p>
+              <GlobalFormFieldMemo
                 icon="x"
                 label={t('transfer_label_memo')}
                 loading={false}
@@ -190,13 +266,15 @@ class WalletPanelFormTransfer extends Component<Props> {
               />
 
               <FormMessageError
-                error={errorMsg}
+                error={formError}
               />
+
+              { exchangeWarning }
 
               <Divider />
               <Button
                 content={t('confirm')}
-                disabled={validTransfer}
+                disabled={submitDisabled}
                 floated="right"
                 primary
               />
@@ -212,4 +290,4 @@ class WalletPanelFormTransfer extends Component<Props> {
   }
 }
 
-export default translate('transfer')(WalletPanelFormTransfer);
+export default translate('transfer')(WalletPanelFormTransferSend);

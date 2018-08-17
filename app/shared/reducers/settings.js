@@ -6,24 +6,38 @@ const initialState = {
   // If the active session has accepted the ENU constitution
   acceptedConstitution: true,
   // If the wallet has ackknowledged understanding the smart contract tool
-  acceptedContractInterface: true,
+  acceptedContractInterface: false,
+  // Enable advanced permissions management
+  advancedPermissions: false,
   // The loaded account
   account: '',
   // The block explorer used
   blockExplorer: 'bloks.io',
+  // List of contacts
+  contacts: [],
   // Custom tokens the wallet should be tracking
   customTokens: [
     // Always track the ENU token
     'enu.token:ENU'
   ],
+  // Defaults to displaying resources remaining
+  displayResourcesAvailable: false,
+  // Default filter spam transfers to false
+  filterSpamTransfersUnder: 0.0000,
+  // Default Idle Timeout
+  idleTimeout: 999999999,
   // Default language
   lang: '',
   // The node to connect to
   node: '',
-  // Recent contracts the wallet has recently used
+  // Recent contracts the wallet has used
   recentContracts: [],
+  // Recent referendum scopes the wallet has used
+  recentProposalsScopes: [],
   // Allows the UI to start with only a connected node
   skipImport: false,
+  // Allows users to go to link directly (without passing through DangerLink) when set to true
+  skipLinkModal: false,
   // Window State Management
   setupData: {},
   // Wallet Status
@@ -46,6 +60,16 @@ export default function settings(state = initialState, action) {
         account: '',
         walletInit: false,
         walletMode: 'hot'
+      });
+    }
+    case types.SYSTEM_GOVERNANCE_GET_PROPOSALS_SUCCESS: {
+      const recentProposalsScopes = [...state.recentProposalsScopes];
+      const scopeName = get(action, 'payload.scope');
+      if (!recentProposalsScopes.includes(scopeName)) {
+        recentProposalsScopes.unshift(scopeName);
+      }
+      return Object.assign({}, state, {
+        recentProposalsScopes: recentProposalsScopes.slice(0, 50)
       });
     }
     case types.SYSTEM_GETABI_SUCCESS: {

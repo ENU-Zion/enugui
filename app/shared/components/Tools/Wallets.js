@@ -57,7 +57,9 @@ class ToolsWallets extends Component<Props> {
                 .map((account) => (
                   <Table.Row key={account.account}>
                     <Table.Cell>
-                      <strong>{account.account}</strong>
+                      <Header size="small">
+                        {account.account}
+                      </Header>
                     </Table.Cell>
                     <Table.Cell textAlign="center">
                       <Popup
@@ -67,7 +69,7 @@ class ToolsWallets extends Component<Props> {
                           <Label
                             basic
                             content={t(`global:global_modal_account_import_${account.mode}_wallet`)}
-                            icon={(account.mode === 'wait') ? 'loading sync' : 'disk' }
+                            icon={(account.mode === 'wait') ? 'loading sync' : 'disk'}
                             position="left center"
                           />
                         )}

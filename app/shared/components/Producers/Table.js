@@ -39,13 +39,14 @@ class ProducersTable extends Component<Props> {
 
   render() {
     const {
-      actions,
       amount,
       globals,
+      isMainnet,
       isProxying,
       isValidUser,
       producers,
       selected,
+      settings,
       system,
       t
     } = this.props;
@@ -88,6 +89,7 @@ class ProducersTable extends Component<Props> {
                 getProducerInfo={this.getProducerInfo}
                 hasInfo={hasInfo}
                 key={`${isProxying}-${producer.key}-${hasInfo}`}
+                isMainnet={isMainnet}
                 isProxying={isProxying}
                 isSelected={isSelected}
                 isValidUser={isValidUser}
@@ -95,12 +97,14 @@ class ProducersTable extends Component<Props> {
                 producer={producer}
                 removeProducer={this.props.removeProducer}
                 system={system}
+                settings={settings}
                 totalVoteWeight={totalVoteWeight}
               />
             );
           })}
         </Table.Body>
       );
+
       if (querying) {
         const partResults = filter(producers.list, (producer) =>
           producer.owner.indexOf(query) > -1).slice(0, amount);
@@ -116,12 +120,14 @@ class ProducersTable extends Component<Props> {
                     getProducerInfo={this.getProducerInfo}
                     hasInfo={hasInfo}
                     key={producer.key}
+                    is={isMainnet}
                     isProxying={isProxying}
                     isSelected={isSelected}
                     isValidUser={isValidUser}
                     position={findIndex(producers.list, { owner: producer.owner }) + 1}
                     producer={producer}
                     removeProducer={this.props.removeProducer}
+                    settings={settings}
                     totalVoteWeight={totalVoteWeight}
                   />
                 );
@@ -136,6 +142,7 @@ class ProducersTable extends Component<Props> {
         <ProducersModalInfo
           producerInfo={producers.producersInfo[viewing]}
           onClose={this.clearProducerInfo}
+          settings={settings}
           viewing={viewing}
         />
         <Grid>

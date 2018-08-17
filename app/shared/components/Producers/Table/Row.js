@@ -18,12 +18,14 @@ class ProducersTableRow extends Component<Props> {
       addProducer,
       getProducerInfo,
       hasInfo,
+      isMainnet,
       isSelected,
       producer,
       position,
       isProxying,
       isValidUser,
       removeProducer,
+      settings,
       t,
       totalVoteWeight
     } = this.props;
@@ -63,12 +65,11 @@ class ProducersTableRow extends Component<Props> {
                 hoverable
                 inverted
                 position="left center"
-                trigger={(
-                  <Button
-                    icon="magnify"
-                    size="small"
-                  />
-                )}
+                trigger={
+                  (isMainnet)
+                  ? <Button icon="magnify" size="small" />
+                  : false
+                }
               />
             )
           }
@@ -108,6 +109,7 @@ class ProducersTableRow extends Component<Props> {
               <DangerLink
                 content={producer.url.substring(0, 30).replace(/(^\w+:|^)\/\//, '')}
                 link={producer.url}
+                settings={settings}
               />
             </Header.Subheader>
           </Header>
