@@ -9,9 +9,6 @@
 - **临时使用**: 如果你不想讲私钥存储在该应用内，只要选择不设置密码就可以。当程序退出时，你的私钥将被忘记。
 
 ## 获取 EnuGui
-
-### 发布
-
 最新的版本将在此REPO的发布页面中找到：
 
 [https://github.com/enumivo/enugui/releases](https://github.com/enumivo/enugui/releases)

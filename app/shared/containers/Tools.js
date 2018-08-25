@@ -14,6 +14,7 @@ import Tools from '../components/Tools';
 import ToolsCreateAccount from '../components/Tools/CreateAccount';
 import ToolsContacts from '../components/Tools/Contacts';
 import ToolsCustomTokens from '../components/Tools/CustomTokens';
+import ToolsDelegations from '../components/Tools/Delegations';
 import ToolsKeys from '../components/Tools/Keys';
 import ToolsKeysValidator from '../components/Tools/Keys/Validator';
 import ToolsStateChain from '../components/Tools/State/Chain';
@@ -31,7 +32,9 @@ import * as CustomTokensActions from '../actions/customtokens';
 import * as GlobalsActions from '../actions/globals';
 import * as RegProxyActions from '../actions/system/regproxy';
 import * as SettingsActions from '../actions/settings';
+import * as StakeActions from '../actions/stake';
 import * as SystemStateActions from '../actions/system/systemstate';
+import * as TableActions from '../actions/table';
 import * as TransactionActions from '../actions/transaction';
 import * as UpdateAuthActions from '../actions/system/updateauth';
 import * as UnregProxyActions from '../actions/system/unregproxy';
@@ -53,6 +56,11 @@ const paneMapping = [
     element: ToolsCustomTokens,
     modes: ['hot', 'watch'],
     name: 'customtokens',
+  },
+  {
+    element: ToolsDelegations,
+    modes: ['hot', 'watch', 'skip'],
+    name: 'delegations'
   },
   {
     element: ToolsWallets,
@@ -105,9 +113,9 @@ const paneMapping = [
     name: 'state',
   },
   {
-    element: ToolsStateWallet,
-    modes: ['cold', 'hot', 'skip', 'watch'],
-    name: 'state',
+    element: ToolsStateChain,
+    modes: ['hot', 'watch'],
+    name: 'state_chain',
   },
   {
     element: ToolsStateGlobals,
@@ -115,9 +123,9 @@ const paneMapping = [
     name: 'state_globals',
   },
   {
-    element: ToolsStateChain,
-    modes: ['hot', 'watch'],
-    name: 'state_chain',
+    element: ToolsStateWallet,
+    modes: ['cold', 'hot', 'skip', 'watch'],
+    name: 'state',
   },
   {
     header: true,
@@ -129,7 +137,7 @@ const paneMapping = [
     modes: ['cold', 'hot', 'skip', 'watch'],
     name: 'reset',
   },
-]
+];
 
 class ToolsContainer extends Component<Props> {
   getPanes() {
@@ -168,7 +176,9 @@ class ToolsContainer extends Component<Props> {
       settings,
       t
     } = this.props;
+
     const panes = this.getPanes();
+
     return (
       <Tab
         menu={{
@@ -193,6 +203,7 @@ function mapStateToProps(state) {
     chain: state.chain,
     contracts: state.contracts,
     customtokens: state.customtokens,
+    tables: state.tables,
     globals: state.globals,
     keys: state.keys,
     settings: state.settings,
@@ -214,7 +225,9 @@ function mapDispatchToProps(dispatch) {
       ...GlobalsActions,
       ...RegProxyActions,
       ...SettingsActions,
+      ...StakeActions,
       ...SystemStateActions,
+      ...TableActions,
       ...TransactionActions,
       ...UpdateAuthActions,
       ...UnregProxyActions,

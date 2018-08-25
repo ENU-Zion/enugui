@@ -11,9 +11,6 @@
 - **임시 사용하기**: 이 프로그램에 키를 저장하지 않으시려면 비밀번호를 설정하지 않기 만하면됩니다. 이 프로그램이 종료되면 키가 잊어 버리게 됩니다.
 
 ## EnuGui 받기
-
-### 가장 최근 버전
-
 최신 버전은 항상이 저장소의 릴리스 페이지에서 제공됩니다:
 
 [https://github.com/enumivo/enugui/releases](https://github.com/enumivo/enugui/releases)
