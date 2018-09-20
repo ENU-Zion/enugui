@@ -28,7 +28,8 @@ class WalletStatusBalances extends Component<Props> {
       refundDate,
       tokens,
       totalBeingUnstaked,
-      totalStaked,
+      totalStakedToSelf,
+      totalStakedToOthers,
       totalTokens
     } = statsFetcher.fetchAll();
     const contracts = balances.__contracts;
@@ -53,8 +54,12 @@ class WalletStatusBalances extends Component<Props> {
                   <Table.Cell>{(tokens.ENU) ? tokens.ENU.toFixed(4) : '0.0000'} ENU</Table.Cell>
                 </Table.Row>
                 <Table.Row>
-                  <Table.Cell>{t('wallet_status_resources_staked')}</Table.Cell>
-                  <Table.Cell>{totalStaked.toFixed(4)} ENU </Table.Cell>
+                  <Table.Cell>{t('wallet_status_balances_staked_to_self')}</Table.Cell>
+                  <Table.Cell>{totalStakedToSelf.toFixed(4)} ENU </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell>{t('wallet_status_balances_staked_to_others')}</Table.Cell>
+                  <Table.Cell>{totalStakedToOthers.toFixed(4)} ENU </Table.Cell>
                 </Table.Row>
                 {(refundDate)
                   ? (

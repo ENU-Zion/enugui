@@ -3,32 +3,45 @@ import React, { Component } from 'react';
 import { translate } from 'react-i18next';
 import { Icon, Header } from 'semantic-ui-react';
 
-import ProducersButtonProxy from './Button/Proxy';
+import ProducersButtonProxy from './Proxy/Button/Proxy';
 
 class ProducersProxy extends Component<Props> {
   render() {
     const {
       account,
+      accounts,
       actions,
+      addProxy,
       blockExplorers,
+      currentProxy,
       isProxying,
       isValidUser,
+      onClose,
+      removeProxy,
       settings,
       system,
-      t
+      t,
+      tables
     } = this.props;
     const proxyAccount = (account && account.voter_info) ? account.voter_info.proxy : '';
+
     return (
       <React.Fragment>
         {(isValidUser)
           ? (
             <ProducersButtonProxy
+              accounts={accounts}
               actions={actions}
+              addProxy={addProxy}
               blockExplorers={blockExplorers}
+              currentProxy={currentProxy}
+              onClose={onClose}
               isProxying={isProxying}
               proxyAccount={proxyAccount}
+              removeProxy={removeProxy}
               settings={settings}
               system={system}
+              tables={tables}
             />
           )
           : ''

@@ -4,7 +4,7 @@ import { translate } from 'react-i18next';
 
 import { Segment, Form, Divider, Message, Button } from 'semantic-ui-react';
 
-class ToolsFormUnregister extends Component<Props> {
+class ToolsFormUnregisterProxy extends Component<Props> {
   onSubmit = () => {
     const {
       account,
@@ -12,9 +12,11 @@ class ToolsFormUnregister extends Component<Props> {
     } = this.props;
 
     const {
+      removeregproxyinfo,
       unregproxy
     } = actions;
 
+    removeregproxyinfo();
     unregproxy(account);
   }
 
@@ -34,7 +36,7 @@ class ToolsFormUnregister extends Component<Props> {
           <Message
             icon="info circle"
             info
-            content={t('tools_proxy_form_message_about_to_unregister')}
+            content={t('tools_proxy_form_message_about_to_unregister_from_proxy')}
           />
           <Divider />
           <Form
@@ -58,4 +60,4 @@ class ToolsFormUnregister extends Component<Props> {
 }
 
 
-export default translate('tools')(ToolsFormUnregister);
+export default translate('tools')(ToolsFormUnregisterProxy);

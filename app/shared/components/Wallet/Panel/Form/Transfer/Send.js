@@ -83,7 +83,7 @@ class WalletPanelFormTransferSend extends Component<Props> {
       const position = findIndex(contacts, { accountName: value });
 
       if (position > -1) {
-        this.onChange(e, { name: 'memo', value: contacts[position].defaultMemo, valid: true });
+        this.onChange(e, { name: 'memo', value: contacts[position].defaultMemo || '', valid: true });
       }
     }
 
@@ -190,7 +190,6 @@ class WalletPanelFormTransferSend extends Component<Props> {
     } = this.state;
 
     const balance = balances[settings.account];
-    console.table(this.state)
 
     let exchangeWarning;
 

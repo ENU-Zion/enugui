@@ -2,19 +2,25 @@
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
 
-import GlobalTransactionModal from '../../Global/Transaction/Modal';
+import GlobalTransactionModal from '../../../Global/Transaction/Modal';
 import ProducersFormProxy from '../Form/Proxy';
 
 class ProducersButtonProxy extends Component<Props> {
   render() {
     const {
+      accounts,
       actions,
+      addProxy,
       blockExplorers,
+      currentProxy,
       isProxying,
+      onClose,
       proxyAccount,
+      removeProxy,
       settings,
       system,
-      t
+      t,
+      tables
     } = this.props;
 
     let buttonText = t('producers_button_proxy_setup_text');
@@ -36,19 +42,25 @@ class ProducersButtonProxy extends Component<Props> {
         }}
         content={(
           <ProducersFormProxy
+            accounts={accounts}
             actions={actions}
-            currentProxyAccount={proxyAccount}
+            addProxy={addProxy}
+            currentProxy={currentProxy}
             isProxying={isProxying}
-            key="UnregisterProxyForm"
+            key="ProxyForm"
+            removeProxy={removeProxy}
             settings={settings}
             system={system}
+            tables={tables}
           />
         )}
         icon="share square"
-        title={t('producers_form_proxy_header')}
+        onClose={onClose}
+        openModal={addProxy || removeProxy}
         settings={settings}
         size=""
         system={system}
+        title={t('producers_form_proxy_header')}
       />
     );
   }

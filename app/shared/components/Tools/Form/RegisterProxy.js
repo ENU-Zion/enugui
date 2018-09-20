@@ -4,7 +4,7 @@ import { translate } from 'react-i18next';
 
 import { Segment, Form, Divider, Message, Button } from 'semantic-ui-react';
 
-class ToolsFormRegister extends Component<Props> {
+class ToolsFormRegisterProxy extends Component<Props> {
   props: Props;
 
   onSubmit = () => {
@@ -61,4 +61,4 @@ class ToolsFormRegister extends Component<Props> {
 }
 
 
-export default translate('tools')(ToolsFormRegister);
+export default translate('tools')(ToolsFormRegisterProxy);
