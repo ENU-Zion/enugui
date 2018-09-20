@@ -5,7 +5,7 @@ import { debounce, filter, findIndex } from 'lodash';
 import { Grid, Header, Input, Segment, Transition, Table } from 'semantic-ui-react';
 import { get } from 'dot-prop-immutable';
 
-import ProducersModalInfo from './Modal/Info.js';
+import ProducersModalInfo from './Modal/Info';
 import ProducersTableRow from './Table/Row';
 import ProducersVoteWeight from './Vote/Weight';
 

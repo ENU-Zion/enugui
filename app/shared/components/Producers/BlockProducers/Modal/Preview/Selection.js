@@ -5,7 +5,7 @@ import { I18n } from 'react-i18next';
 import { Button, Divider, Grid, Header, Icon, Message, Modal, Segment, Table } from 'semantic-ui-react';
 import { chunk, last, times } from 'lodash';
 
-import WalletMessageContractVoteProducer from '../../../Global/Message/Contract/VoteProducer';
+import WalletMessageContractVoteProducer from '../../../../Global/Message/Contract/VoteProducer';
 
 export default class ProducersVotingPreviewSelection extends Component<Props> {
   render() {

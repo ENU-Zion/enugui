@@ -4,11 +4,11 @@ import { translate } from 'react-i18next';
 import { Header, Icon, Image, List, Segment, Table } from 'semantic-ui-react';
 import { get } from 'dot-prop-immutable';
 
-import DangerLink from '../../../Global/Modal/DangerLink';
+import DangerLink from '../../../../Global/Modal/DangerLink';
 
-import KeybaseImage from '../../../../../renderer/assets/images/keybase.png';
-import SteemitImage from '../../../../../renderer/assets/images/steem.png';
-import WechatImage from '../../../../../renderer/assets/images/wechat.png';
+import KeybaseImage from '../../../../../../renderer/assets/images/keybase.png';
+import SteemitImage from '../../../../../../renderer/assets/images/steem.png';
+import WechatImage from '../../../../../../renderer/assets/images/wechat.png';
 
 class ProducersModalInfoDetails extends Component<Props> {
   socialLink = (platform) => {

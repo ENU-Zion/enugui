@@ -1,9 +1,10 @@
 import { Decimal } from 'decimal.js';
 
 export default class StatsFetcher {
-  constructor(account, balance) {
+  constructor(account, balance, delegations) {
     this.account = account;
     this.balance = balance;
+    this.delegations = delegations;
   }
 
   fetchAll() {
@@ -11,12 +12,13 @@ export default class StatsFetcher {
       refundDate: this.refundDate(),
       tokens: this.tokens(),
       totalBeingUnstaked: this.totalBeingUnstaked(),
-      totalStaked: this.totalStaked(),
+      totalStakedToSelf: this.totalStakedToSelf(),
+      totalStakedToOthers: this.totalStakedToOthers(),
       totalTokens: this.totalTokens()
     };
   }
 
-  totalStaked() {
+  totalStakedToSelf() {
     const {
       self_delegated_bandwidth
     } = this.account;
@@ -27,6 +29,17 @@ export default class StatsFetcher {
     const net_amount = Decimal(self_delegated_bandwidth.net_weight.split(' ')[0]);
 
     return cpu_amount.plus(net_amount);
+  }
+
+  totalStakedToOthers() {
+    if (!this.delegations || this.delegations.length === 0) return Decimal(0);
+
+    const cpuWeightsStakedToOthers = this.delegations.map((delegation) => Number(delegation.cpu_weight.split(' ')[0]));
+    const netWeightsStakedToOthers = this.delegations.map((delegation) => Number(delegation.net_weight.split(' ')[0]));
+    const allWeightsStakedToOthers = cpuWeightsStakedToOthers.concat(netWeightsStakedToOthers);
+    const totalStaked = Decimal(allWeightsStakedToOthers.reduce((sum, value) => sum + value));
+
+    return totalStaked.minus(this.totalStakedToSelf());
   }
 
 
@@ -67,7 +80,7 @@ export default class StatsFetcher {
   }
 
   totalTokens() {
-    const totalStaked = this.totalStaked();
+    const totalStaked = this.totalStakedToSelf().plus(this.totalStakedToOthers());
     const totalBeingUnstaked = this.totalBeingUnstaked();
     const totalTokens = this.tokens().ENU || new Decimal(0);
 
@@ -120,7 +133,7 @@ export default class StatsFetcher {
     return {
       cpuWeight: `${totalCpuAmount.minus(selfCpuAmount).toFixed(4)} ENU`,
       netWeight: `${totalNetAmount.minus(selfNetAmount).toFixed(4)} ENU`,
-      totalStaked: this.totalStaked()
+      totalStaked: this.totalStakedToSelf() + this.totalStakedToOthers()
     };
   }
 }

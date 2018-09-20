@@ -32,6 +32,7 @@ export function buildTransaction(contract, action, account, data) {
         }
       ]
     };
+
     enu(modified)
       .transaction(op, {
         broadcast: false,

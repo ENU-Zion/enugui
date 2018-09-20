@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
 
-import GlobalTransactionModal from '../../Global/Transaction/Modal';
+import GlobalTransactionModal from '../../../Global/Transaction/Modal';
 import ProducersVotingPreviewSelection from './Preview/Selection';
 
 class ProducersVotingPreview extends Component<Props> {

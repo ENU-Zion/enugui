@@ -4,7 +4,7 @@ import { translate } from 'react-i18next';
 import { Button, Header, Icon, Popup, Progress, Responsive, Table } from 'semantic-ui-react';
 import { isEqual } from 'lodash';
 
-import DangerLink from '../../Global/Modal/DangerLink';
+import DangerLink from '../../../Global/Modal/DangerLink';
 import ProducersVoteWeight from '../Vote/Weight';
 
 class ProducersTableRow extends Component<Props> {

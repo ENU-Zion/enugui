@@ -1,43 +1,16 @@
-// @flow
 import React, { Component } from 'react';
-import { Divider, Header, Grid, Loader, Segment, Visibility } from 'semantic-ui-react';
+import { Tab, Grid, Divider } from 'semantic-ui-react';
 import { translate } from 'react-i18next';
 
+import BlockProducers from './Producers/BlockProducers';
+import ProducersProxy from './Producers/Proxy';
+import ProducersVotingPreview from './Producers/BlockProducers/Modal/Preview';
+import Proxies from './Producers/Proxies';
+import ProducersSelector from './Producers/BlockProducers/Selector';
 import SidebarAccount from '../containers/Sidebar/Account';
 import WalletPanel from './Wallet/Panel';
 
-import ProducersSelector from './Producers/Selector';
-import ProducersTable from './Producers/Table';
-import ProducersVotingPreview from './Producers/Modal/Preview';
-import ProducersProxy from './Producers/Proxy';
-
-type Props = {
-  actions: {
-    clearSystemState: () => void,
-    getAccount: () => void,
-    getGlobals: () => void,
-    getProducers: () => void,
-    voteproducers: () => void
-  },
-  accounts: {},
-  balances: {},
-  blockExplorers: {},
-  globals: {},
-  history: {},
-  producers: {
-    lastTransaction: {},
-    selected: []
-  },
-  settings: {},
-  system: {},
-  t: () => void,
-  validate: {},
-  wallet: {}
-};
-
 class Producers extends Component<Props> {
-  props: Props;
-
   constructor(props) {
     super(props);
     this.state = {
@@ -51,11 +24,6 @@ class Producers extends Component<Props> {
       selected_loaded: false,
       submitting: false,
     };
-  }
-
-  componentDidMount() {
-    this.tick();
-    this.interval = setInterval(this.tick.bind(this), 60000);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -113,28 +81,23 @@ class Producers extends Component<Props> {
     }
   }
 
-  componentWillUnmount() {
-    clearInterval(this.interval);
+  addProxy = (proxyAccout) => {
+    this.setState({
+      addProxy: proxyAccout
+    });
   }
 
-  loadMore = () => this.setState({ amount: this.state.amount + 20 });
+  removeProxy = () => {
+    this.setState({
+      removeProxy: true
+    });
+  }
 
-  resetDisplayAmount = () => this.setState({ amount: 40 });
-  isQuerying = (querying) => this.setState({ querying });
-
-  tick() {
-    const {
-      actions,
-      validate
-    } = this.props;
-    const {
-      getProducers,
-      getProducersInfo
-    } = actions;
-    if (validate.NODE) {
-      getProducers();
-      getProducersInfo();
-    }
+  onClose = () => {
+    this.setState({
+      addProxy: false,
+      removeProxy: false
+    });
   }
 
   addProducer = (producer) => {
@@ -188,7 +151,6 @@ class Producers extends Component<Props> {
       accounts,
       balances,
       blockExplorers,
-      connection,
       globals,
       history,
       keys,
@@ -196,16 +158,17 @@ class Producers extends Component<Props> {
       settings,
       system,
       t,
+      tables,
       transaction,
       validate,
       wallet
     } = this.props;
     const {
-      amount,
+      addProxy,
       lastError,
       lastTransaction,
       previewing,
-      querying,
+      removeProxy,
       selected,
       submitting
     } = this.state;
@@ -226,22 +189,29 @@ class Producers extends Component<Props> {
       />
     )];
     const account = accounts[settings.account];
-    const isMainnet = (connection && connection.chain === 'enu-mainnet');
     const isProxying = !!(account && account.voter_info && account.voter_info.proxy);
     const isValidUser = !!((keys && keys.key && settings.walletMode !== 'wait') || settings.walletMode === 'watch');
     const modified = (selected.sort().toString() !== producers.selected.sort().toString());
+    const currentProxy = (account && account.voter_info && account.voter_info.proxy);
+
     if (isValidUser && settings.walletMode !== 'wait') {
       sidebar = (
         <React.Fragment>
           <ProducersProxy
             account={account}
+            accounts={accounts}
             actions={actions}
+            addProxy={addProxy}
             blockExplorers={blockExplorers}
+            currentProxy={currentProxy}
             keys={keys}
             isProxying={isProxying}
             isValidUser={isValidUser}
+            onClose={this.onClose}
+            removeProxy={removeProxy}
             settings={settings}
             system={system}
+            tables={tables}
           />
 
           <Divider hidden />
@@ -275,6 +245,7 @@ class Producers extends Component<Props> {
         </React.Fragment>
       );
     }
+
     return (
       <div ref={this.handleContextRef}>
         <Grid divided>
@@ -288,51 +259,41 @@ class Producers extends Component<Props> {
               {sidebar}
             </Grid.Column>
             <Grid.Column width={10}>
-              {(producers.list.length > 0)
-               ? [(
-                 <Visibility
-                   continuous
-                   key="ProducersTable"
-                   fireOnMount
-                   onBottomVisible={this.loadMore}
-                   once={false}
-                 >
-                   <ProducersTable
-                     account={accounts[settings.account]}
-                     actions={actions}
-                     addProducer={this.addProducer.bind(this)}
-                     amount={amount}
-                     attached="top"
-                     globals={globals}
-                     isMainnet={isMainnet}
-                     isProxying={isProxying}
-                     isQuerying={this.isQuerying}
-                     keys={keys}
-                     producers={producers}
-                     removeProducer={this.removeProducer.bind(this)}
-                     resetDisplayAmount={this.resetDisplayAmount}
-                     selected={selected}
-                     settings={settings}
-                     system={system}
-                     isValidUser={isValidUser}
-                   />
-                 </Visibility>
-               ), (
-                 (!querying && amount < producers.list.length)
-                 ? (
-                   <Segment key="ProducersTableLoading" clearing padded vertical>
-                     <Loader active />
-                   </Segment>
-                 ) : false
-               )]
-               : (
-                 <Segment attached="bottom" stacked>
-                   <Header textAlign="center">
-                     {t('producer_none_loaded')}
-                   </Header>
-                 </Segment>
-               )
-              }
+              <Tab
+                panes={
+                  [
+                    {
+                      menuItem: t('producers_block_producers'),
+                      render: () => {
+                        return (
+                          <Tab.Pane>
+                            <BlockProducers
+                              {...this.props}
+                              addProducer={this.addProducer.bind(this)}
+                              removeProducer={this.removeProducer.bind(this)}
+                              selected={selected}
+                            />
+                          </Tab.Pane>
+                        );
+                      }
+                    },
+                    {
+                      menuItem: t('producers_proxies'),
+                      render: () => {
+                        return (
+                          <Tab.Pane>
+                            <Proxies
+                              {...this.props}
+                              addProxy={this.addProxy.bind(this)}
+                              removeProxy={this.removeProxy.bind(this)}
+                            />
+                          </Tab.Pane>
+                        );
+                      }
+                    }
+                  ]
+                }
+              />
             </Grid.Column>
           </Grid.Row>
         </Grid>
