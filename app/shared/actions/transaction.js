@@ -32,11 +32,10 @@ export function buildTransaction(contract, action, account, data) {
         }
       ]
     };
-
     enu(modified)
       .transaction(op, {
         broadcast: false,
-        forceActionDataHex: false,
+        // forceActionDataHex: false,
         sign: false
       })
       .then((tx) => {
@@ -56,17 +55,24 @@ export function buildTransaction(contract, action, account, data) {
   };
 }
 
-export function broadcastTransaction(tx) {
+export function broadcastTransaction(tx, actionName = false, actionPayload = {}) {
   return (dispatch: () => void, getState) => {
     const {
       connection
     } = getState();
     enu(connection)
-      .pushTransaction(tx.transaction).then((response) =>
-        dispatch({
+      .pushTransaction(tx.transaction).then((response) => {
+        if (actionName) {
+          dispatch({
+            payload: Object.assign({}, actionPayload, { tx: response }),
+            type: types[`SYSTEM_${actionName}_SUCCESS`]
+          });
+        }
+        return dispatch({
           payload: { tx: response },
           type: types.SYSTEM_TRANSACTION_BROADCAST_SUCCESS
-        }))
+        });
+      })
       .catch((err) => dispatch({
         payload: { err, tx },
         type: types.SYSTEM_TRANSACTION_BROADCAST_FAILURE

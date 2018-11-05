@@ -11,6 +11,8 @@ const initialState = {
   advancedPermissions: false,
   // The loaded account
   account: '',
+  // The loaded authorization
+  authorization: undefined,
   // The block explorer used
   blockExplorer: 'bloks.io',
   // List of contacts
@@ -20,6 +22,8 @@ const initialState = {
     // Always track the ENU token
     'enu.token:ENU'
   ],
+  // State to view by default in DevTest
+  devTestDefaultState: false,
   // Defaults to displaying resources remaining
   displayResourcesAvailable: true,
   // Default filter spam transfers to false
@@ -30,6 +34,8 @@ const initialState = {
   lang: '',
   // The node to connect to
   node: '',
+  // Recent names that the wallet has bid on.
+  recentBids: {},
   // Recent contracts the wallet has used
   recentContracts: [],
   // Recent referendum scopes the wallet has used
@@ -40,12 +46,14 @@ const initialState = {
   skipLinkModal: false,
   // Window State Management
   setupData: {},
+  // Wallet Password Validity Hash
+  walletHash: false,
   // Wallet Status
   walletInit: false,
   // Wallet Mode (hot/cold/watch)
   walletMode: 'hot',
   // Wallet is Temporary
-  walletTemp: false
+  walletTemp: false,
 };
 
 const validSettings = Object.keys(initialState);
@@ -60,6 +68,11 @@ export default function settings(state = initialState, action) {
         account: '',
         walletInit: false,
         walletMode: 'hot'
+      });
+    }
+    case types.SET_WALLET_HASH: {
+      return Object.assign({}, state, {
+        walletHash: action.payload.hash
       });
     }
     case types.SYSTEM_GOVERNANCE_GET_PROPOSALS_SUCCESS: {

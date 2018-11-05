@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
-import { Button, Header, Icon, Modal, Tab } from 'semantic-ui-react';
+import { Header, Modal, Tab } from 'semantic-ui-react';
 
 import GlobalModalAccountImportCold from '../../../../containers/Global/Account/Import/Cold';
 import GlobalModalAccountImportHot from '../../../../containers/Global/Account/Import/Hot';
@@ -10,6 +10,7 @@ import GlobalModalAccountImportWatch from '../../../../containers/Global/Account
 class GlobalModalAccountImport extends Component<Props> {
   getPanes = () => {
     const {
+      connection,
       onClose,
       settings,
       t
@@ -18,7 +19,7 @@ class GlobalModalAccountImport extends Component<Props> {
 
     const hotWallet = {
       menuItem: t('global_modal_account_import_hot_wallet'),
-      render: () => <GlobalModalAccountImportHot onClose={onClose} />
+      render: () => <GlobalModalAccountImportHot connection={connection} onClose={onClose} />
     };
     const watchWallet = {
       menuItem: t('global_modal_account_import_watch_wallet'),
@@ -32,10 +33,6 @@ class GlobalModalAccountImport extends Component<Props> {
     switch (settings.walletMode) {
       case 'cold': {
         panes.push(coldWallet);
-        break;
-      }
-      case 'watch': {
-        panes.push(watchWallet, hotWallet);
         break;
       }
       default: {

@@ -30,5 +30,8 @@ export default function enu(connection, signing = false) {
   ) {
     delete decrypted.authorization;
   }
+
+  decrypted.signProvider = undefined;
+
   return Enu(decrypted);
 }

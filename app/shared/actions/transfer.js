@@ -3,18 +3,21 @@ import * as types from './types';
 import enu from './helpers/enu';
 import { getCurrencyBalance } from './accounts';
 
-export function transfer(from, to, quantity, memo, symbol = 'ENU') {
+export function transfer(from, to, quantity, memo, symbol) {
   return (dispatch: () => void, getState) => {
     const {
       balances,
       connection
     } = getState();
+    const currentSymbol = symbol || connection.chainSymbol || 'ENU';
+
     dispatch({
-      type: types.SYSTEM_TRANSFER_PENDING
+      payload: { connection },
+      type: types.SYSTEM_TRANSFER_PENDING,
     });
     try {
       const contracts = balances.__contracts;
-      const account = contracts[symbol].contract;
+      const account = contracts[currentSymbol].contract;
       return enu(connection, true).transaction(account, contract => {
         contract.transfer(
           from,
@@ -29,9 +32,10 @@ export function transfer(from, to, quantity, memo, symbol = 'ENU') {
       }).then((tx) => {
         // If this is an offline transaction, also store the ABI
         if (!connection.sign && account !== 'enu.token') {
-          return enu(connection, true).getAbi(account).then((contract) =>
+          return enu(connection).getAbi(account).then((contract) =>
             dispatch({
               payload: {
+                connection,
                 contract,
                 tx
               },
@@ -40,16 +44,25 @@ export function transfer(from, to, quantity, memo, symbol = 'ENU') {
         }
         dispatch(getCurrencyBalance(from));
         return dispatch({
-          payload: { tx },
+          payload: {
+            connection,
+            tx
+          },
           type: types.SYSTEM_TRANSFER_SUCCESS
         });
       }).catch((err) => dispatch({
-        payload: { err },
+        payload: {
+          connection,
+          err
+        },
         type: types.SYSTEM_TRANSFER_FAILURE
       }));
     } catch (err) {
       return dispatch({
-        payload: { err },
+        payload: {
+          connection,
+          err
+        },
         type: types.SYSTEM_TRANSFER_FAILURE
       });
     }

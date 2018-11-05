@@ -33,12 +33,12 @@ cd enugui
 yarn install
 ```
 
+
 다음 아래 중 선택하십시오 :
 
-- MacOS: `yarn package`
-- Linux: `yarn package-linux`
-- Windows: `yarn package-win`
-- All: `yarn package-all`
+- MacOS: `npm run package-mac`
+- Linux: `npm run package-linux`
+- Windows: `npm run package-win`
 
 빌드 된 파일은 루트 프로젝트 폴더 내의 `releases` 폴더에 있습니다.
 

@@ -30,8 +30,8 @@ class WalletPanelFormStake extends Component<Props> {
       net_weight
     } = account.self_delegated_bandwidth;
 
-    const parsedCpuWeight = cpu_weight.split(' ')[0];
-    const parsedNetWeight = net_weight.split(' ')[0];
+    const parsedCpuWeight = String(cpu_weight).split(' ')[0];
+    const parsedNetWeight = String(net_weight).split(' ')[0];
 
     this.state = {
       accountName: account.account_name,
@@ -41,7 +41,7 @@ class WalletPanelFormStake extends Component<Props> {
       cpuOriginal: Decimal(parsedCpuWeight),
       decimalCpuAmount: Decimal(parsedCpuWeight),
       decimalNetAmount: Decimal(parsedNetWeight),
-      ENUbalance: (props.balance && props.balance.ENU) ? props.balance.ENU : 0,
+      chainSymbolBalance: (props.balance && props.balance[props.connection.chainSymbol || 'ENU']) ||  0,
       formError: null,
       netAmountValid: true,
       netOriginal: Decimal(parsedNetWeight),
@@ -145,7 +145,7 @@ class WalletPanelFormStake extends Component<Props> {
       cpuOriginal,
       decimalCpuAmount,
       decimalNetAmount,
-      ENUbalance,
+      chainSymbolBalance,
       netAmountValid,
       netOriginal
     } = this.state;
@@ -179,8 +179,8 @@ class WalletPanelFormStake extends Component<Props> {
     const cpuChange = decimalCpuAmount.minus(cpuOriginal);
     const netChange = decimalNetAmount.minus(netOriginal);
 
-    if (Decimal.max(0, cpuChange).plus(Decimal.max(0, netChange)).greaterThan(ENUbalance)) {
-      return 'not_enough_balance';
+    if (Decimal.max(0, cpuChange).plus(Decimal.max(0, netChange)).greaterThan(chainSymbolBalance)) {
+      return 'insufficient_balance';
     }
 
     return false;
@@ -218,6 +218,7 @@ class WalletPanelFormStake extends Component<Props> {
     const {
       account,
       balance,
+      connection,
       onClose,
       system,
       settings,
@@ -226,14 +227,13 @@ class WalletPanelFormStake extends Component<Props> {
 
     const {
       accountName,
+      chainSymbolBalance,
       cpuOriginal,
       decimalCpuAmount,
       decimalNetAmount,
       netOriginal,
       submitDisabled
     } = this.state;
-
-    const ENUbalance = balance.ENU || 0;
 
     const shouldShowConfirm = this.state.confirming;
     const shouldShowForm = !shouldShowConfirm;
@@ -246,7 +246,6 @@ class WalletPanelFormStake extends Component<Props> {
         system.ACCOUNT_EXISTS_LAST_ACCOUNT === accountName) {
       formError = formError || 'account_does_not_exist';
     }
-
     return (
       <Segment
         loading={system.STAKE === 'PENDING'}
@@ -263,8 +262,9 @@ class WalletPanelFormStake extends Component<Props> {
                   </Header>
                 ) : ''}
               <WalletPanelFormStakeStats
+                connection={connection}
                 cpuOriginal={cpuOriginal}
-                ENUbalance={ENUbalance}
+                chainSymbolBalance={chainSymbolBalance}
                 netOriginal={netOriginal}
               />
               <Form
@@ -286,7 +286,7 @@ class WalletPanelFormStake extends Component<Props> {
                   <GlobalFormFieldToken
                     autoFocus
                     icon="microchip"
-                    label={t('update_staked_cpu_amount')}
+                    label={t('update_staked_cpu_amount_label', { chainSymbol: connection.chainSymbol })}
                     name="cpuAmount"
                     onChange={this.onChange}
                     defaultValue={decimalCpuAmount.toFixed(4)}
@@ -295,7 +295,7 @@ class WalletPanelFormStake extends Component<Props> {
                   <GlobalFormFieldToken
                     autoFocus
                     icon="wifi"
-                    label={t('update_staked_net_amount')}
+                    label={t('update_staked_net_amount_label', { chainSymbol: connection.chainSymbol })}
                     name="netAmount"
                     onChange={this.onChange}
                     defaultValue={decimalNetAmount.toFixed(4)}
@@ -303,12 +303,13 @@ class WalletPanelFormStake extends Component<Props> {
                 </Form.Group>
                 <FormMessageError
                   error={formError}
+                  chainSymbol={connection.chainSymbol}
                 />
                 <Divider />
                 <Message
                   icon="info circle"
                   info
-                  content={t('undelegate_explanation')}
+                  content={t('undelegate_explanation_message', { chainSymbol: connection.chainSymbol })}
                 />
                 <Divider />
                 <Button
@@ -333,9 +334,10 @@ class WalletPanelFormStake extends Component<Props> {
               account={account}
               accountName={accountName}
               balance={balance}
+              connection={connection}
               decimalCpuAmount={decimalCpuAmount}
               cpuOriginal={cpuOriginal}
-              ENUbalance={ENUbalance}
+              chainSymbolBalance={chainSymbolBalance}
               decimalNetAmount={decimalNetAmount}
               netOriginal={netOriginal}
               onBack={this.onBack}

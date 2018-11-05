@@ -21,6 +21,7 @@ type Props = {
   actions: {
     setSettingWithValidation: () => void
   },
+  connection: {},
   history: {},
   keys: {},
   onStageSelect: () => void,
@@ -72,10 +73,12 @@ class WelcomeKeyContainer extends Component<Props> {
         break;
       }
       case 'watch': {
+        // TODO - allow setting
+        const authorization = 'active';
         // Import the watch wallet
-        importWallet(settings.account, false, false, 'watch');
+        importWallet(settings.account, authorization, false, false, 'watch');
         // Set this wallet as the used wallet
-        useWallet(settings.account);
+        useWallet(settings.account, 'active');
         // Initialize the wallet setting
         setSetting('walletInit', true);
         // Move on to the voter
@@ -116,6 +119,7 @@ class WelcomeKeyContainer extends Component<Props> {
   render() {
     const {
       accounts,
+      connection,
       keys,
       onStageSelect,
       settings,
@@ -131,7 +135,7 @@ class WelcomeKeyContainer extends Component<Props> {
     } = this.state;
     let currentPublic;
     try {
-      currentPublic = ecc.privateToPublic(keys.key);
+      currentPublic = ecc.privateToPublic(keys.key, connection.keyPrefix);
     } catch (e) {
       // invalid key
     }
@@ -313,6 +317,7 @@ class WelcomeKeyContainer extends Component<Props> {
 function mapStateToProps(state) {
   return {
     accounts: state.accounts,
+    connection: state.connection,
     keys: state.keys,
     settings: state.settings,
     validate: state.validate,

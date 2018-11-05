@@ -167,6 +167,7 @@ class WalletPanelFormRamSell extends Component<Props> {
   render() {
     const {
       balances,
+      connection,
       globals,
       onClose,
       settings,
@@ -197,7 +198,7 @@ class WalletPanelFormRamSell extends Component<Props> {
             <div>
               <Menu tabular>
                 <Menu.Item name="byRAMAmount" active={activeTab === 'byRAMAmount'} onClick={this.handleTabClick} />
-                <Menu.Item name="byENUAmount" active={activeTab === 'byENUAmount'} onClick={this.handleTabClick} />
+                <Menu.Item name="byAmount" active={activeTab === 'byAmount'} onClick={this.handleTabClick} />
               </Menu>
               <Form
                 onKeyPress={this.onKeyPress}
@@ -209,6 +210,7 @@ class WalletPanelFormRamSell extends Component<Props> {
                       ? (
                         <WalletPanelFormRamByAmount
                           amountOfRam={ramToSell}
+                          connection={connection}
                           formError={formError}
                           globals={globals}
                           onChange={this.onChange}
@@ -216,6 +218,7 @@ class WalletPanelFormRamSell extends Component<Props> {
                         />
                       ) : (
                         <WalletPanelFormRamByCost
+                          connection={connection}
                           formError={formError}
                           globals={globals}
                           onChange={this.onChange}
@@ -227,7 +230,8 @@ class WalletPanelFormRamSell extends Component<Props> {
                   </Grid.Column>
                   <Grid.Column width={8}>
                     <WalletPanelFormRamStats
-                      ENUbalance={balances[settings.account].ENU}
+                      chainSymbolBalance={balances[settings.account][connection.chainSymbol || 'ENU']}
+                      connection={connection}
                       ramQuota={ramQuota}
                       ramUsage={ramUsage}
                     />
@@ -257,6 +261,7 @@ class WalletPanelFormRamSell extends Component<Props> {
         {(shouldShowConfirm)
           ? (
             <WalletPanelFormRamConfirming
+              connection={connection}
               ramAmount={ramToSell}
               priceOfRam={priceOfRam}
               onBack={this.onBack}

@@ -29,13 +29,17 @@ export function setStake(accountName, netAmount, cpuAmount) {
     const {
       increaseInStake,
       decreaseInStake
-    } = getStakeChanges(currentAccount, accountName, delegations, netAmount, cpuAmount);
+    } = getStakeChanges(connection.chainSymbol || 'ENU', currentAccount, accountName, delegations, netAmount, cpuAmount);
 
-    dispatch({ type: types.SYSTEM_STAKE_PENDING });
+    dispatch({
+      payload: { connection },
+      type: types.SYSTEM_STAKE_PENDING
+    });
 
     return enu(connection, true).transaction(tr => {
       if (increaseInStake.netAmount > 0 || increaseInStake.cpuAmount > 0) {
         tr.delegatebw(delegatebwParams(
+          connection.chainSymbol,
           currentAccount.account_name,
           accountName,
           increaseInStake.netAmount,
@@ -44,6 +48,7 @@ export function setStake(accountName, netAmount, cpuAmount) {
       }
       if (decreaseInStake.netAmount > 0 || decreaseInStake.cpuAmount > 0) {
         tr.undelegatebw(undelegatebwParams(
+          connection.chainSymbol,
           currentAccount.account_name,
           accountName,
           decreaseInStake.netAmount,
@@ -58,18 +63,24 @@ export function setStake(accountName, netAmount, cpuAmount) {
       setTimeout(() => {
         if (accountName === settings.account) {
           dispatch(AccountActions.getAccount(accountName));
-        } else {
-          dispatch(TableActions.getTable('enumivo', settings.account, 'delband'));
         }
+
+        dispatch(TableActions.getTable('enumivo', settings.account, 'delband'));
       }, 500);
 
       return dispatch({
-        payload: { tx },
+        payload: {
+          connection,
+          tx
+        },
         type: types.SYSTEM_STAKE_SUCCESS
       });
     }).catch((err) => {
       dispatch({
-        payload: { err },
+        payload: {
+          connection,
+          err
+        },
         type: types.SYSTEM_STAKE_FAILURE
       });
     });
@@ -84,14 +95,14 @@ export function resetStakeForm() {
   };
 }
 
-function getStakeChanges(currentAccount, accountName, delegations, nextNetAmount, nextCpuAmount) {
+function getStakeChanges(chainSymbol, currentAccount, accountName, delegations, nextNetAmount, nextCpuAmount) {
   let accountResources;
 
   if (accountName !== currentAccount.account_name) {
     const index = findIndex(delegations, { to: accountName });
 
     if (index === -1) {
-      accountResources = { cpu_weight: '0 ENU', net_weight: '0 ENU' };
+      accountResources = { cpu_weight: `0 ${chainSymbol}`, net_weight: `0 ${chainSymbol}` };
     } else {
       accountResources = delegations[index];
     }
@@ -102,8 +113,8 @@ function getStakeChanges(currentAccount, accountName, delegations, nextNetAmount
     net_weight
   } = accountResources || currentAccount.self_delegated_bandwidth;
 
-  const currentCpuAmount = new Decimal(cpu_weight.split(' ')[0]);
-  const currentNetAmount = new Decimal(net_weight.split(' ')[0]);
+  const currentCpuAmount = new Decimal(String(cpu_weight).split(' ')[0]);
+  const currentNetAmount = new Decimal(String(net_weight).split(' ')[0]);
 
   const increaseInStake = {
     netAmount: Math.max(0, (nextNetAmount - currentNetAmount)),

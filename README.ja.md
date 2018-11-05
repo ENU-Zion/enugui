@@ -48,10 +48,9 @@ yarn install
 
 次に、いずれかを実行してください:
 
-- MacOS: `yarn package`
-- Linux: `yarn package-linux`
-- Windows: `yarn package-win`
-- All: `yarn package-all`
+- MacOS: `npm run package-mac`
+- Linux: `npm run package-linux`
+- Windows: `npm run package-win`
 
 プロジェクトのルートフォルダ内の`releases`にビルドしたファイルがあります。
 

@@ -15,7 +15,8 @@ class Tools extends Component<Props> {
   render() {
     const {
       actions,
-      blockExplorers,
+      allBlockExplorers,
+      connection,
       i18n,
       settings,
       t
@@ -48,7 +49,7 @@ class Tools extends Component<Props> {
                   <label>{t('tools_change_block_explorer2')}</label>
                   <GlobalSettingsBlockExplorer
                     actions={actions}
-                    blockExplorers={blockExplorers}
+                    blockExplorers={allBlockExplorers[connection.chainKey]}
                     defaultValue={settings.blockExplorer}
                     selection
                   />
@@ -89,7 +90,7 @@ class Tools extends Component<Props> {
               />
             </Form.Field>
             <Form.Field>
-              <label>{t('tools_change_spam_transfer_filter')}</label>
+              <label>{t('tools_change_transfer_spam_filter')}</label>
               <GlobalSettingsFilterSpamTransfers
                 actions={actions}
                 defaultValue={settings.filterSpamTransfersUnder}
