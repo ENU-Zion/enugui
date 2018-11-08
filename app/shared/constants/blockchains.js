@@ -5,7 +5,7 @@ const blockchains = [
     key: 'enu-mainnet',
     name: 'ENU Mainnet',
     symbol: 'ENU',
-    supportedContracts: ['customtokens', 'producerinfo', 'proposals', 'regproxyinfo']
+    supportedContracts: ['customtokens', 'producerinfo', 'regproxyinfo']
   }
 ];
 
