@@ -23,7 +23,7 @@ class ToolsPermissions extends Component<Props> {
       wallet
     } = this.props;
 
-    if (settings.walletMode !== 'watch' && !(keys && keys.key)) {
+    if (!['watch'].includes(settings.walletMode) && !(keys && keys.key)) {
       return (
         <WalletPanelLocked
           actions={actions}
@@ -37,7 +37,12 @@ class ToolsPermissions extends Component<Props> {
     const account = accounts[settings.account];
     if (!account) return false;
 
-    const { pubkey } = keys;
+    let { pubkey } = wallet;
+    if (!pubkey) {
+      if (keys && keys.pubkey) {
+        ({ pubkey } = keys);
+      }
+    }
     let authorization = new ENUAccount(account).getAuthorization(pubkey, true);
     if (settings.walletMode === 'watch') {
       authorization = {

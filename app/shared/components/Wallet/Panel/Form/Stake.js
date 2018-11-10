@@ -36,7 +36,6 @@ class WalletPanelFormStake extends Component<Props> {
 
     const statsFetcher = new StatsFetcher(account, balance);
     const { totalBeingUnstaked } = statsFetcher.fetchAll();
-    // This is a temporary solution until I refactor everything to use the new EOS/Account class instead of StatsFetcher.
 
     this.state = {
       accountName: account.account_name,
