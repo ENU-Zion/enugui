@@ -66,6 +66,7 @@ class WelcomeContainer extends Component<Props> {
       actions,
       history,
       keys,
+      ledger,
       settings,
       status,
       validate
@@ -75,6 +76,7 @@ class WelcomeContainer extends Component<Props> {
         actions={actions}
         history={history}
         keys={keys}
+        ledger={ledger}
         settings={settings}
         status={status}
         validate={validate}

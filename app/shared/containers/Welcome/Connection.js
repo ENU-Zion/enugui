@@ -32,7 +32,7 @@ class WelcomeConnectionContainer extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-      node: props.settings.node || 'https://api.enumivo.com',
+      node: props.settings.node || 'https://api.enumivo.org',
       sslConfirm: false
     };
   }

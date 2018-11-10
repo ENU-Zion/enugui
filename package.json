@@ -33,7 +33,7 @@
   ],
   "build": {
     "productName": "EnuGui",
-    "appId": "com.enumivo.enugui",
+    "appId": "org.enumivo.EnuGui",
     "artifactName": "${os}-${productName}-${version}-${arch}.${ext}",
     "asar": true,
     "files": [
@@ -67,8 +67,9 @@
       "icon": "app/renderer/assets/icons/mac/icon.icns"
     },
     "win": {
+      "certificateFile": "aaroncox.p12",
       "icon": "app/renderer/assets/icons/win/icon.ico",
-      "publisherName": "Enumivo",
+      "publisherName": "Aaron Cox",
       "target": [
         {
           "target": "nsis",
@@ -92,9 +93,9 @@
       "description": "Simple light wallet and block producer voting tool for the Enumivo blockchain",
       "desktop": {
         "Name": "EnuGui",
-        "GenericName": "Enumivo Gui Wallet",
+        "GenericName": "Enumivo Voting Client + Wallet",
         "X-GNOME-FullName": "EnuGui",
-        "Comment": "A light wallet for the Enumivo blockchain.",
+        "Comment": "Simple light wallet and block producer voting tool for the Enumivo blockchain",
         "Type": "Application",
         "Terminal": "false",
         "StartupNotify": "false",
@@ -143,7 +144,7 @@
   "author": {
     "name": "Enumivo",
     "email": "admin@enumivo.org",
-    "url": "https://github.com/enumivo"
+    "url": "https://enumivo.org/"
   },
   "license": "MIT",
   "bugs": {

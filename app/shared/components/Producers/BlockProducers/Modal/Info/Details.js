@@ -110,6 +110,7 @@ class ProducersModalInfoDetails extends Component<Props> {
           {t('producer_info_description')}
           <DangerLink
             content={t('producer_info_description_more')}
+            link="https://steemit.com/enu/@greymass/an-enu-smart-contract-for-block-producer-information"
             settings={settings}
           />
         </p>

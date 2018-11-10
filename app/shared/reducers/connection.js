@@ -48,6 +48,26 @@ export default function connection(state = initialState, action) {
         keyProviderObfuscated: {}
       });
     }
+    case types.HARDWARE_LEDGER_TRANSPORT_SUCCESS: {
+      return Object.assign({}, state, {
+        signPath: action.payload.signPath,
+      });
+    }
+    case types.SET_CONNECTION_BROADCAST: {
+      return Object.assign({}, state, {
+        broadcast: action.payload.enable
+      });
+    }
+    case types.SET_CONNECTION_SIGN: {
+      return Object.assign({}, state, {
+        sign: action.payload.enable
+      });
+    }
+    case types.HARDWARE_LEDGER_TRANSPORT_FAILURE: {
+      return Object.assign({}, state, {
+        signPath: null,
+      });
+    }
     // Cold Wallet: increase expiration to 1hr, disable broadcast, enable sign
     case types.SET_WALLET_COLD: {
       return Object.assign({}, state, {
@@ -55,6 +75,15 @@ export default function connection(state = initialState, action) {
         expireInSeconds: 3600,
         sign: true,
         signMethod: false
+      });
+    }
+    // Ledger Wallet: increase expiration to 1hr, disable broadcast/sign
+    case types.SET_WALLET_LEDGER: {
+      return Object.assign({}, state, {
+        broadcast: true,
+        expireInSeconds: 3600,
+        sign: true,
+        signMethod: 'ledger',
       });
     }
     // Watch Wallet: increase expiration to 1hr, enable broadcast, disable sign

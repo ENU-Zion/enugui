@@ -1,22 +1,6 @@
-# EnuGui - Enumivo GUI Wallet
+# EnuGui - Enumivo Block Producer Voting & Wallet
 
-[English](https://github.com/enumivo/enugui/blob/master/README.md) - 
-[한글](https://github.com/enumivo/enugui/blob/master/README.kr.md) - 
-[中文](https://github.com/enumivo/enugui/blob/master/README.zh.md) - 
-[日本語](https://github.com/enumivo/enugui/blob/master/README.ja.md) - 
-[Русский](https://github.com/enumivo/enugui/blob/master/README.ru.md)
-
-# EnuGui - Enumivo GUI Wallet
-
-`EnuGui` is a limited-functionality release of a light wallet being designed for the ENU blockchain. This application can be used to connect to a remote ENU API endpoint to perform producer voting actions and a few basic wallet commands.
-
-### Features
-
-- **Block Producer Voting**: Select which block producers to support and cast your vote. Please note that the block producer voting UI is not a research tool; it is a simple interface that provides a secure way to vote.
-- **Token Transfers**: Transfer ENU or any other token you may have a balance for to another user or exchanges.
-- **CPU/Bandwidth Staking**: Stake your ENU as either Bandwidth or CPU. This grants rights to resource usage on the network, in addition to conveying weight while voting for block producers.
-- **Local Wallet**: Set a password while importing your private key to create a local wallet. Your key will be encrypted locally using this password. This password will be required each time you need to unlock the wallet.
-- **Temporary Usage**: If you prefer not to store your keys within the application, simply choose not to set a password. When the application quits, your key will be forgotten.
+`EnuGui` is a limited-functionality release of a light wallet being designed for the Enumivo blockchain. This application can be used to connect to a remote Enumivo API endpoint to perform producer voting actions and a few basic wallet commands.
 
 ## Get EnuGui
 
@@ -26,13 +10,9 @@ The latest release will always be available on the releases page of this reposit
 
 To determine which file you need, if you are a...
 
-- **MacOS User**: Download either the DMG (`enugui-***.dmg`) or ZIP (`enugui-***-mac.zip`) file.
-- **Windows User**: Download the EXE (`enugui-***.exe`) file.
-- **Linux User**: Download either the SNAP (`enugui-***-_amd64.snap`) or DEB (`enugui-***-_amd64.deb`) file
-
-### Security: Private Keys
-
-When using `EnuGui`, all transactions are signed within the application and your key is never transmitted. If a local wallet password is specified, the application will also save and encrypt your key for future use, using AES-256 encryption.
+- **MacOS User**: Download either the DMG (`EnuGui-***.dmg`) or ZIP (`EnuGui-***-mac.zip`) file.
+- **Windows User**: Download the EXE (`EnuGui-***.exe`) file.
+- **Linux User**: Download either the SNAP (`EnuGui-***-_amd64.snap`) or DEB (`EnuGui-***-_amd64.deb`) file
 
 ### Endpoints
 
@@ -49,9 +29,12 @@ If you'd rather build the application yourself, please ensure you have nodejs/np
 **Note**: If you are configuring this Electron application within a Windows development environment, it will involve additional steps.
 
 ```
-git clone git@github.com:enumivo/enugui.git enugui
-cd enugui
-yarn install
+git clone https://github.com/enumivo/enugui.git EnuGui
+cd EnuGui
+npm install
+cd app
+npm install
+cd ..
 ```
 
 Then, depending on what OS you use, either:
@@ -67,8 +50,11 @@ The files built will be located in the `releases` folder within the root project
 ### Running development mode
 
 ```
-git clone git@github.com:enumivo/enugui.git enugui
-cd enugui
-yarn install
-yarn dev
+git clone https://github.com/enumivo/enugui.git EnuGui
+cd EnuGui
+npm install
+cd app
+npm install
+cd ..
+npm run dev
 ```

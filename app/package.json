@@ -7,7 +7,7 @@
   "author": {
     "name": "Enumivo",
     "email": "admin@enumivo.org",
-    "url": "https://github.com/enumivo"
+    "url": "https://enumivo.org"
   },
   "scripts": {
     "electron-rebuild": "node -r babel-register ../internals/scripts/ElectronRebuild.js",
@@ -15,6 +15,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@ledgerhq/hw-transport-node-hid": "^4.22.0",
     "babel-runtime": "^6.26.0"
   }
 }

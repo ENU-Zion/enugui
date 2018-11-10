@@ -5,6 +5,7 @@ import { Header, Modal, Tab } from 'semantic-ui-react';
 
 import GlobalModalAccountImportCold from '../../../../containers/Global/Account/Import/Cold';
 import GlobalModalAccountImportHot from '../../../../containers/Global/Account/Import/Hot';
+import GlobalModalAccountImportLedger from '../../../../containers/Global/Account/Import/Ledger';
 import GlobalModalAccountImportWatch from '../../../../containers/Global/Account/Import/Watch';
 
 class GlobalModalAccountImport extends Component<Props> {
@@ -17,6 +18,10 @@ class GlobalModalAccountImport extends Component<Props> {
     } = this.props;
     const panes = [];
 
+    const ledgerWallet = {
+      menuItem: t('global_modal_account_import_ledger_wallet'),
+      render: () => <GlobalModalAccountImportLedger onClose={onClose} />
+    };
     const hotWallet = {
       menuItem: t('global_modal_account_import_hot_wallet'),
       render: () => <GlobalModalAccountImportHot connection={connection} onClose={onClose} />
@@ -36,7 +41,7 @@ class GlobalModalAccountImport extends Component<Props> {
         break;
       }
       default: {
-        panes.push(hotWallet, watchWallet);
+        panes.push(hotWallet, watchWallet, ledgerWallet);
       }
     }
 

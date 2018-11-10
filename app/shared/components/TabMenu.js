@@ -4,6 +4,7 @@ import { Label,Menu } from 'semantic-ui-react';
 import { translate } from 'react-i18next';
 
 import GlobalAccountDropdown from '../containers/Global/Account/Dropdown';
+import GlobalHardwareLedgerStatus from '../containers/Global/Hardware/Ledger/Status';
 import WalletLockState from './Wallet/LockState';
 import WalletMode from './Wallet/Mode';
 import logo from '../../renderer/assets/images/enumivo.png';
@@ -87,6 +88,7 @@ class TabMenu extends Component<Props> {
             validate={validate}
             wallet={wallet}
           />
+          <GlobalHardwareLedgerStatus />
           <Menu.Item
             name="about"
             position="right"

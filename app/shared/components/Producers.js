@@ -179,7 +179,7 @@ class Producers extends Component<Props> {
     )];
     const account = accounts[settings.account];
     const isProxying = !!(account && account.voter_info && account.voter_info.proxy);
-    const isValidUser = !!((keys && keys.key && settings.walletMode !== 'wait') || ['watch'].includes(settings.walletMode));
+    const isValidUser = !!((keys && keys.key && settings.walletMode !== 'wait') || ['watch', 'ledger'].includes(settings.walletMode));
     const modified = (selected.sort().toString() !== producers.selected.sort().toString());
     const currentProxy = (account && account.voter_info && account.voter_info.proxy);
 
