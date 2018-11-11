@@ -12,7 +12,7 @@ const initialState = {
   // The loaded authorization
   authorization: undefined,
   // The block explorer used
-  blockExplorer: 'bloks.io',
+  blockExplorer: 'enumivo.qsx.io',
   // List of contacts
   contacts: [],
   // Custom tokens the wallet should be tracking
