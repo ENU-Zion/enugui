@@ -126,9 +126,7 @@
         "libusb-1.0-0"
       ],
       "plugs": [
-        "default",
-        "hardware-observe",
-        "raw-usb"
+        "default"
       ]
     },
     "directories": {
