@@ -1,7 +1,7 @@
 {
   "name": "EnuGui",
   "productName": "EnuGui",
-  "version": "0.6.0",
+  "version": "0.6.2",
   "description": "Simple light wallet and block producer voting tool for the Enumivo blockchain",
   "scripts": {
     "build": "concurrently \"npm run build-main\" \"npm run build-renderer\"",
@@ -33,7 +33,7 @@
   ],
   "build": {
     "productName": "EnuGui",
-    "appId": "com.enumivo.enugui",
+    "appId": "org.enumivo.EnuGui",
     "artifactName": "${os}-${productName}-${version}-${arch}.${ext}",
     "asar": true,
     "files": [
@@ -68,7 +68,7 @@
     },
     "win": {
       "icon": "app/renderer/assets/icons/win/icon.ico",
-      "publisherName": "Enumivo",
+      "publisherName": "Aiden Pearce",
       "target": [
         {
           "target": "nsis",
@@ -92,9 +92,9 @@
       "description": "Simple light wallet and block producer voting tool for the Enumivo blockchain",
       "desktop": {
         "Name": "EnuGui",
-        "GenericName": "Enumivo Gui Wallet",
+        "GenericName": "Enumivo Voting Client + Wallet",
         "X-GNOME-FullName": "EnuGui",
-        "Comment": "A light wallet for the Enumivo blockchain.",
+        "Comment": "Simple light wallet and block producer voting tool for the Enumivo blockchain",
         "Type": "Application",
         "Terminal": "false",
         "StartupNotify": "false",
@@ -107,16 +107,27 @@
           "arch": [
             "armv7l",
             "arm64",
-            "x64",
-            "ia32"
+            "x64"
           ]
         },
-        "AppImage",
-        "snap"
+        "AppImage"
       ]
     },
     "snap": {
-      "synopsis": "Simple light wallet and block producer voting tool for the Enumivo blockchain"
+      "synopsis": "Simple light wallet and block producer voting tool for the Enumivo blockchain",
+      "confinement": "devmode",
+      "grade": "devel",
+      "buildPackages": [
+        "gcc",
+        "libusb-1.0-0-dev"
+      ],
+      "stagePackages": [
+        "default",
+        "libusb-1.0-0"
+      ],
+      "plugs": [
+        "default"
+      ]
     },
     "directories": {
       "buildResources": "resources",
@@ -130,7 +141,7 @@
   "author": {
     "name": "Enumivo",
     "email": "admin@enumivo.org",
-    "url": "https://github.com/enumivo"
+    "url": "https://enumivo.org/"
   },
   "license": "MIT",
   "bugs": {

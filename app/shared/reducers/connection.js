@@ -48,6 +48,16 @@ export default function connection(state = initialState, action) {
         keyProviderObfuscated: {}
       });
     }
+    case types.SET_CONNECTION_BROADCAST: {
+      return Object.assign({}, state, {
+        broadcast: action.payload.enable
+      });
+    }
+    case types.SET_CONNECTION_SIGN: {
+      return Object.assign({}, state, {
+        sign: action.payload.enable
+      });
+    }
     // Cold Wallet: increase expiration to 1hr, disable broadcast, enable sign
     case types.SET_WALLET_COLD: {
       return Object.assign({}, state, {

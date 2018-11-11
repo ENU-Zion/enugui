@@ -17,7 +17,6 @@ import ToolsContacts from '../components/Tools/Contacts';
 import ToolsCreateAccount from '../components/Tools/CreateAccount';
 import ToolsCustomTokens from '../components/Tools/CustomTokens';
 import ToolsDelegations from '../components/Tools/Delegations';
-import ToolsGovernanceProposals from '../components/Tools/Governance/Proposals';
 import ToolsKeys from '../components/Tools/Keys';
 import ToolsKeysValidator from '../components/Tools/Keys/Validator';
 import ToolsPermissions from '../components/Tools/Permissions';
@@ -35,7 +34,6 @@ import * as CreateAccountActions from '../actions/createaccount';
 import * as CustomTokensActions from '../actions/customtokens';
 import * as GlobalsActions from '../actions/globals';
 import * as NameBidsActions from '../actions/namebids';
-import * as ProposalsActions from '../actions/governance/proposals';
 import * as RegProxyActions from '../actions/system/regproxy';
 import * as RegproxyinfoActions from '../actions/system/community/regproxyinfo';
 import * as SettingsActions from '../actions/settings';
@@ -56,19 +54,8 @@ const paneMapping = [
   },
   {
     element: ToolsWallets,
-    modes: ['cold', 'hot', 'watch'],
+    modes: ['cold', 'hot', 'watch', 'skip'],
     name: 'wallets',
-  },
-  {
-    header: true,
-    modes: ['hot', 'watch', 'skip', 'temp'],
-    name: 'governance',
-  },
-  {
-    element: ToolsGovernanceProposals,
-    modes: ['hot', 'watch', 'skip', 'temp'],
-    name: 'governance_proposals_beta',
-    requiredContract: 'proposals'
   },
   {
     header: true,
@@ -257,7 +244,6 @@ function mapStateToProps(state) {
     customtokens: state.customtokens,
     globals: state.globals,
     keys: state.keys,
-    proposals: state.proposals,
     settings: state.settings,
     system: state.system,
     tables: state.tables,
@@ -278,7 +264,6 @@ function mapDispatchToProps(dispatch) {
       ...CustomTokensActions,
       ...GlobalsActions,
       ...NameBidsActions,
-      ...ProposalsActions,
       ...RegProxyActions,
       ...RegproxyinfoActions,
       ...SettingsActions,

@@ -28,9 +28,9 @@ export function getBlockExplorers() {
         {
           name: 'qsx.io',
           patterns: {
-            account: 'http://enumivo.qsx.io/accounts/{account}',
-            txid: 'http://enumivo.qsx.io/transactions/{txid}'
-            }
+            account: 'https://enumivo.qsx.io/accounts/{account}',
+            txid: 'https://enumivo.qsx.io/transactions/{txid}'
+          }
         }
       ]
     };

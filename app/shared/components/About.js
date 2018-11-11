@@ -51,6 +51,24 @@ export default class About extends Component<Props> {
                     <p>{t('about_license_body_4')}</p>
                   </Segment>
                 </Grid.Column>
+                <Grid.Column width={8}>
+                  <Segment>
+                    <Image src={logo} alt="Enumivo" />
+                    <Segment basic padded>
+                      <p>{t('about_enumivo_message_1')}</p>
+                      <p>
+                        {t('about_enumivo_message_2')}
+                        {' '}
+                        <a
+                          onClick={() => this.openLink('https://enumivo.org')}
+                          role="button"
+                        >
+                          https://enumivo.org
+                        </a>.
+                      </p>
+                    </Segment>
+                  </Segment>
+                </Grid.Column>
               </Grid.Row>
               <Grid.Row>
                 <Grid.Column textAlign="center">

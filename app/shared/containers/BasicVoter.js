@@ -14,7 +14,6 @@ import Test from './Test';
 import Tools from './Tools';
 import Wallet from '../components/Wallet';
 import Notifications from '../components/Notifications';
-import ModalConstitution from '../components/Global/Modal/Constitution';
 
 import * as AccountsActions from '../actions/accounts';
 import * as AppActions from '../actions/app';
@@ -23,6 +22,7 @@ import * as BuyRamBytesActions from '../actions/system/buyrambytes';
 import * as BuyRamActions from '../actions/system/buyram';
 import * as ChainActions from '../actions/chain';
 import * as ConnectionActions from '../actions/connection';
+import * as ContractsActions from '../actions/contracts';
 import * as CreateAccountActions from '../actions/createaccount';
 import * as GlobalsActions from '../actions/globals';
 import * as ProducersActions from '../actions/producers';
@@ -184,11 +184,6 @@ class BasicVoterContainer extends Component<Props> {
         >
           {activeTab}
         </Segment>
-        <ModalConstitution
-          actions={actions}
-          isUser={(keys.account)}
-          settings={settings}
-        />
       </div>
     );
   }
@@ -203,6 +198,7 @@ function mapStateToProps(state) {
     allBlockExplorers: state.blockexplorers,
     chain: state.chain,
     connection: state.connection,
+    contracts: state.contracts,
     globals: state.globals,
     keys: state.keys,
     producers: state.producers,
@@ -225,6 +221,7 @@ function mapDispatchToProps(dispatch) {
       ...BuyRamBytesActions,
       ...ChainActions,
       ...ConnectionActions,
+      ...ContractsActions,
       ...CreateAccountActions,
       ...GlobalsActions,
       ...ProducersActions,

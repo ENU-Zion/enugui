@@ -15,8 +15,8 @@ If you are concerned about revealing this information to any of these 3rd party 
 
 # Enumivo Nodes
 
-- https://api.enumivo.org
-- https://api.enumivo.com
+- https://api.enumivo.org - operated by [Enumivo](https://enumivo.org)
+- https://api.enumivo.com - operated by [Enumivo](https://enumivo.org)
 
 ### Additions
 

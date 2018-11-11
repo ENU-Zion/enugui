@@ -3,8 +3,6 @@ import { get } from 'dot-prop-immutable';
 import * as types from '../actions/types';
 
 const initialState = {
-  // If the active session has accepted the ENU constitution
-  acceptedConstitution: true,
   // If the wallet has ackknowledged understanding the smart contract tool
   acceptedContractInterface: false,
   // Enable advanced permissions management
@@ -38,8 +36,6 @@ const initialState = {
   recentBids: {},
   // Recent contracts the wallet has used
   recentContracts: [],
-  // Recent referendum scopes the wallet has used
-  recentProposalsScopes: [],
   // Allows the UI to start with only a connected node
   skipImport: false,
   // Allows users to go to link directly (without passing through DangerLink) when set to true
@@ -73,16 +69,6 @@ export default function settings(state = initialState, action) {
     case types.SET_WALLET_HASH: {
       return Object.assign({}, state, {
         walletHash: action.payload.hash
-      });
-    }
-    case types.SYSTEM_GOVERNANCE_GET_PROPOSALS_SUCCESS: {
-      const recentProposalsScopes = [...state.recentProposalsScopes];
-      const scopeName = get(action, 'payload.scope');
-      if (!recentProposalsScopes.includes(scopeName)) {
-        recentProposalsScopes.unshift(scopeName);
-      }
-      return Object.assign({}, state, {
-        recentProposalsScopes: recentProposalsScopes.slice(0, 50)
       });
     }
     case types.SYSTEM_GETABI_SUCCESS: {

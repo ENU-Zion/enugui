@@ -58,6 +58,7 @@ class ToolsTableRowWallet extends Component<Props> {
       account === current.account
       && authorization === current.authorization
     );
+
     let icon = 'disk';
     // Create delete button based on wallet
     switch (mode) {
