@@ -7,21 +7,13 @@ import { Button, Dropdown, Header, Label, Popup, Table } from 'semantic-ui-react
 import GlobalButtonElevate from '../../../../containers/Global/Button/Elevate';
 import GlobalFragmentAuthorization from '../../../Global/Fragment/Authorization';
 import GlobalButtonWalletUpgrade from '../../../../containers/Global/Button/Wallet/Upgrade';
-import GlobalAccountConvertLedger from '../../../../containers/Global/Account/Convert/Ledger';
 import ENUAccount from '../../../../utils/ENU/Account';
-
-const initialLedgerState = {
-  convertToLedgerAccount: undefined,
-  convertToLedgerAuthorization: undefined,
-  convertToLedgerKey: undefined,
-};
 
 class ToolsTableRowWallet extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = Object.assign(
-      {},
-      initialLedgerState
+      {}
     );
   }
   removeWallet = (account, authorization) => {
@@ -35,15 +27,6 @@ class ToolsTableRowWallet extends Component<Props> {
       actions.unlockWallet(password);
     }
   }
-  convertToLedger = (account, authorization, key = undefined) => this.setState({
-    convertToLedgerAccount: account,
-    convertToLedgerAuthorization: authorization,
-    convertToLedgerKey: key,
-  });
-  resetLedgerConversion = () => this.setState(Object.assign(
-    this.state,
-    initialLedgerState
-  ));
   render() {
     const {
       current,
@@ -63,24 +46,8 @@ class ToolsTableRowWallet extends Component<Props> {
       accountData
     } = current;
     const data = new ENUAccount(accountData).getPermission(authorization);
-    const {
-      convertToLedgerAccount,
-      convertToLedgerAuthorization,
-      convertToLedgerKey,
-    } = this.state;
     let modal;
     let color = 'grey';
-    if (convertToLedgerAccount && convertToLedgerAuthorization) {
-      modal = (
-        <GlobalAccountConvertLedger
-          account={convertToLedgerAccount}
-          authorization={convertToLedgerAuthorization}
-          data={data}
-          pubkey={convertToLedgerKey}
-          onClose={this.resetLedgerConversion}
-        />
-      );
-    }
     const items = [
       (
         <Dropdown.Header icon="warning sign" content={t('wallet:wallet_advanced_header')} />
@@ -91,36 +58,10 @@ class ToolsTableRowWallet extends Component<Props> {
       account === current.account
       && authorization === current.authorization
     );
-    // Is this either a Hot/Watch wallet and is there
-    //   a Ledger currently connected? If so, append convert
-    if (isCurrentWallet && ['hot', 'watch'].indexOf(mode) >= 0 && status === 'connected') {
-      items.push((
-        <Dropdown.Item
-          content={t('wallet:wallet_convert_to_ledger')}
-          // disabled={isCurrentWallet}
-          icon="usb"
-          key="ledger"
-          onClick={() => this.convertToLedger(account, authorization, pubkey)}
-        />
-      ));
-    }
+
     let icon = 'disk';
     // Create delete button based on wallet
     switch (mode) {
-      case 'ledger': {
-        color = 'purple';
-        icon = 'usb';
-        items.push((
-          <Dropdown.Item
-            content={t('wallet:wallet_remove')}
-            disabled={isCurrentWallet}
-            icon="trash"
-            key="delete"
-            onClick={() => this.removeWallet(account, authorization)}
-          />
-        ));
-        break;
-      }
       case 'watch': {
         color = 'grey';
         icon = 'eye';
@@ -214,7 +155,7 @@ class ToolsTableRowWallet extends Component<Props> {
             )
             : false
           }
-          {(mode === 'watch' || mode === 'ledger')
+          {(mode === 'watch')
             ? (
               <Button
                 color="green"

@@ -4,7 +4,6 @@ import { includes } from 'lodash';
 
 import GlobalTransactionMessageError from './Message/Error';
 import GlobalTransactionMessageSuccess from './Message/Success';
-import GlobalTransactionMessageHardwareLedger from './Message/Hardware/Ledger';
 import GlobalTransactionMessageSignedBroadcast from './Message/Signed/Broadcast';
 import GlobalTransactionMessageUnsignedSign from './Message/Unsigned/Sign';
 import GlobalTransactionMessageUnsignedDownload from './Message/Unsigned/Download';
@@ -49,17 +48,13 @@ export default class GlobalTransactionHandler extends Component<Props> {
           error={system[`${actionName}_LAST_ERROR`]}
         />
       );
-    } else if (hasTransaction && !hasSignature && !includes(['watch', 'ledger'], settings.walletMode)) {
+    } else if (hasTransaction && !hasSignature && !includes(['watch'], settings.walletMode)) {
       content = (
         <GlobalTransactionMessageUnsignedSign />
       );
     } else if (hasTransaction && settings.walletMode === 'watch') {
       content = (
         <GlobalTransactionMessageUnsignedDownload />
-      );
-    } else if (awaitingDevice && settings.walletMode === 'ledger') {
-      content = (
-        <GlobalTransactionMessageHardwareLedger />
       );
     } else if (hasTransaction && hasSignature && !broadcastTransaction && !awaitingDevice) {
       content = (

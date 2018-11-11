@@ -52,9 +52,6 @@ export default function system(state = {}, action) {
     }
     if (action.payload.connection) {
       const { connection } = action.payload;
-      if (connection.signMethod === 'ledger') {
-        newState[awaitingDeviceField] = (requestState === 'PENDING');
-      }
     }
     // Attach any returned transactions
     if (action.payload.tx) {

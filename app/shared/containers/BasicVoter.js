@@ -207,7 +207,6 @@ function mapStateToProps(state) {
     contracts: state.contracts,
     globals: state.globals,
     keys: state.keys,
-    ledger: state.ledger,
     producers: state.producers,
     settings: state.settings,
     system: state.system,

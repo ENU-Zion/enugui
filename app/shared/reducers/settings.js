@@ -28,10 +28,6 @@ const initialState = {
   displayResourcesAvailable: true,
   // Default filter spam transfers to false
   filterSpamTransfersUnder: 0.0000,
-  // Default to Ledger import process
-  hardwareLedgerImport: false,
-  // Enable hardware support for Ledger devices
-  hardwareLedgerSupport: false,
   // Default Idle Timeout
   idleTimeout: 999999999,
   // Default language

@@ -8,7 +8,6 @@ import enu from '../../renderer/assets/images/enu.png';
 import WelcomeAccount from './Welcome/Account';
 import WelcomeBreadcrumb from './Welcome/Breadcrumb';
 import WelcomeConnection from './Welcome/Connection';
-import WelcomeHardwareLedger from './Welcome/Hardware/Ledger';
 import WelcomePath from './Welcome/Path';
 import WelcomeKey from './Welcome/Key';
 import WelcomeWallet from './Welcome/Wallet';
@@ -19,7 +18,6 @@ const { shell } = require('electron');
 
 class Welcome extends Component<Props> {
   state = {
-    hardwareLedgerImport: false,
     stageSelect: false
   };
 
@@ -27,34 +25,6 @@ class Welcome extends Component<Props> {
 
   onStageSelect = (stage) => {
     this.setState({ stageSelect: stage });
-  }
-
-  cancelLedgerImport = () => {
-    this.setState({ hardwareLedgerImport: false });
-  }
-
-  completeLedgerImport = (account, authorization) => {
-    const {
-      actions,
-      history,
-      settings
-    } = this.props;
-    const {
-      setSetting
-    } = actions;
-    setSetting('account', account);
-    setSetting('authorization', authorization);
-    setSetting('walletInit', true);
-    setSetting('walletTemp', false);
-    // Set this wallet as the used wallet
-    actions.useWallet(account, authorization);
-    actions.clearValidationState();
-    actions.validateNode(settings.node);
-    history.push('/voter');
-  }
-
-  hardwareLedgerImport = () => {
-    this.setState({ hardwareLedgerImport: true });
   }
 
   skipImport = () => {
@@ -79,14 +49,12 @@ class Welcome extends Component<Props> {
       actions,
       i18n,
       keys,
-      ledger,
       settings,
       status,
       t,
       validate
     } = this.props;
     const {
-      hardwareLedgerImport,
       stageSelect
     } = this.state;
     let stage = 0;
@@ -118,16 +86,6 @@ class Welcome extends Component<Props> {
           }
         }
       }
-    }
-    if (validate.NODE === 'SUCCESS' && hardwareLedgerImport) {
-      stageElement = (
-        <WelcomeHardwareLedger
-          onStageSelect={this.onStageSelect}
-          onClose={this.cancelLedgerImport}
-          onComplete={this.completeLedgerImport}
-          stage={stage}
-        />
-      );
     }
     return (
       <div className="welcome">
@@ -182,26 +140,8 @@ class Welcome extends Component<Props> {
                 settings
                 selection
               />
-              {(!hardwareLedgerImport
-                && (stage === 1 || (stage === 2 && validate.ACCOUNT !== 'SUCCESS'))
-                && !settings.walletInit
-                && settings.walletMode !== 'cold')
-                ? (
-                  <p>
-                    <Button
-                      color="purple"
-                      content={t('welcome:welcome_lookup_account_ledger')}
-                      icon="usb"
-                      onClick={this.hardwareLedgerImport}
-                      size="small"
-                      style={{ marginTop: '1em' }}
-                    />
-                  </p>
-                )
-                : false
-              }
-              {(!hardwareLedgerImport
-                && (stage === 1 || (stage === 2 && validate.ACCOUNT !== 'SUCCESS'))
+              {(
+                (stage === 1 || (stage === 2 && validate.ACCOUNT !== 'SUCCESS'))
                 && !settings.walletInit
                 && settings.walletMode !== 'cold'
               )

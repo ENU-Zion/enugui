@@ -23,7 +23,7 @@ class ToolsPermissions extends Component<Props> {
       wallet
     } = this.props;
 
-    if (!['watch', 'ledger'].includes(settings.walletMode) && !(keys && keys.key)) {
+    if (!['watch'].includes(settings.walletMode) && !(keys && keys.key)) {
       return (
         <WalletPanelLocked
           actions={actions}

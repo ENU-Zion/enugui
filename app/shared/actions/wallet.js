@@ -236,11 +236,6 @@ export function setWalletMode(walletMode) {
           type: types.SET_WALLET_WATCH
         });
       }
-      case 'ledger': {
-        return dispatch({
-          type: types.SET_WALLET_LEDGER
-        });
-      }
       default: {
         return dispatch({
           type: types.SET_WALLET_HOT

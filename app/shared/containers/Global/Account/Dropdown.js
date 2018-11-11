@@ -55,13 +55,6 @@ class GlobalAccountDropdown extends Component<Props> {
             };
             break;
           }
-          case 'ledger': {
-            icon = {
-              color: 'purple',
-              name: 'usb'
-            };
-            break;
-          }
           case 'watch': {
             icon = {
               color: 'grey',
@@ -85,7 +78,7 @@ class GlobalAccountDropdown extends Component<Props> {
             key: (w.authorization) ? `${w.account}@${w.authorization}` : w.account,
             icon,
             onClick: () => {
-              return (w.mode === 'watch' || w.mode === 'ledger') ? this.swapAccount(w.account, w.authorization) : false;
+              return (w.mode === 'watch') ? this.swapAccount(w.account, w.authorization) : false;
             },
             text: (w.authorization) ? `${w.account}@${w.authorization}` : `${w.account} (${t('global_accounts_dropdown_upgrade_required')})`,
             value: `${w.account}@${w.authorization}`,
@@ -102,13 +95,6 @@ class GlobalAccountDropdown extends Component<Props> {
         icon = {
           color: 'blue',
           name: 'snowflake'
-        };
-        break;
-      }
-      case 'ledger': {
-        icon = {
-          color: 'purple',
-          name: 'usb'
         };
         break;
       }
@@ -157,7 +143,7 @@ class GlobalAccountDropdown extends Component<Props> {
                   props,
                   w
                 } = option;
-                if (w.mode === 'watch' || w.mode === 'ledger') {
+                if (w.mode === 'watch') {
                   return <Dropdown.Item {...props} />;
                 }
                 return (

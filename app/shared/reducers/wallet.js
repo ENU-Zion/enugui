@@ -10,41 +10,6 @@ export default function wallet(state = initialState, action) {
     case types.RESET_ALL_STATES: {
       return Object.assign({}, initialState);
     }
-    case types.PREPARE_WALLET_CONVERT_LEDGER: {
-      if (
-        action.payload.account === state.account
-        && action.payload.authorization === state.authorization
-      ) {
-        return Object.assign({}, state, {
-          convertParameters: action.payload
-        });
-      }
-      return state;
-    }
-    case types.PREPARE_WALLET_CONVERT_LEDGER_COMPLETE: {
-      if (
-        action.payload.account === state.account
-        && action.payload.authorization === state.authorization
-      ) {
-        return Object.assign({}, state, {
-          convertParameters: undefined,
-          data: undefined,
-          mode: 'ledger'
-        });
-      }
-      return state;
-    }
-    case types.PREPARE_WALLET_CONVERT_LEDGER_ABORT: {
-      if (
-        action.payload.account === state.account
-        && action.payload.authorization === state.authorization
-      ) {
-        return Object.assign({}, state, {
-          convertParameters: undefined
-        });
-      }
-      return state;
-    }
     case types.SET_CURRENT_WALLET: {
       return Object.assign({}, state, {
         account: action.payload.account,

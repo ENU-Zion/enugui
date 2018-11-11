@@ -11,72 +11,6 @@ import enu from './helpers/enu';
 const ecc = require('enujs-ecc');
 const CryptoJS = require('crypto-js');
 
-export function completeConvertToLedger(
-  account,
-  authorization,
-  publicKey,
-  path,
-) {
-  return (dispatch: () => void) => {
-    dispatch(removeWallet(
-      account,
-      authorization
-    ));
-    dispatch(importWallet(
-      account,
-      authorization,
-      false,
-      false,
-      'ledger',
-      publicKey,
-      path
-    ));
-    dispatch(setWalletMode('ledger'));
-    return dispatch({
-      type: types.PREPARE_WALLET_CONVERT_LEDGER_COMPLETE,
-      payload: {
-        account,
-        authorization,
-        mode: 'ledger',
-      }
-    });
-  };
-}
-
-export function prepareConvertToLedger(
-  account,
-  authorization,
-  path,
-  publicKey,
-) {
-  return (dispatch: () => void) =>
-    dispatch({
-      type: types.PREPARE_WALLET_CONVERT_LEDGER,
-      payload: {
-        account,
-        authorization,
-        mode: 'ledger',
-        path,
-        publicKey
-      }
-    });
-}
-
-export function prepareConvertToLedgerAbort(
-  account,
-  authorization
-) {
-  return (dispatch: () => void) =>
-    dispatch({
-      type: types.PREPARE_WALLET_CONVERT_LEDGER_ABORT,
-      payload: {
-        account,
-        authorization,
-        mode: 'ledger'
-      }
-    });
-}
-
 export function importWallet(
   account,
   authorization = false,
@@ -252,11 +186,8 @@ export function upgradeWatchWallet(account, authorization, swap = false) {
 }
 
 export default {
-  completeConvertToLedger,
   importWallet,
   importWallets,
-  prepareConvertToLedger,
-  prepareConvertToLedgerAbort,
   upgradeWallet,
   upgradeWatchWallet,
   useWallet,

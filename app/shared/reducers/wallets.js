@@ -20,68 +20,6 @@ export default function wallets(state = initialState, action) {
         ...other
       ];
     }
-    case types.PREPARE_WALLET_CONVERT_LEDGER: {
-      const [toModify, others] = partition(state, {
-        account: action.payload.account,
-        authorization: action.payload.authorization
-      });
-      // If the wallet is found
-      if (toModify.length) {
-        // Add the conversion parameters to the wallet
-        const modified = Object.assign({}, toModify[0], {
-          convertParameters: action.payload
-        });
-        // Store the modified wallet
-        return [
-          modified,
-          ...others
-        ];
-      }
-      // If no match found, return unmodified state
-      return state;
-    }
-    case types.PREPARE_WALLET_CONVERT_LEDGER_COMPLETE: {
-      const [toModify, others] = partition(state, {
-        account: action.payload.account,
-        authorization: action.payload.authorization
-      });
-      // If the wallet is found
-      if (toModify.length) {
-        // Add the conversion parameters to the wallet
-        const modified = Object.assign({}, toModify[0], {
-          convertParameters: undefined,
-          data: undefined,
-          mode: 'ledger'
-        });
-        // Store the modified wallet
-        return [
-          modified,
-          ...others
-        ];
-      }
-      // If no match found, return unmodified state
-      return state;
-    }
-    case types.PREPARE_WALLET_CONVERT_LEDGER_ABORT: {
-      const [toModify, others] = partition(state, {
-        account: action.payload.account,
-        authorization: action.payload.authorization
-      });
-      // If the wallet is found
-      if (toModify.length) {
-        // Add the conversion parameters to the wallet
-        const modified = Object.assign({}, toModify[0], {
-          convertParameters: undefined
-        });
-        // Store the modified wallet
-        return [
-          modified,
-          ...others
-        ];
-      }
-      // If no match found, return unmodified state
-      return state;
-    }
     case types.REMOVE_WALLET: {
       const [, other] = partition(state, {
         account: action.payload.account,

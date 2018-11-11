@@ -13,7 +13,6 @@ import contracts from './contracts';
 import customtokens from './customtokens';
 import globals from './globals';
 import keys from './keys';
-import ledger from './hardware/ledger';
 import producers from './producers';
 import proposals from './proposals';
 import settings from './settings';
@@ -36,7 +35,6 @@ const rootReducer = combineReducers({
   customtokens,
   globals,
   keys,
-  ledger,
   producers,
   proposals,
   router,
