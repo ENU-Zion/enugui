@@ -104,32 +104,6 @@ const migrations = {
     });
   },
   /*
-  6 - Settings Migration
-
-    - Add contacts array to existing settings
-    - Add recentProposalsScopes array to existing settings
-
-  */
-  6: (state) => {
-    const {
-      settings
-    } = state;
-    const newSettings = Object.assign({}, settings);
-    if (
-      !newSettings.recentProposalsScopes
-    ) {
-      newSettings.recentProposalsScopes = [];
-    }
-    if (
-      !newSettings.contacts
-    ) {
-      newSettings.contacts = [];
-    }
-    return Object.assign({}, state, {
-      settings: newSettings
-    });
-  },
-  /*
   7 - Wallet Authorizations
 
     -
