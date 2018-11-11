@@ -58,6 +58,7 @@ class WalletPanelFormRamBuyByCost extends Component<Props> {
 
   render() {
     const {
+      connection,
       formError,
       t
     } = this.props;
@@ -71,7 +72,7 @@ class WalletPanelFormRamBuyByCost extends Component<Props> {
       <div>
         <FormFieldToken
           autoFocus
-          label={t('ram_form_label_amount_in_enu')}
+          label={t('ram_form_label_amount_in_chain_symbol', { chainSymbol: connection.chainSymbol })}
           loading={false}
           name="ram_to_buy"
           onChange={this.onChange}

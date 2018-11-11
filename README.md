@@ -54,12 +54,13 @@ cd enugui
 yarn install
 ```
 
-Then either:
+Then, depending on what OS you use, either:
 
-- MacOS: `yarn package`
-- Linux: `yarn package-linux`
-- Windows: `yarn package-win`
-- All: `yarn package-all`
+- MacOS: `npm run package-mac`
+- Linux: `npm run package-linux`
+- Windows: `npm run package-win`
+
+If you are building a binary, it must be compiled from the target OS. Windows builds need to be built on Windows, etc.
 
 The files built will be located in the `releases` folder within the root project folder.
 
@@ -71,4 +72,3 @@ cd enugui
 yarn install
 yarn dev
 ```
-

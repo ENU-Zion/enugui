@@ -14,7 +14,7 @@ export default function keys(state = initialState, action) {
     case types.WALLET_REMOVE: {
       return Object.assign({}, initialState);
     }
-    case types.SET_WALLET_KEYS_TEMPORARY: {
+    case types.SET_CURRENT_KEY_TEMPORARY: {
       return Object.assign({}, state, {
         account: action.payload.account,
         hash: action.payload.hash,
@@ -23,7 +23,7 @@ export default function keys(state = initialState, action) {
         temporary: true
       });
     }
-    case types.SET_WALLET_KEYS_ACTIVE: {
+    case types.SET_CURRENT_KEY: {
       return Object.assign({}, state, {
         account: action.payload.account,
         hash: action.payload.hash,

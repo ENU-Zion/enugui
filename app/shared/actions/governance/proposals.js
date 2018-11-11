@@ -40,6 +40,8 @@ export function getProposals(scope = 'enuforumdapp', previous = false) {
       const data = rows
         .map((proposal) => {
           const {
+            created_at,
+            expires_at,
             proposal_json,
             proposal_name,
             title
@@ -52,6 +54,8 @@ export function getProposals(scope = 'enuforumdapp', previous = false) {
             valid = false;
           }
           return {
+            created_at,
+            expires_at,
             json,
             proposal_json,
             proposal_name,
@@ -219,6 +223,17 @@ export function voteProposal(scope, voter, proposal_name, vote, vote_json) {
       setTimeout(() => {
         dispatch(getVoteInfo(scope, account));
       }, 500);
+      // If this is an offline transaction, also store the ABI
+      if (!connection.sign) {
+        return enu(connection).getAbi(defaultContract).then((contract) =>
+          dispatch({
+            payload: {
+              contract,
+              tx
+            },
+            type: types.SYSTEM_GOVERNANCE_VOTE_PROPOSAL_SUCCESS
+          }));
+      }
       return dispatch({
         payload: { tx },
         type: types.SYSTEM_GOVERNANCE_VOTE_PROPOSAL_SUCCESS

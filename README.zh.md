@@ -45,10 +45,9 @@ yarn install
 
 然后:
 
-- MacOS: `yarn package`
+- MacOS: `yarn package-mac`
 - Linux: `yarn package-linux`
 - Windows: `yarn package-win`
-- All: `yarn package-all`
 
 编译的文件将在根项目目录下的`releases`文件夹中。
 
@@ -60,4 +59,3 @@ cd enugui
 yarn install
 yarn dev
 ```
-

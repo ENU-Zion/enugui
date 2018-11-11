@@ -37,6 +37,7 @@ class WalletStatus extends Component<Props> {
       balances,
       blockExplorers,
       chain,
+      connection,
       globals,
       settings,
       t,
@@ -60,7 +61,7 @@ class WalletStatus extends Component<Props> {
                         tables.enumivo[settings.account] &&
                         tables.enumivo[settings.account].delband.rows;
 
-    const statsFetcher = new StatsFetcher(account, balance, delegations);
+    const statsFetcher = new StatsFetcher(account, balance, delegations, connection.chainSymbol);
 
     let activeTab = (
       <Segment stacked>
@@ -78,6 +79,7 @@ class WalletStatus extends Component<Props> {
               account={account}
               actions={actions}
               balances={balances}
+              connection={connection}
               globals={globals}
               statsFetcher={statsFetcher}
               settings={settings}
@@ -101,6 +103,7 @@ class WalletStatus extends Component<Props> {
               actions={actions}
               blockExplorers={blockExplorers}
               chain={chain}
+              connection={connection}
               settings={settings}
               validate={validate}
             />
@@ -148,7 +151,7 @@ class WalletStatus extends Component<Props> {
             <Menu.Item
               name="staked"
               icon="power cord"
-              content={t('wallet_status_tab_staked')}
+              content={t('wallet_status_tab_staked_amount', { chainSymbol: connection.chainSymbol })}
               active={activeItem === 'staked'}
               onClick={this.handleItemClick}
             />

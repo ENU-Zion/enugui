@@ -1,19 +1,23 @@
 import { find } from 'lodash';
 
 import * as types from '../actions/types';
+import blockchains from '../constants/blockchains';
 
 const initialState = {
   authorization: undefined,
   chain: 'enu-mainnet',
-  chainId: 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f',
   broadcast: true,
+  chainId: 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f',
+  chainKey: 'enu-mainnet',
+  chainSymbol: 'ENU',
   expireInSeconds: 120,
-  forceActionDataHex: false,
-  httpEndpoint: null
-};
-
-const blockchains = {
-  cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f: 'enu-mainnet'
+  // forceActionDataHex: false,
+  httpEndpoint: null,
+  keyPrefix: 'ENU',
+  sign: false,
+  signMethod: false,
+  signPath: false,
+  supportedContracts: []
 };
 
 export default function connection(state = initialState, action) {
@@ -24,10 +28,16 @@ export default function connection(state = initialState, action) {
     }
     // Update httpEndpoint based on node validation/change
     case types.VALIDATE_NODE_SUCCESS: {
+      const blockchain = find(blockchains, { chainId: action.payload.info.chain_id });
+
       return Object.assign({}, state, {
-        chain: blockchains[action.payload.info.chain_id] || 'unknown',
+        chain: (blockchain && blockchain.name) || 'unknown',
         chainId: action.payload.info.chain_id,
-        httpEndpoint: action.payload.node
+        chainKey: (blockchain && blockchain.key) || 'unknown',
+        chainSymbol: (blockchain && blockchain.symbol) || 'ENU',
+        httpEndpoint: action.payload.node,
+        keyPrefix: (blockchain && blockchain.symbol) || 'ENU',
+        supportedContracts: blockchain.supportedContracts
       });
     }
     // Remove key from connection if the wallet is locked/removed
@@ -43,8 +53,8 @@ export default function connection(state = initialState, action) {
       return Object.assign({}, state, {
         broadcast: false,
         expireInSeconds: 3600,
-        forceActionDataHex: false,
-        sign: true
+        sign: true,
+        signMethod: false
       });
     }
     // Watch Wallet: increase expiration to 1hr, enable broadcast, disable sign
@@ -52,8 +62,8 @@ export default function connection(state = initialState, action) {
       return Object.assign({}, state, {
         broadcast: false,
         expireInSeconds: 3600,
-        forceActionDataHex: false,
-        sign: false
+        sign: false,
+        signMethod: false
       });
     }
     // Hot Wallet: set expire to 2 minutes, enable broadcast, enable sign
@@ -61,15 +71,28 @@ export default function connection(state = initialState, action) {
       return Object.assign({}, state, {
         broadcast: true,
         expireInSeconds: 120,
-        forceActionDataHex: true,
-        sign: true
+        signMethod: false
+      });
+    }
+    // Set connection parameters related to the wallet
+    case types.SET_CURRENT_WALLET: {
+      return Object.assign({}, state, {
+        authorization: [
+          action.payload.account,
+          action.payload.authorization || 'active',
+        ].join('@'),
+        signPath: action.payload.path
       });
     }
     // Add key to connection if wallet is set or unlocked
-    case types.SET_WALLET_KEYS_ACTIVE:
-    case types.SET_WALLET_KEYS_TEMPORARY: {
+    case types.SET_CURRENT_KEY:
+    case types.SET_CURRENT_KEY_TEMPORARY: {
       return Object.assign({}, state, {
-        authorization: getAuthorization(action.payload.accountData, action.payload.pubkey),
+        authorization: [
+          action.payload.account,
+          action.payload.authorization || 'active',
+        ].join('@'),
+        sign: true,
         keyProviderObfuscated: {
           hash: action.payload.hash,
           key: action.payload.key
@@ -86,17 +109,4 @@ export default function connection(state = initialState, action) {
       return state;
     }
   }
-}
-
-function getAuthorization(account, pubkey) {
-  if (account) {
-    // Find the matching permission
-    const permission = find(account.permissions, (perm) =>
-      find(perm.required_auth.keys, (key) => key.key === pubkey));
-    if (permission) {
-      // Return an authorization for this key
-      return `${account.account_name}@${permission.perm_name}`;
-    }
-  }
-  return undefined;
 }

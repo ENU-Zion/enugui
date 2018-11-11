@@ -50,6 +50,7 @@ class Welcome extends Component<Props> {
       i18n,
       keys,
       settings,
+      status,
       t,
       validate
     } = this.props;

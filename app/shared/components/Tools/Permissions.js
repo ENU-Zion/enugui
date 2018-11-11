@@ -1,35 +1,20 @@
 // @flow
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
-import { find } from 'lodash';
 
 import { Button, Container, Icon, Header, Message, Popup, Segment, Table } from 'semantic-ui-react';
 
 import ToolsModalPermissionAuth from './Modal/Permissions/Auth';
 import WalletPanelLocked from '../Wallet/Panel/Locked';
+import ENUAccount from '../../utils/ENU/Account';
 
 class ToolsPermissions extends Component<Props> {
-  getAuthorization(account, pubkey) {
-    if (account) {
-      // Find the matching permission
-      const permission = find(account.permissions, (perm) =>
-        find(perm.required_auth.keys, (key) => key.key === pubkey));
-      if (permission) {
-        // Return an authorization for this key
-        return {
-          actor: account.account_name,
-          permission: permission.perm_name
-        };
-      }
-    }
-    return undefined;
-  }
-
   render() {
     const {
       accounts,
       actions,
       blockExplorers,
+      connection,
       keys,
       settings,
       system,
@@ -53,8 +38,12 @@ class ToolsPermissions extends Component<Props> {
     if (!account) return false;
 
     const { pubkey } = keys;
-    const authorization = this.getAuthorization(account, pubkey);
-
+    let authorization = new ENUAccount(account).getAuthorization(pubkey, true);
+    if (settings.walletMode === 'watch') {
+      authorization = {
+        perm_name: settings.authorization
+      };
+    }
     return (
       <Segment basic>
         <Container>
@@ -71,6 +60,7 @@ class ToolsPermissions extends Component<Props> {
                   icon: 'circle plus',
                   size: 'small'
                 }}
+                connection={connection}
                 onClose={this.onClose}
                 open
                 settings={settings}
@@ -114,7 +104,6 @@ class ToolsPermissions extends Component<Props> {
             )
           }
         </Segment>
-
         {(account.permissions.map((data) => (
           <Segment
             color="purple"
@@ -122,29 +111,10 @@ class ToolsPermissions extends Component<Props> {
           >
             {(
               !authorization
-              || (data.perm_name === 'owner' && authorization.permission === 'owner')
-              || (data.perm_name !== 'owner')
+              || (data.perm_name === 'owner' && authorization.perm_name !== 'owner')
+              || (data.perm_name === 'active' && !(['active', 'owner'].includes(authorization.perm_name)))
             )
               ? (
-                <ToolsModalPermissionAuth
-                  actions={actions}
-                  auth={data}
-                  blockExplorers={blockExplorers}
-                  button={{
-                    color: 'purple',
-                    content: t('tools_modal_permissions_auth_edit_button'),
-                    fluid: false,
-                    floated: 'right',
-                    icon: 'pencil',
-                    size: 'small'
-                  }}
-                  onClose={this.onClose}
-                  pubkey={pubkey}
-                  settings={settings}
-                  system={system}
-                />
-              )
-              : (
                 <Popup
                   content={t('tools_modal_permissions_auth_edit_button_disabled')}
                   inverted
@@ -157,6 +127,26 @@ class ToolsPermissions extends Component<Props> {
                       size="small"
                     />
                   )}
+                />
+              )
+              : (
+                <ToolsModalPermissionAuth
+                  actions={actions}
+                  auth={data}
+                  blockExplorers={blockExplorers}
+                  button={{
+                    color: 'purple',
+                    content: t('tools_modal_permissions_auth_edit_button'),
+                    fluid: false,
+                    floated: 'right',
+                    icon: 'pencil',
+                    size: 'small'
+                  }}
+                  connection={connection}
+                  onClose={this.onClose}
+                  pubkey={pubkey}
+                  settings={settings}
+                  system={system}
                 />
               )
             }

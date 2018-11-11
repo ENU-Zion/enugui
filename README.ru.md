@@ -46,8 +46,7 @@ yarn install
 
 Затем либо:
 
-- MacOS: `yarn package`
-- Linux: `yarn package-linux`
-- Windows: `yarn package-win`
-- Все: `yarn package-all`
+- MacOS: `npm run package-mac`
+- Linux: `npm run package-linux`
+- Windows: `npm run package-win`
 

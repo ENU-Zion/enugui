@@ -7,8 +7,9 @@ import { Header, Segment } from 'semantic-ui-react';
 class WalletPanelFormStakeStats extends Component<Props> {
   render() {
     const {
+      connection,
       cpuOriginal,
-      ENUbalance,
+      chainSymbolBalance,
       netOriginal,
       t
     } = this.props;
@@ -17,25 +18,25 @@ class WalletPanelFormStakeStats extends Component<Props> {
       <Segment.Group horizontal>
         <Segment>
           <Header textAlign="center">
-            {(ENUbalance).toFixed(4)} ENU
+            {(chainSymbolBalance).toFixed(4)} {connection.chainSymbol || 'ENU'}
             <Header.Subheader>
-              {t('amount_not_staked')}
+              {t('amount_unstaked')}
             </Header.Subheader>
           </Header>
         </Segment>
         <Segment>
           <Header textAlign="center">
-            {cpuOriginal.toFixed(4)} ENU
+            {cpuOriginal.toFixed(4)} {connection.chainSymbol || 'ENU'}
             <Header.Subheader>
-              {t('cpu_staked')}
+              {t('cpu_that_is_staked')}
             </Header.Subheader>
           </Header>
         </Segment>
         <Segment>
           <Header textAlign="center">
-            {netOriginal.toFixed(4)} ENU
+            {netOriginal.toFixed(4)} {connection.chainSymbol || 'ENU'}
             <Header.Subheader>
-              {t('net_staked')}
+              {t('net_that_is_staked')}
             </Header.Subheader>
           </Header>
         </Segment>

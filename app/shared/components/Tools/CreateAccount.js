@@ -17,8 +17,9 @@ class ToolsCreateAccount extends Component<Props> {
     const {
       accounts,
       actions,
+      allBlockExplorers,
       balances,
-      blockExplorers,
+      connection,
       globals,
       keys,
       settings,
@@ -34,23 +35,24 @@ class ToolsCreateAccount extends Component<Props> {
 
     return (
       <div>
-        {((keys && keys.key) || settings.walletMode === 'watch') ?
-        (
+        {((keys && keys.key) || ['watch'].includes(settings.walletMode))
+        ? (
           <Segment basic>
             <Header>
               {t('tools_create_account_header')}
               <Header.Subheader>
-                {t('tools_create_account_text')}
+                {t('tools_create_account_description', { chainSymbol: connection.chainSymbol })}
               </Header.Subheader>
             </Header>
             <GlobalTransactionHandler
               actionName="CREATEACCOUNT"
               actions={actions}
-              blockExplorers={blockExplorers}
+              blockExplorers={allBlockExplorers[connection.chainKey]}
               content={(
                 <ToolsFormCreateAccount
                   account={account}
                   balance={balances[settings.account]}
+                  connection={connection}
                   contacts={settings.contacts}
                   globals={globals}
                   hideCancel
