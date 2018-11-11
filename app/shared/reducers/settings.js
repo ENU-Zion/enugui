@@ -3,8 +3,6 @@ import { get } from 'dot-prop-immutable';
 import * as types from '../actions/types';
 
 const initialState = {
-  // If the active session has accepted the Enumivo constitution
-  acceptedConstitution: false,
   // If the wallet has ackknowledged understanding the smart contract tool
   acceptedContractInterface: false,
   // Enable advanced permissions management

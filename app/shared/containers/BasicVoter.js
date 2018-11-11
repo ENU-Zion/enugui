@@ -14,7 +14,6 @@ import Test from './Test';
 import Tools from './Tools';
 import Wallet from '../components/Wallet';
 import Notifications from '../components/Notifications';
-import ModalConstitution from '../components/Global/Modal/Constitution';
 
 import * as AccountsActions from '../actions/accounts';
 import * as AppActions from '../actions/app';
@@ -185,11 +184,6 @@ class BasicVoterContainer extends Component<Props> {
         >
           {activeTab}
         </Segment>
-        <ModalConstitution
-          actions={actions}
-          isUser={(keys.account)}
-          settings={settings}
-        />
       </div>
     );
   }
