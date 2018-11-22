@@ -1,6 +1,6 @@
 import { Decimal } from 'decimal.js';
 
-export default class StatsFetcher {
+export default class ENUAccountStats {
   constructor(account, balance, delegations, chainSymbol) {
     this.account = account;
     this.balance = balance;

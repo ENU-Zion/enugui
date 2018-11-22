@@ -6,7 +6,7 @@ import ENUAccount from '../utils/ENU/Account';
 const CryptoJS = require('crypto-js');
 const ecc = require('enujs-ecc');
 
-export function setWalletKey(data, password, mode = 'hot', existingHash = false) {
+export function setWalletKey(data, password, mode = 'hot', existingHash = false, auth = false) {
   return (dispatch: () => void, getState) => {
     const { accounts, connection, settings } = getState();
     let hash = existingHash;
@@ -21,6 +21,9 @@ export function setWalletKey(data, password, mode = 'hot', existingHash = false)
     const pubkey = ecc.privateToPublic(key, connection.keyPrefix);
     const accountData = accounts[settings.account];
     let authorization;
+    if (auth) {
+      authorization = auth;
+    }
     if (accountData) {
       const auth = new ENUAccount(accountData).getAuthorization(pubkey);
       if (auth) {

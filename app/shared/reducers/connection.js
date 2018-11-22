@@ -36,7 +36,7 @@ export default function connection(state = initialState, action) {
         chainKey: (blockchain && blockchain.key) || 'unknown',
         chainSymbol: (blockchain && blockchain.symbol) || 'ENU',
         httpEndpoint: action.payload.node,
-        keyPrefix: (blockchain && blockchain.symbol) || 'ENU',
+        keyPrefix: (blockchain && blockchain.keyPrefix) || 'ENU',
         supportedContracts: blockchain.supportedContracts
       });
     }
