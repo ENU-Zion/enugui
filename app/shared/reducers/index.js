@@ -6,6 +6,7 @@ import accounts from './accounts';
 import actions from './actions';
 import app from './app';
 import balances from './balances';
+import blockchains from './blockchains';
 import blockexplorers from './blockexplorers';
 import chain from './chain';
 import connection from './connection';
@@ -13,9 +14,11 @@ import contracts from './contracts';
 import customtokens from './customtokens';
 import globals from './globals';
 import keys from './keys';
+import ping from './utils/ping';
 import producers from './producers';
 import settings from './settings';
 import system from './system';
+import systemlog from './system/log';
 import tables from './tables';
 import transaction from './transaction';
 import validate from './validate';
@@ -27,6 +30,7 @@ const rootReducer = combineReducers({
   actions,
   app,
   balances,
+  blockchains,
   blockexplorers,
   chain,
   connection,
@@ -34,10 +38,12 @@ const rootReducer = combineReducers({
   customtokens,
   globals,
   keys,
+  ping,
   producers,
   router,
   settings,
   system,
+  systemlog,
   tables,
   transaction,
   validate,

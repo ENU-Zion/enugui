@@ -1,7 +1,6 @@
 import { find } from 'lodash';
 
 import * as types from '../actions/types';
-import blockchains from '../constants/blockchains';
 
 const initialState = {
   authorization: undefined,
@@ -12,6 +11,7 @@ const initialState = {
   chainSymbol: 'ENU',
   expireInSeconds: 120,
   // forceActionDataHex: false,
+  historyPluginEnabled: true,
   httpEndpoint: null,
   keyPrefix: 'ENU',
   sign: false,
@@ -28,16 +28,21 @@ export default function connection(state = initialState, action) {
     }
     // Update httpEndpoint based on node validation/change
     case types.VALIDATE_NODE_SUCCESS: {
-      const blockchain = find(blockchains, { chainId: action.payload.info.chain_id });
+      const { blockchain } = action.payload;
+      const { account, authorization } = action.payload.settings;
 
       return Object.assign({}, state, {
-        chain: (blockchain && blockchain.name) || 'unknown',
+        authorization: [
+          account,
+          authorization || 'active',
+        ].join('@'),
+        chain: (blockchain && blockchain.name) || 'ENU Mainnet',
         chainId: action.payload.info.chain_id,
-        chainKey: (blockchain && blockchain.key) || 'unknown',
+        chainKey: (blockchain && blockchain._id) || 'enu-mainnet',
         chainSymbol: (blockchain && blockchain.symbol) || 'ENU',
         httpEndpoint: action.payload.node,
         keyPrefix: (blockchain && blockchain.keyPrefix) || 'ENU',
-        supportedContracts: blockchain.supportedContracts
+        supportedContracts: (blockchain) ? blockchain.supportedContracts : []
       });
     }
     // Remove key from connection if the wallet is locked/removed
@@ -56,6 +61,11 @@ export default function connection(state = initialState, action) {
     case types.SET_CONNECTION_SIGN: {
       return Object.assign({}, state, {
         sign: action.payload.enable
+      });
+    }
+    case types.SET_CONNECTION_HISTORY_PLUGIN_ENABLED: {
+      return Object.assign({}, state, {
+        historyPluginEnabled: action.payload.enabled
       });
     }
     // Cold Wallet: increase expiration to 1hr, disable broadcast, enable sign
@@ -91,6 +101,7 @@ export default function connection(state = initialState, action) {
           action.payload.account,
           action.payload.authorization || 'active',
         ].join('@'),
+        chainId: action.payload.chainId || state.chainId,
         signPath: action.payload.path
       });
     }
@@ -102,6 +113,7 @@ export default function connection(state = initialState, action) {
           action.payload.account,
           action.payload.authorization || 'active',
         ].join('@'),
+        chainId: action.payload.chainId || state.chainId,
         sign: true,
         keyProviderObfuscated: {
           hash: action.payload.hash,

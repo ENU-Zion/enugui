@@ -12,6 +12,7 @@ const ecc = require('enujs-ecc');
 const CryptoJS = require('crypto-js');
 
 export function importWallet(
+  chainId,
   account,
   authorization = false,
   key = false,
@@ -21,7 +22,7 @@ export function importWallet(
   path = undefined,
 ) {
   return (dispatch: () => void, getState) => {
-    const { accounts } = getState();
+    const { accounts, settings } = getState();
     const data = (key && password) ? encrypt(key, password) : undefined;
     const accountData = accounts[account];
     let pubkey = (key) ? ecc.privateToPublic(key) : publicKey;
@@ -31,12 +32,29 @@ export function importWallet(
         ([{ pubkey }] = auths);
       }
     }
+    // Detect if the current account/authorization is being reimported/replaced, and set mode
+    if (
+      settings.account === account
+      && settings.authorization === authorization
+    ) {
+      dispatch(setSettings(Object.assign({}, settings, {
+        walletMode: mode
+      })));
+    }
+    dispatch({
+      type: types.SYSTEM_BLOCKCHAINS_ENSURE,
+      payload: {
+        chainId,
+        node: settings.node,
+      }
+    });
     return dispatch({
       type: types.IMPORT_WALLET_KEY,
       payload: {
         account,
         accountData,
         authorization,
+        chainId,
         data,
         mode,
         path,
@@ -47,6 +65,7 @@ export function importWallet(
 }
 
 export function importWallets(
+  chainId,
   accounts,
   authorization = false,
   key = false,
@@ -55,30 +74,27 @@ export function importWallets(
 ) {
   return (dispatch: () => void) =>
     forEach(accounts, (account) =>
-      dispatch(importWallet(account, authorization, key, password, mode)));
+      dispatch(importWallet(chainId, account, authorization, key, password, mode)));
 }
 
-export function removeWallet(account, authorization) {
+export function removeWallet(chainId, account, authorization) {
   return (dispatch: () => void) => {
     dispatch({
       type: types.REMOVE_WALLET,
       payload: {
         account,
-        authorization
+        authorization,
+        chainId,
       }
     });
   };
 }
 
-export function useWallet(account, authorization) {
+export function useWallet(chainId, account, authorization) {
   return (dispatch: () => void, getState) => {
     const { wallet, wallets } = getState();
     // Find the wallet by account name + authorization
-    let newWallet = find(wallets, { account, authorization });
-    // If the wallet doesn't match both, try just account name
-    if (!newWallet) {
-      newWallet = find(wallets, { account });
-    }
+    const newWallet = find(wallets, { account, authorization, chainId });
     // Lock the wallet to remove old account keys
     dispatch({
       type: types.WALLET_LOCK
@@ -128,12 +144,13 @@ export function upgradeWallet(account, authorization, password = false, swap = f
             account,
             accountData,
             authorization: auth,
+            chainId: connection.chainId,
             oldAuthorization: wallet.authorization,
             pubkey,
           }
         });
         if (swap === true) {
-          dispatch(useWallet(account, auth));
+          dispatch(useWallet(current.chainId, account, auth));
         }
         return false;
       }).catch((err) => dispatch({
@@ -154,6 +171,7 @@ export function upgradeWatchWallet(account, authorization, swap = false) {
     const [current] = partition(wallets, {
       account,
       authorization: false,
+      chainId: connection.chainId,
       mode: 'watch'
     });
     if (current.length > 0) {
@@ -168,12 +186,13 @@ export function upgradeWatchWallet(account, authorization, swap = false) {
               account,
               accountData,
               authorization,
+              chainId: connection.chainId,
               oldAuthorization: false,
               pubkey,
             }
           });
           if (swap === true) {
-            dispatch(useWallet(account, authorization));
+            dispatch(useWallet(current.chainId, account, authorization));
           }
         }
         return false;

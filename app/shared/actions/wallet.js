@@ -6,7 +6,7 @@ import ENUAccount from '../utils/ENU/Account';
 const CryptoJS = require('crypto-js');
 const ecc = require('enujs-ecc');
 
-export function setWalletKey(data, password, mode = 'hot', existingHash = false, auth = false) {
+export function setWalletKey(data, password, mode = 'hot', existingHash = false, auth = false, chainId = false) {
   return (dispatch: () => void, getState) => {
     const { accounts, connection, settings } = getState();
     let hash = existingHash;
@@ -31,11 +31,19 @@ export function setWalletKey(data, password, mode = 'hot', existingHash = false,
       }
     }
     dispatch({
+      type: types.SYSTEM_BLOCKCHAINS_ENSURE,
+      payload: {
+        chainId,
+        node: settings.node,
+      }
+    });
+    dispatch({
       type: types.SET_CURRENT_KEY,
       payload: {
         account: settings.account,
         accountData,
         authorization,
+        chainId,
         hash,
         key: obfuscated,
         pubkey
@@ -47,6 +55,7 @@ export function setWalletKey(data, password, mode = 'hot', existingHash = false,
         account: settings.account,
         accountData: accounts[settings.account],
         authorization,
+        chainId,
         data: encrypt(key, password),
         mode,
         path: undefined,
@@ -222,6 +231,14 @@ export function unlockWallet(password, useWallet = false) {
   };
 }
 
+export function clearWallet() {
+  return (dispatch: () => void) => {
+    dispatch({
+      type: types.WALLET_REMOVE
+    });
+  }
+}
+
 export function setWalletMode(walletMode) {
   return (dispatch: () => void) => {
     // Set the wallet mode
@@ -282,6 +299,7 @@ export function decrypt(data, pass, iterations = 4500) {
 }
 
 export default {
+  clearWallet,
   decrypt,
   encrypt,
   lockWallet,

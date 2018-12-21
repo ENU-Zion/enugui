@@ -1,7 +1,10 @@
 import { getCurrencyBalance } from './accounts';
 import * as types from './types';
 import * as chain from './chain';
+import { getGlobals } from './globals';
+import { historyPluginCheck } from './connection';
 import enu from './helpers/enu';
+import { find } from 'lodash';
 
 const ecc = require('enujs-ecc');
 
@@ -63,7 +66,10 @@ export function validateNode(node) {
       // Establish ENU connection
       try {
         const {
-          connection
+          actions,
+          blockchains,
+          connection,
+          settings
         } = getState();
         let { host, protocol, pathname } = new URL(node);
         // If the protocol contains the original value with a colon,
@@ -84,14 +90,21 @@ export function validateNode(node) {
         enu(modified).getInfo({}).then(result => {
           // If we received a valid height, confirm this server can be connected to
           if (result.head_block_num > 1) {
+            const blockchain = find(blockchains, { chainId: result.chain_id });
             // Dispatch success
             dispatch({
               payload: {
+                blockchain,
+                info: result,
                 node: httpEndpoint,
-                info: result
+                settings,
               },
               type: types.VALIDATE_NODE_SUCCESS
             });
+            // Check if the new node supports the History Plugin
+            dispatch(historyPluginCheck());
+            // Grab globals
+            dispatch(getGlobals());
             // Refresh our connection properties with new chain info
             return dispatch(chain.getInfo());
           }

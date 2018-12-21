@@ -9,10 +9,12 @@ import compose from 'lodash/fp/compose';
 import { Menu, Tab } from 'semantic-ui-react';
 
 import ContractInterface from './Contract/Interface';
+import GlobalUtilsPingContainer from './Global/Utils/Ping';
 import RecommendationInterface from './Recommendation/Interface';
 
 import Tools from '../components/Tools';
 import ToolsBidName from '../components/Tools/BidName';
+import ToolsBlockchains from '../components/Tools/Blockchains';
 import ToolsContacts from '../components/Tools/Contacts';
 import ToolsCreateAccount from '../components/Tools/CreateAccount';
 import ToolsCustomTokens from '../components/Tools/CustomTokens';
@@ -25,6 +27,7 @@ import ToolsReset from '../components/Tools/Reset';
 import ToolsStateChain from '../components/Tools/State/Chain';
 import ToolsStateGlobals from '../components/Tools/State/Globals';
 import ToolsStateWallet from '../components/Tools/State/Wallet';
+import ToolsSystemLog from '../components/Tools/System/Log';
 import ToolsWallets from '../components/Tools/Wallets';
 
 import * as AccountsActions from '../actions/accounts';
@@ -34,6 +37,7 @@ import * as CreateAccountActions from '../actions/createaccount';
 import * as CustomTokensActions from '../actions/customtokens';
 import * as GlobalsActions from '../actions/globals';
 import * as NameBidsActions from '../actions/namebids';
+import * as ProducersActions from '../actions/producers';
 import * as RegProxyActions from '../actions/system/regproxy';
 import * as RegproxyinfoActions from '../actions/system/community/regproxyinfo';
 import * as SettingsActions from '../actions/settings';
@@ -54,8 +58,13 @@ const paneMapping = [
   },
   {
     element: ToolsWallets,
-    modes: ['cold', 'hot', 'watch', 'skip'],
+    modes: ['cold', 'hot', 'watch'],
     name: 'wallets',
+  },
+  {
+    element: ToolsBlockchains,
+    modes: ['hot', 'watch', 'skip'],
+    name: 'blockchains',
   },
   {
     header: true,
@@ -80,7 +89,7 @@ const paneMapping = [
   },
   {
     element: RecommendationInterface,
-    modes: ['hot', 'watch', 'skip', 'temp'],
+    modes: ['hot', 'watch', 'temp'],
     name: 'recommendation',
   },
   {
@@ -92,6 +101,13 @@ const paneMapping = [
     header: true,
     modes: ['cold', 'hot', 'watch', 'skip', 'temp'],
     name: 'utilities',
+  },
+  {
+    container: true,
+    element: GlobalUtilsPingContainer,
+    modes: ['cold', 'hot', 'ledger', 'watch', 'skip', 'temp'],
+    name: 'ping',
+    requiredContract: 'producerinfo'
   },
   // {
   //   element: ToolsBidName,
@@ -127,6 +143,11 @@ const paneMapping = [
     header: true,
     modes: ['cold', 'hot', 'watch', 'skip', 'temp'],
     name: 'state',
+  },
+  {
+    element: ToolsSystemLog,
+    modes: ['cold', 'hot', 'ledger', 'skip', 'watch', 'temp'],
+    name: 'system_log'
   },
   {
     element: ToolsStateChain,
@@ -204,14 +225,23 @@ class ToolsContainer extends Component<Props> {
         }
         return {
           menuItem: t(`tools_menu_${pane.name}`),
-          render: () => (
-            <Tab.Pane>
-              {React.createElement(pane.element, {
-                blockExplorers: allBlockExplorers[connection.chainKey],
-                ...this.props
-              })}
-            </Tab.Pane>
-          )
+          render: () => {
+            if (pane.container) {
+              return (
+                <Tab.Pane>
+                  {React.createElement(pane.element)}
+                </Tab.Pane>
+              );
+            }
+            return (
+              <Tab.Pane>
+                {React.createElement(pane.element, {
+                  blockExplorers: allBlockExplorers[connection.chainKey],
+                  ...this.props
+                })}
+              </Tab.Pane>
+            );
+          }
         };
       });
   }
@@ -235,9 +265,10 @@ class ToolsContainer extends Component<Props> {
 function mapStateToProps(state) {
   return {
     accounts: state.accounts,
+    allBlockExplorers: state.blockexplorers,
     app: state.app,
     balances: state.balances,
-    allBlockExplorers: state.blockexplorers,
+    blockchains: state.blockchains,
     chain: state.chain,
     connection: state.connection,
     contracts: state.contracts,
@@ -246,6 +277,7 @@ function mapStateToProps(state) {
     keys: state.keys,
     settings: state.settings,
     system: state.system,
+    systemlog: state.systemlog,
     tables: state.tables,
     transaction: state.transaction,
     validate: state.validate,
@@ -264,6 +296,7 @@ function mapDispatchToProps(dispatch) {
       ...CustomTokensActions,
       ...GlobalsActions,
       ...NameBidsActions,
+      ...ProducersActions,
       ...RegProxyActions,
       ...RegproxyinfoActions,
       ...SettingsActions,

@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import { Form, Header, Icon, Segment } from 'semantic-ui-react';
 import { translate } from 'react-i18next';
 
-import WelcomeConnectionContainer from '../containers/Welcome/Connection';
 import GlobalSettingsLanguage from './Global/Settings/Language';
 import GlobalSettingsBlockExplorer from './Global/Settings/BlockExplorer';
+import GlobalSettingsShowTestnets from './Global/Settings/ShowTestnets';
 import GlobalSettingsIdleTimeout from './Global/Settings/IdleTimeout';
 import GlobalSettingsSkipLinkModal from './Global/Settings/SkipLinkModal';
 import GlobalSettingsResourceDisplayFormat from './Global/Settings/ResourceDisplayFormat';
@@ -97,18 +97,16 @@ class Tools extends Component<Props> {
                 selection
               />
             </Form.Field>
+            <Form.Field>
+              <label>{t('tools_change_display_test_networks')}</label>
+              <GlobalSettingsShowTestnets
+                actions={actions}
+                defaultValue={settings.displayTestNetworks}
+                selection
+              />
+            </Form.Field>
           </Form>
         </Segment>
-        {(settings.walletMode !== 'cold')
-          ? (
-            <Segment attached="bottom" padded="very" secondary stacked>
-              <WelcomeConnectionContainer
-                autoFocus={false}
-                onStageSelect={() => undefined}
-              />
-            </Segment>
-          ) : false
-        }
       </React.Fragment>
     );
   }

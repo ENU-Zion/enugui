@@ -2,8 +2,6 @@
 
 `EnuGui` is a limited-functionality release of a light wallet being designed for the Enumivo blockchain. This application can be used to connect to a remote Enumivo API endpoint to perform producer voting actions and a few basic wallet commands.
 
-## Get EnuGui
-
 The latest release will always be available on the releases page of this repository:
 
 [https://github.com/enumivo/enugui/releases](https://github.com/enumivo/enugui/releases)

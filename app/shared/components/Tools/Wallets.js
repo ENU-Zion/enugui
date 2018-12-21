@@ -11,6 +11,7 @@ class ToolsWallets extends Component<Props> {
   render() {
     const {
       actions,
+      blockchains,
       connection,
       settings,
       status,
@@ -40,12 +41,14 @@ class ToolsWallets extends Component<Props> {
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>{t('tools_wallets_account')}</Table.HeaderCell>
+              <Table.HeaderCell>{t('tools_wallets_blockchain')}</Table.HeaderCell>
               <Table.HeaderCell>{t('tools_wallets_mode')}</Table.HeaderCell>
               <Table.HeaderCell textAlign="right">{t('tools_wallets_controls')}</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
             {([].concat(wallets)
+                .filter((w) => (w.chainId === settings.chainId))
                 .sort((a, b) => {
                   const k1 = `${a.account}@${a.authorization}`;
                   const k2 = `${b.account}@${b.authorization}`;
@@ -54,6 +57,7 @@ class ToolsWallets extends Component<Props> {
                 .map((w) => (
                   <ToolsTableRowWallet
                     actions={actions}
+                    blockchains={blockchains}
                     current={wallet}
                     key={`${w.account}@${w.authorization}`}
                     settings={settings}

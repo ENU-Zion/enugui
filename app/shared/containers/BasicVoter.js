@@ -10,6 +10,7 @@ import { Segment } from 'semantic-ui-react';
 import About from '../components/About';
 import Producers from '../components/Producers';
 import TabMenu from '../components/TabMenu';
+import GlobalAccountSelect from './Global/Account/Select';
 import Test from './Test';
 import Tools from './Tools';
 import Wallet from '../components/Wallet';
@@ -125,17 +126,18 @@ class BasicVoterContainer extends Component<Props> {
 
   render() {
     const {
-      activeItem
-    } = this.state;
-    const {
       actions,
       app,
+      blockchains,
       connection,
       keys,
       settings,
       validate,
       wallet
     } = this.props;
+    let {
+      activeItem
+    } = this.state;
 
     let activeTab = <Producers {...this.props} />;
     switch (activeItem) {
@@ -159,11 +161,17 @@ class BasicVoterContainer extends Component<Props> {
         break;
       }
     }
+
+    if (['producers', 'wallet', 'tools'].includes(activeItem) && settings.walletInit && !settings.account) {
+      activeTab = <GlobalAccountSelect />;
+    }
+
     return (
       <div>
         <TabMenu
           actions={actions}
           activeItem={activeItem}
+          blockchains={blockchains}
           connection={connection}
           handleItemClick={this.handleItemClick}
           locked={(!keys.key)}
@@ -171,12 +179,17 @@ class BasicVoterContainer extends Component<Props> {
           validate={validate}
           wallet={wallet}
         />
-        <Notifications
-          actions={actions}
-          app={app}
-          settings={settings}
-          wallet={wallet}
-        />
+        {(settings.account)
+          ? (
+            <Notifications
+              actions={actions}
+              app={app}
+              settings={settings}
+              wallet={wallet}
+            />
+          )
+          : false
+        }
         <Segment
           attached="bottom"
           basic
@@ -184,6 +197,16 @@ class BasicVoterContainer extends Component<Props> {
         >
           {activeTab}
         </Segment>
+        {(settings.chainId === 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906')
+          ? (
+            <ModalConstitution
+              actions={actions}
+              isUser={(keys.account)}
+              settings={settings}
+            />
+          )
+          : false
+        }
       </div>
     );
   }
@@ -195,6 +218,7 @@ function mapStateToProps(state) {
     app: state.app,
     actionHistories: state.actions,
     balances: state.balances,
+    blockchains: state.blockchains,
     allBlockExplorers: state.blockexplorers,
     chain: state.chain,
     connection: state.connection,
