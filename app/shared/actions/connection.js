@@ -26,7 +26,11 @@ export function historyPluginCheck() {
       settings
     } = getState();
 
+    return enu(connection).getActions('aiden.pearce').then((result) => dispatch({
+      type: types.SET_CONNECTION_HISTORY_PLUGIN_ENABLED,
+      payload: { enabled: (result.actions && result.actions.length !== 0) }
     })).catch(() => dispatch({
+      type: types.SET_CONNECTION_HISTORY_PLUGIN_ENABLED,
       payload: { enabled: false }
     }));
   };
