@@ -42,7 +42,7 @@ class DevTest extends Component<Props> {
   }
   testVote = () => {
     const { actions } = this.props;
-    actions.voteproducers(['teamgreymass']);
+    actions.voteproducers(['enudavidfnck']);
     this.setState({ actionName: 'VOTEPRODUCER' });
   }
   testProxy = () => {
@@ -111,7 +111,7 @@ class DevTest extends Component<Props> {
               primary
             />
             <Button
-              content="Vote TeamGreymass"
+              content="Vote enudavidfnck"
               onClick={this.testVote}
               primary
             />
