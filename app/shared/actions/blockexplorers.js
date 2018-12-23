@@ -28,8 +28,8 @@ export function getBlockExplorers() {
         {
           name: 'qsx.io',
           patterns: {
-            account: 'https://www.bloks.io/account/{account}',
-            txid: 'https://www.bloks.io/transaction/{txid}'
+            account: 'https://enumivo.qsx.io/accounts/{account}',
+            txid: 'https://enumivo.qsx.io/transactions/{txid}'
           }
         }
       ]
