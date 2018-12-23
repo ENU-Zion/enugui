@@ -22,8 +22,8 @@ class GlobalAccountDropdown extends Component<Props> {
     this.setState({ open: !this.state.open });
   }
   swapAccount = (account, authorization, password = false) => {
-    const { actions } = this.props;
-    actions.useWallet(account, authorization);
+    const { actions, settings } = this.props;
+    actions.useWallet(settings.chainId, account, authorization);
     if (password) {
       actions.unlockWallet(password);
     }
@@ -40,7 +40,13 @@ class GlobalAccountDropdown extends Component<Props> {
       return false;
     }
     const options = wallets
-      .filter(w => (w.account !== wallet.account || w.authorization !== wallet.authorization))
+      .filter(w => (
+        w.chainId === settings.chainId
+        && (
+          w.account !== wallet.account
+          || w.authorization !== wallet.authorization
+        )
+      ))
       .sort((a, b) => a.account > b.account)
       .map((w) => {
         let icon = {
@@ -86,10 +92,20 @@ class GlobalAccountDropdown extends Component<Props> {
           w
         };
       });
+    let currentName = (wallet.authorization)
+      ? `${wallet.account}@${wallet.authorization}`
+      : `${wallet.account}`;
     let icon = {
       color: 'green',
       name: 'id card'
     };
+    if (!wallet.mode) {
+      currentName = "Select an Account...";
+      icon = {
+        color: 'red',
+        name: 'x'
+      }
+    }
     switch (wallet.mode) {
       case 'cold': {
         icon = {
@@ -124,14 +140,7 @@ class GlobalAccountDropdown extends Component<Props> {
           <span>
             <Icon color={icon.color} name={icon.name} />
             {' '}
-            {(wallet.authorization)
-              ? (
-                `${wallet.account}@${wallet.authorization}`
-              )
-              : (
-                `${wallet.account}`
-              )
-            }
+            {currentName}
           </span>
         )}
       >

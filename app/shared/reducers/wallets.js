@@ -9,12 +9,28 @@ export default function wallets(state = initialState, action) {
     case types.RESET_ALL_STATES: {
       return [...initialState];
     }
-    case types.SET_CURRENT_WALLET:
-    case types.IMPORT_WALLET_KEY: {
+    case types.ADD_WALLET: {
       const [, other] = partition(state, {
         account: action.payload.account,
-        authorization: action.payload.authorization
+        authorization: action.payload.authorization,
+        chainId: action.payload.chainId,
       });
+
+      return [
+        action.payload,
+        ...other
+      ];
+    }
+    case types.SET_CURRENT_WALLET:
+    case types.IMPORT_WALLET_KEY: {
+      const partitionParams = {
+        account: action.payload.account,
+        chainId: action.payload.chainId || false,
+      };
+      if (action.payload.authorization) {
+        partitionParams.authorization = action.payload.authorization;
+      }
+      const [, other] = partition(state, partitionParams);
       return [
         action.payload,
         ...other
@@ -23,14 +39,16 @@ export default function wallets(state = initialState, action) {
     case types.REMOVE_WALLET: {
       const [, other] = partition(state, {
         account: action.payload.account,
-        authorization: action.payload.authorization
+        authorization: action.payload.authorization,
+        chainId: action.payload.chainId,
       });
       return other;
     }
     case types.UPGRADE_WALLET: {
       const [current, other] = partition(state, {
         account: action.payload.account,
-        authorization: action.payload.oldAuthorization
+        authorization: action.payload.oldAuthorization,
+        chainId: action.payload.chainId,
       });
       if (current.length > 0) {
         const modified = Object.assign({}, current[0]);

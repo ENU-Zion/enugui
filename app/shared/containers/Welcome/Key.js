@@ -54,6 +54,7 @@ class WelcomeKeyContainer extends Component<Props> {
     } = this.state;
     const {
       actions,
+      connection,
       history,
       onStageSelect,
       settings
@@ -62,26 +63,46 @@ class WelcomeKeyContainer extends Component<Props> {
       importWallet,
       setSetting,
       setTemporaryKey,
+      setWalletMode,
       useWallet,
       validateKey
     } = actions;
     // Set for temporary usage
-    setTemporaryKey(key, authorization);
     setSetting('authorization', authorization);
     switch (settings.walletMode) {
       case 'cold': {
+        setTemporaryKey(key, authorization);
         if (ecc.isValidPrivate(key) && onStageSelect) {
           onStageSelect(4);
         }
         break;
       }
       case 'watch': {
+        const {
+          accounts,
+        } = this.props;
+        const {
+          account
+        } = settings;
+        let validKeys = [];
+        let pubkey = false
+        try {
+          if (accounts[account]) {
+            validKeys = new Set(accounts[account].permissions
+              .filter((perm) => perm.required_auth.keys.length > 0)
+              .map((perm) => perm.required_auth.keys[0].key)).values();
+          }
+          pubkey = validKeys.next().value;
+        } catch (e) {
+          // invalid key
+        }
         // Import the watch wallet
-        importWallet(settings.account, authorization, false, false, 'watch');
+        importWallet(connection.chainId, settings.account, authorization, false, false, 'watch', pubkey);
         // Set this wallet as the used wallet
-        useWallet(settings.account, 'active');
+        useWallet(connection.chainId, settings.account, authorization);
         // Initialize the wallet setting
         setSetting('walletInit', true);
+        setSetting('chainId', connection.chainId);
         // Move on to the voter
         history.push('/voter');
         break;
@@ -89,6 +110,7 @@ class WelcomeKeyContainer extends Component<Props> {
       default: {
         // Validate against account
         validateKey(key, settings).then((authorization) => {
+          setWalletMode('hot');
           setTemporaryKey(key, authorization);
           if (onStageSelect) {
             onStageSelect(4);
@@ -320,7 +342,21 @@ class WelcomeKeyContainer extends Component<Props> {
           )
           : false
         }
-
+        {(settings.walletMode === 'watch')
+          ? (
+            <React.Fragment>
+              <p>{t('tools:tools_form_permissions_auth_permission')}</p>
+              <Dropdown
+                defaultValue={authorization}
+                fluid
+                onChange={this.setAuthorization}
+                options={options}
+                selection
+              />
+            </React.Fragment>
+          )
+          : false
+        }
         {matching}
         {message}
         <Container>
@@ -371,6 +407,6 @@ function mapDispatchToProps(dispatch) {
 
 export default compose(
   withRouter,
-  translate('welcome'),
+  translate(['welcome','tools']),
   connect(mapStateToProps, mapDispatchToProps)
 )(WelcomeKeyContainer);

@@ -1,8 +1,6 @@
 import * as types from '../actions/types';
 
-const initialState = {
-  data: false
-};
+const initialState = {};
 
 export default function wallet(state = initialState, action) {
   switch (action.type) {
@@ -15,6 +13,7 @@ export default function wallet(state = initialState, action) {
         account: action.payload.account,
         accountData: action.payload.accountData,
         authorization: action.payload.authorization,
+        chainId: action.payload.chainId || false,
         convertParameters: action.payload.convertParameters,
         data: action.payload.data,
         mode: action.payload.mode,

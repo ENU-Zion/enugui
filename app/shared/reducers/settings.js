@@ -5,6 +5,8 @@ import * as types from '../actions/types';
 const initialState = {
   // If the wallet has ackknowledged understanding the smart contract tool
   acceptedContractInterface: false,
+  // If the wallet has ackknowledged understanding privacy concerns of the ping tool
+  acceptedPingInterface: false,
   // Enable advanced permissions management
   advancedPermissions: false,
   // The loaded account
@@ -12,7 +14,9 @@ const initialState = {
   // The loaded authorization
   authorization: undefined,
   // The block explorer used
-  blockExplorer: 'enumivo.qsx.io',
+  blockExplorer: 'qsx.io',
+  // Current chain_id
+  chainId: false,
   // List of contacts
   contacts: [],
   // Custom tokens the wallet should be tracking
@@ -24,12 +28,16 @@ const initialState = {
   devTestDefaultState: false,
   // Defaults to displaying resources remaining
   displayResourcesAvailable: true,
+  // Whether or not to display known testnets for the various networks
+  displayTestNetworks: false,
   // Default filter spam transfers to false
   filterSpamTransfersUnder: 0.0000,
   // Default Idle Timeout
   idleTimeout: 999999999,
   // Default language
   lang: '',
+  // Last location a file was opened/saved from
+  lastFilePath: '',
   // The node to connect to
   node: '',
   // Recent names that the wallet has bid on.
@@ -58,13 +66,6 @@ export default function settings(state = initialState, action) {
   switch (action.type) {
     case types.RESET_ALL_STATES: {
       return Object.assign({}, initialState);
-    }
-    case types.WALLET_REMOVE: {
-      return Object.assign({}, state, {
-        account: '',
-        walletInit: false,
-        walletMode: 'hot'
-      });
     }
     case types.SET_WALLET_HASH: {
       return Object.assign({}, state, {

@@ -15,6 +15,8 @@ import GlobalTransactionHandler from '../Global/Transaction/Handler';
 
 import DevStateTabs from './State/Tabs';
 
+import ENUWallet from '../../utils/Anchor/Wallet';
+
 class DevTest extends Component<Props> {
   state = {
     actionName: false
@@ -40,13 +42,25 @@ class DevTest extends Component<Props> {
   }
   testVote = () => {
     const { actions } = this.props;
-    actions.voteproducers(['teamgreymass']);
+    actions.voteproducers(['enudavidfnck']);
     this.setState({ actionName: 'VOTEPRODUCER' });
   }
   testProxy = () => {
     const { actions } = this.props;
     actions.voteproducers([], 'jestaaaaaaaa');
     this.setState({ actionName: 'VOTEPRODUCER' });
+  }
+  testExport = () => {
+    const { connection, wallet } = this.props;
+    // Create an empty model
+    const model1 = new ENUWallet();
+    // Import the current wallet from props (which should always be the curren anchor version)
+    model1.importProps(wallet, connection.chainId)
+    // Export as a single wallet JSON format
+    const json = JSON.parse(model1.json())
+    // Create a new model loading the exported format
+    console.log(model2.json())
+    console.log(model2.exportProps())
   }
   render() {
     const {
@@ -58,7 +72,6 @@ class DevTest extends Component<Props> {
     } = this.props;
     const { actionName } = this.state;
     const transaction = system[`${actionName}_LAST_TRANSACTION`] || {};
-    console.log(connection)
     return (
       <Grid>
         <Grid.Column width={4}>
@@ -94,13 +107,18 @@ class DevTest extends Component<Props> {
               primary
             />
             <Button
-              content="Vote TeamGreymass"
+              content="Vote enudavidfnck"
               onClick={this.testVote}
               primary
             />
             <Button
               content="Proxy jestaaaaaaaa"
               onClick={this.testProxy}
+              primary
+            />
+            <Button
+              content="Test Export"
+              onClick={() => this.testExport()}
               primary
             />
           </Button.Group>

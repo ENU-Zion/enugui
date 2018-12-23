@@ -1,4 +1,5 @@
 import * as types from './types';
+import enu from './helpers/enu';
 
 export function setConnectionBroadcast(enable = true) {
   return (dispatch: () => void) => {
@@ -18,7 +19,35 @@ export function setConnectionSign(enable = true) {
   };
 }
 
+export function historyPluginCheck() {
+  return (dispatch: () => void, getState) => {
+    const {
+      connection,
+      settings
+    } = getState();
+
+    return enu(connection).getActions('aiden.pearce').then((result) => dispatch({
+      type: types.SET_CONNECTION_HISTORY_PLUGIN_ENABLED,
+      payload: { enabled: (result.actions && result.actions.length !== 0) }
+    })).catch(() => dispatch({
+      type: types.SET_CONNECTION_HISTORY_PLUGIN_ENABLED,
+      payload: { enabled: false }
+    }));
+  };
+}
+
+export function setChainId(chainId) {
+  return (dispatch: () => void) => {
+    dispatch({
+      type: types.SET_CHAIN_ID,
+      payload: { chainId }
+    });
+  };
+}
+
 export default {
+  historyPluginCheck,
+  setChainId,
   setConnectionBroadcast,
   setConnectionSign,
 };

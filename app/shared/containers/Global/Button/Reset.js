@@ -16,6 +16,7 @@ class GlobalButtonResetContainer extends Component<Props> {
   close = () => this.setState({ open: false })
 
   confirmRemoveWallet = () => {
+    const { actions } = this.props;
     this.setState({ open: false }, () => {
       const {
         actions,

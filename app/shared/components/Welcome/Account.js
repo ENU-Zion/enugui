@@ -8,6 +8,7 @@ class WelcomeAccount extends Component<Props> {
   render() {
     const {
       onStageSelect,
+      stage,
       t
     } = this.props;
     return (
@@ -20,6 +21,7 @@ class WelcomeAccount extends Component<Props> {
         </Header>
         <WelcomeAccountContainer
           onStageSelect={onStageSelect}
+          stage={stage}
         />
       </Segment>
     );
