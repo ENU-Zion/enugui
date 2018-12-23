@@ -70,10 +70,6 @@ class ToolsPing extends Component<Props> {
         producersInfo
       } = this.props.producers;
       const endpoints = [
-        {
-          producer: 'api',
-          host: 'https://api.enumivo.org'
-        },
       ];
       Object.keys(producersInfo).forEach((key) => {
         const producer = producersInfo[key];
@@ -129,7 +125,11 @@ class ToolsPing extends Component<Props> {
     }, () => {
       this.props.actions.pingSetEstimatedRequests(estimatedRequests);
       this.props.actions.pingNodes(endpoints, {
+        account_name: settings.account || 'aiden.pearce',
         offset: -1,
+        pos: -1
+      });
+    });
   })
   start = () => {
     this.reset(() => {
