@@ -170,7 +170,7 @@ const migrations = {
   /*
   8 - Networks
 
-    - Force all existing wallets to EOS Mainnet
+    - Force all existing wallets to Enumivo Mainnet
 
   */
   8: (state) => {

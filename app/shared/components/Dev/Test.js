@@ -15,7 +15,7 @@ import GlobalTransactionHandler from '../Global/Transaction/Handler';
 
 import DevStateTabs from './State/Tabs';
 
-import EOSWallet from '../../utils/EOS/Wallet';
+import ENUWallet from '../../utils/ENU/Wallet';
 
 class DevTest extends Component<Props> {
   state = {
@@ -53,13 +53,13 @@ class DevTest extends Component<Props> {
   testExport = () => {
     const { connection, wallet } = this.props;
     // Create an empty model
-    const model1 = new EOSWallet();
+    const model1 = new ENUWallet();
     // Import the current wallet from props (which should always be the curren anchor version)
     model1.importProps(wallet, connection.chainId)
     // Export as a single wallet JSON format
     const json = JSON.parse(model1.json())
     // Create a new model loading the exported format
-    const model2 = new EOSWallet(json);
+    const model2 = new ENUWallet(json);
     // Log the two models to compare
     console.log(model1.json())
     console.log(model2.json())

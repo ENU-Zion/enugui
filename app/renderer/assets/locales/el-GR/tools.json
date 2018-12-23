@@ -217,7 +217,7 @@
   "tools_system_log_display_errors": "Display errors only",
   "tools_system_log_header": "API Traffic Log",
   "tools_system_log_save_file": "Save Log File",
-  "tools_system_log_subheader": "Displays the last 1000 requests made to the EOSIO API service to observe any communication problems.",
+  "tools_system_log_subheader": "Displays the last 1000 requests made to the Enumivo API service to observe any communication problems.",
   "tools_title": "Wallet Tools",
   "tools_wallet_state_header": "Local Wallet State",
   "tools_wallet_state_subheader": "An overview of the local wallet state. This information can be used to help debug the application.",

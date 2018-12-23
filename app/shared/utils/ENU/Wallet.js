@@ -1,4 +1,4 @@
-export default class EOSWallet {
+export default class ENUWallet {
   constructor(wallet = {}) {
     this.wallet = wallet;
   }

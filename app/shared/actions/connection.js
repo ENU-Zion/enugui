@@ -1,5 +1,5 @@
 import * as types from './types';
-import eos from './helpers/eos';
+import enu from './helpers/enu';
 
 export function setConnectionBroadcast(enable = true) {
   return (dispatch: () => void) => {
@@ -26,7 +26,7 @@ export function historyPluginCheck() {
       settings
     } = getState();
 
-    return eos(connection).getActions('teamgreymass').then((result) => dispatch({
+    return enu(connection).getActions('teamgreymass').then((result) => dispatch({
       type: types.SET_CONNECTION_HISTORY_PLUGIN_ENABLED,
       payload: { enabled: (result.actions && result.actions.length !== 0) }
     })).catch(() => dispatch({
