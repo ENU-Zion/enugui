@@ -103,7 +103,6 @@ class WelcomeAccountContainer extends Component<Props> {
   render() {
     const {
       accounts,
-      hardwareLedgerImport,
       onStageSelect,
       settings,
       stage,
@@ -218,25 +217,6 @@ class WelcomeAccountContainer extends Component<Props> {
               style={{ marginTop: '1em' }}
             />
           </Container>
-          {((stage === 1 || (stage === 2 && validate.ACCOUNT !== 'SUCCESS'))
-            && settings.walletMode !== 'cold')
-            ? (
-              <React.Fragment>
-                <Divider horizontal>or</Divider>
-                <Container textAlign="center">
-                  <Button
-                    color="purple"
-                    content={t('welcome:welcome_lookup_account_ledger')}
-                    icon="usb"
-                    onClick={hardwareLedgerImport}
-                    size="small"
-                    style={{ marginTop: '1em' }}
-                  />
-                </Container>
-              </React.Fragment>
-            )
-            : false
-          }
         </Form>
       </React.Fragment>
     );

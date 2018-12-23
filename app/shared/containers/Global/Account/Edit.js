@@ -17,7 +17,6 @@ const authOptions = [
 ];
 
 const walletOptions = [
-  { key: 'ledger', text: 'ledger', value: 'ledger' },
   { key: 'hot', text: 'hot', value: 'hot' },
   { key: 'cold', text: 'cold', value: 'cold' },
   { key: 'watch', text: 'watch', value: 'watch' },

@@ -7,7 +7,6 @@ import WelcomeAccountContainer from '../../containers/Welcome/Account';
 class WelcomeAccount extends Component<Props> {
   render() {
     const {
-      hardwareLedgerImport,
       onStageSelect,
       stage,
       t
@@ -21,7 +20,6 @@ class WelcomeAccount extends Component<Props> {
           {t('welcome_stage')} #2: {t('welcome_stage_account')}
         </Header>
         <WelcomeAccountContainer
-          hardwareLedgerImport={hardwareLedgerImport}
           onStageSelect={onStageSelect}
           stage={stage}
         />

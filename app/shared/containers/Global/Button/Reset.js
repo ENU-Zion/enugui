@@ -7,7 +7,6 @@ import { translate } from 'react-i18next';
 import { Button, Confirm } from 'semantic-ui-react';
 import compose from 'lodash/fp/compose';
 
-import * as LedgerActions from '../../../actions/hardware/ledger';
 import * as SettingsActions from '../../../actions/settings';
 
 class GlobalButtonResetContainer extends Component<Props> {
@@ -18,7 +17,6 @@ class GlobalButtonResetContainer extends Component<Props> {
 
   confirmRemoveWallet = () => {
     const { actions } = this.props;
-    actions.ledgerStopListen();
     this.setState({ open: false }, () => {
       const {
         actions,
@@ -73,7 +71,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      ...LedgerActions,
       ...SettingsActions,
     }, dispatch)
   };

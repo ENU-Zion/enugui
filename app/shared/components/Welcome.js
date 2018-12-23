@@ -97,7 +97,6 @@ class Welcome extends Component<Props> {
       if (stage >= 2 && (settings.chainId || validate.NODE === 'SUCCESS')) {
         stageElement = (
           <WelcomeAccount
-            hardwareLedgerImport={this.hardwareLedgerImport}
             onStageSelect={this.onStageSelect}
             stage={stage}
           />

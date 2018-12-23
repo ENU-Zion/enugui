@@ -105,14 +105,14 @@ const paneMapping = [
   {
     container: true,
     element: GlobalUtilsPingContainer,
-    modes: ['cold', 'hot', 'ledger', 'watch', 'skip', 'temp'],
+    modes: ['cold', 'hot', 'watch', 'skip', 'temp'],
     name: 'ping',
     requiredContract: 'producerinfo'
   },
   {
     container: true,
     element: GlobalUtilsPingContainer,
-    modes: ['cold', 'hot', 'ledger', 'watch', 'skip', 'temp'],
+    modes: ['cold', 'hot', 'watch', 'skip', 'temp'],
     name: 'ping',
     requiredContract: 'producerinfo'
   },
@@ -153,7 +153,7 @@ const paneMapping = [
   },
   {
     element: ToolsSystemLog,
-    modes: ['cold', 'hot', 'ledger', 'skip', 'watch', 'temp'],
+    modes: ['cold', 'hot', 'skip', 'watch', 'temp'],
     name: 'system_log'
   },
   {

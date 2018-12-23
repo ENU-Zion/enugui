@@ -13,7 +13,7 @@ export default class ENUWallet {
         data: wallet.data || undefined,
         path: wallet.path || undefined,
         pubkey: wallet.pubkey,
-        type: (wallet.path) ? 'ledger' : 'key',
+        type: 'key',
       }
     };
   }
@@ -27,7 +27,7 @@ export default class ENUWallet {
           authorization: wallet.authority,
           chainId: wallet.chainId,
           data: wallet.data,
-          mode: (wallet.path) ? 'ledger' : mode,
+          mode: mode,
           path: wallet.path,
           pubkey: wallet.pubkey,
         };

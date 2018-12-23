@@ -13,11 +13,6 @@ class GlobalFragmentWalletType extends Component<Props> {
     let color = 'grey';
     let icon = 'disk';
     switch (mode) {
-      case 'ledger': {
-        color = 'purple';
-        icon = 'usb';
-        break;
-      }
       case 'watch': {
         color = 'grey';
         icon = 'eye';
