@@ -1,5 +1,9 @@
 import * as types from './types';
+import enu from './helpers/enu';
+
+export function setConnectionBroadcast(enable = true) {
   return (dispatch: () => void) => {
+    dispatch({
       payload: { enable },
       type: types.SET_CONNECTION_BROADCAST
     });

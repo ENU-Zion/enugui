@@ -8,7 +8,7 @@ import GlobalButtonAccountImport from '../Global/Button/Account/Import';
 import ToolsTableRowWallet from './Table/Row/Wallet';
 import ToolsModalDuplicatingWallet from './Modal/DuplicatingWallet'
 
-import EOSWallet from '../../utils/Anchor/Wallet';
+import ENUWallet from '../../utils/Anchor/Wallet';
 
 const { ipcRenderer } = require('electron');
 
@@ -31,7 +31,7 @@ class ToolsWallets extends Component<Props> {
         data: Object.assign({}, settings),
       },
       wallets: wallets.map((wallet) => {
-        const model = new EOSWallet();
+        const model = new ENUWallet();
         model.importProps(wallet, connection.chainId);
         return model.wallet;
       })

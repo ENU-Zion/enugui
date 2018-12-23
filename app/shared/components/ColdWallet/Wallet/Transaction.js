@@ -25,7 +25,7 @@ class ColdWalletTransaction extends Component<Props> {
 
   saveFile = (tx = false) => {
     const { settings, transaction } = this.props;
-    const data = new EOSTransaction(tx || transaction);
+    const data = new ENUTransaction(tx || transaction);
     ipcRenderer.send('saveFile', settings.lastFilePath, data.json(), 'signed');
   }
 
