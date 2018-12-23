@@ -9,13 +9,28 @@ export default function wallets(state = initialState, action) {
     case types.RESET_ALL_STATES: {
       return [...initialState];
     }
-    case types.SET_CURRENT_WALLET:
-    case types.IMPORT_WALLET_KEY: {
+    case types.ADD_WALLET: {
       const [, other] = partition(state, {
         account: action.payload.account,
         authorization: action.payload.authorization,
-        chainId: action.payload.chainId || false,
+        chainId: action.payload.chainId,
       });
+
+      return [
+        action.payload,
+        ...other
+      ];
+    }
+    case types.SET_CURRENT_WALLET:
+    case types.IMPORT_WALLET_KEY: {
+      const partitionParams = {
+        account: action.payload.account,
+        chainId: action.payload.chainId || false,
+      };
+      if (action.payload.authorization) {
+        partitionParams.authorization = action.payload.authorization;
+      }
+      const [, other] = partition(state, partitionParams);
       return [
         action.payload,
         ...other

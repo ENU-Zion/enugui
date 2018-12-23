@@ -10,6 +10,7 @@ import ReactJson from 'react-json-view';
 
 import About from '../components/About';
 import ColdWallet from '../components/ColdWallet/Wallet';
+import GlobalAccountSelect from './Global/Account/Select';
 import TabMenu from '../components/TabMenu';
 import Tools from './Tools';
 
@@ -109,23 +110,7 @@ class ColdWalletContainer extends Component<Props> {
           {(wallet.data || keys.key)
             ? activeTab
             : (
-              <React.Fragment>
-                <ReactJson
-                  displayDataTypes={false}
-                  displayObjectSize={false}
-                  iconStyle="square"
-                  name={null}
-                  src={wallet}
-                  style={{ padding: '1em' }}
-                  theme="harmonic"
-                />
-                <Button
-                  color="purple"
-                  content={t('continue_setup')}
-                  fluid
-                  onClick={this.continueSetup}
-                />
-              </React.Fragment>
+              <GlobalAccountSelect />
             )
           }
         </Segment>

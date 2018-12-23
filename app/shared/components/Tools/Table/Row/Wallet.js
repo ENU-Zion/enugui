@@ -18,6 +18,11 @@ const initialEditState = {
   editAuthorization: undefined,
 };
 
+const initialEditState = {
+  editAccount: undefined,
+  editAuthorization: undefined,
+};
+
 class ToolsTableRowWallet extends Component<Props> {
   constructor(props) {
     super(props);
@@ -43,6 +48,10 @@ class ToolsTableRowWallet extends Component<Props> {
       actions.unlockWallet(password);
     }
   }
+  resetEditWallet = () => this.setState(Object.assign(
+    this.state,
+    initialEditState
+  ));
   resetEditWallet = () => this.setState(Object.assign(
     this.state,
     initialEditState
@@ -85,6 +94,16 @@ class ToolsTableRowWallet extends Component<Props> {
         />
       )
     }
+    if (editAccount && editAuthorization) {
+      modal = (
+        <GlobalAccountEdit
+          account={editAccount}
+          authorization={editAuthorization}
+          data={wallet}
+          onClose={this.resetEditWallet}
+        />
+      )
+    }
     const items = [
       (
         <Dropdown.Header icon="warning sign" content={t('wallet:wallet_advanced_header')} />
@@ -95,6 +114,14 @@ class ToolsTableRowWallet extends Component<Props> {
           icon="edit"
           key="edit"
           onClick={() => this.editWallet(account, authorization)}
+        />
+      ),
+      (
+        <Dropdown.Item
+          content={t('tools_form_duplicate_duplicate')}
+          icon="copy"
+          key="duplicate"
+          onClick={() => this.props.duplicateWallet(account, authorization)}
         />
       )
     ];

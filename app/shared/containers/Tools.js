@@ -63,7 +63,7 @@ const paneMapping = [
   },
   {
     element: ToolsBlockchains,
-    modes: ['hot', 'watch', 'skip'],
+    modes: ['cold', 'hot', 'watch', 'skip'],
     name: 'blockchains',
   },
   {
@@ -101,6 +101,13 @@ const paneMapping = [
     header: true,
     modes: ['cold', 'hot', 'watch', 'skip', 'temp'],
     name: 'utilities',
+  },
+  {
+    container: true,
+    element: GlobalUtilsPingContainer,
+    modes: ['cold', 'hot', 'ledger', 'watch', 'skip', 'temp'],
+    name: 'ping',
+    requiredContract: 'producerinfo'
   },
   {
     container: true,
@@ -193,19 +200,17 @@ class ToolsContainer extends Component<Props> {
           walletMode,
           walletTemp
         } = settings;
-
-        const blockchainUnknownAndRestricted =
-          !connection.supportedContracts && pane.requiredContract;
-        const blockchainKnownAndFeatureNotSupported =
-          pane.requiredContract &&
-          !connection.supportedContracts.includes(pane.requiredContract);
-
-        if (blockchainUnknownAndRestricted || blockchainKnownAndFeatureNotSupported) {
-          return false;
+        const paneRequiresContract = !!pane.requiredContract;
+        if (paneRequiresContract) {
+          if (connection.supportedContracts && connection.supportedContracts.length > 0) {
+            const blockchainHasContract = connection.supportedContracts.includes(pane.requiredContract);
+            if (!blockchainHasContract) {
+              return false
+            }
+          }
         }
         return (
-          !walletMode
-          || (walletTemp && pane.modes.includes('temp'))
+          (walletTemp && pane.modes.includes('temp'))
           || (!skipImport && !walletTemp && pane.modes.includes(walletMode))
           || (skipImport && pane.modes.includes('skip'))
         );

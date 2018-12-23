@@ -11,6 +11,14 @@ export function clearAccountCache() {
   };
 }
 
+export function clearActionsCache() {
+  return (dispatch: () => void) => {
+    dispatch({
+      type: types.CLEAR_ACCOUNT_ACTIONS_CACHE
+    });
+  };
+}
+
 export function clearBalanceCache() {
   return (dispatch: () => void) => {
     dispatch({
@@ -113,7 +121,7 @@ export function checkAccountAvailability(account = '') {
   };
 }
 
-export function checkAccountExists(account = '') {
+export function checkAccountExists(account = '', node) {
   return (dispatch: () => void, getState) => {
     dispatch({
       type: types.SYSTEM_ACCOUNT_EXISTS_PENDING,
@@ -125,7 +133,16 @@ export function checkAccountExists(account = '') {
     } = getState();
 
     if (account && (settings.node || settings.node.length !== 0)) {
-      enu(connection).getAccount(account).then(() => dispatch({
+      let newConnection;
+
+      if (node) {
+        newConnection = Object.assign({}, connection, {
+          node,
+          httpEndpoint: node
+        });
+      }
+
+      enu(newConnection || connection).getAccount(account).then(() => dispatch({
         type: types.SYSTEM_ACCOUNT_EXISTS_SUCCESS,
         payload: { account_name: account }
       })).catch((err) => dispatch({
@@ -369,6 +386,7 @@ export default {
   checkAccountExists,
   clearAccountByKey,
   clearAccountCache,
+  clearActionsCache,
   getAccount,
   getAccountByKey,
   getActions,

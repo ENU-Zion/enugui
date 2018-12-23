@@ -6,6 +6,7 @@ import { translate } from 'react-i18next';
 import enu from '../../renderer/assets/images/enu.png';
 
 import WelcomeAccount from './Welcome/Account';
+import WelcomeAdvanced from './Welcome/Advanced';
 import WelcomeBreadcrumb from './Welcome/Breadcrumb';
 import WelcomeConnection from './Welcome/Connection';
 import WelcomePath from './Welcome/Path';
@@ -18,6 +19,7 @@ const { shell } = require('electron');
 
 class Welcome extends Component<Props> {
   state = {
+    advancedSetup: false,
     stageSelect: false
   };
 
@@ -26,6 +28,20 @@ class Welcome extends Component<Props> {
   onStageSelect = (stage) => {
     this.setState({ stageSelect: stage });
   }
+
+  cancelAdvanced = () => this.setState({ advancedSetup: false }, () => this.props.actions.setSettings({
+    account: undefined,
+    authorization: undefined,
+    chainId: undefined,
+    node: undefined,
+  }))
+
+  setupAdvanced = () => this.setState({ advancedSetup: true }, () => this.props.actions.setSettings({
+    account: undefined,
+    authorization: undefined,
+    chainId: undefined,
+    node: undefined,
+  }))
 
   skipImport = () => {
     const {
@@ -55,6 +71,7 @@ class Welcome extends Component<Props> {
       validate
     } = this.props;
     const {
+      advancedSetup,
       stageSelect
     } = this.state;
     let stage = 0;
@@ -68,17 +85,23 @@ class Welcome extends Component<Props> {
       || (settings.walletMode === 'cold' && settings.account)
     ) {
       stage = 3;
-    } else if (validate.NODE === 'SUCCESS' || settings.walletMode === 'cold') {
+    } else if (validate.NODE === 'SUCCESS') {
       stage = 2;
     }
     if (stageSelect !== false) {
       stage = stageSelect;
     }
-    let stageElement = <WelcomeConnection onStageSelect={this.onStageSelect} stage={stage} />;
+    let stageElement = <WelcomeConnection onStageSelect={this.onStageSelect} settings={settings} stage={stage} />;
     if (stage >= 1) {
       // stageElement = <WelcomePath onStageSelect={this.onStageSelect} stage={stage} />;;
-      if (stage >= 2 && (settings.walletMode === 'cold' || validate.NODE === 'SUCCESS')) {
-        stageElement = <WelcomeAccount onStageSelect={this.onStageSelect} stage={stage} />;
+      if (stage >= 2 && (settings.chainId || validate.NODE === 'SUCCESS')) {
+        stageElement = (
+          <WelcomeAccount
+            hardwareLedgerImport={this.hardwareLedgerImport}
+            onStageSelect={this.onStageSelect}
+            stage={stage}
+          />
+        );
         if (stage >= 3 && (settings.walletMode === 'cold' || validate.ACCOUNT === 'SUCCESS')) {
           stageElement = <WelcomeKey onStageSelect={this.onStageSelect} stage={stage} />;
           if (stage === 4 && (settings.walletMode === 'cold' || validate.KEY === 'SUCCESS')) {
@@ -86,6 +109,15 @@ class Welcome extends Component<Props> {
           }
         }
       }
+    }
+    if (advancedSetup) {
+      stageElement = (
+        <WelcomeAdvanced
+          onClose={this.cancelAdvanced}
+          onStageSelect={this.onStageSelect}
+          stage={stage}
+        />
+      )
     }
     return (
       <div className="welcome">
@@ -140,8 +172,22 @@ class Welcome extends Component<Props> {
                 settings
                 selection
               />
-              {(
-                (stage === 1 || (stage === 2 && validate.ACCOUNT !== 'SUCCESS'))
+              {(stage === 0 && !advancedSetup)
+                ? (
+                  <p>
+                    <Button
+                      content={t('welcome:welcome_advanced_setup')}
+                      color="purple"
+                      icon="lab"
+                      onClick={this.setupAdvanced}
+                      size="tiny"
+                      style={{ marginTop: '1em' }}
+                    />
+                  </p>
+                )
+                : false
+              }
+              {((stage === 1 || (stage === 2 && validate.ACCOUNT !== 'SUCCESS'))
                 && !settings.walletInit
                 && settings.walletMode !== 'cold'
               )

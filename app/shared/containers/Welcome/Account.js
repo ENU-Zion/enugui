@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import compose from 'lodash/fp/compose';
 import debounce from 'lodash/debounce';
 import { translate } from 'react-i18next';
-import { Button, Container, Dropdown, Form, Input, Message } from 'semantic-ui-react';
+import { Button, Container, Divider, Dropdown, Form, Input, Message } from 'semantic-ui-react';
 
 import * as AccountActions from '../../actions/accounts';
 import * as SettingsActions from '../../actions/settings';
@@ -57,20 +57,6 @@ class WelcomeAccountContainer extends Component<Props> {
     }
   }
 
-  cancelColdWallet = (e) => {
-    const {
-      actions,
-      onStageSelect
-    } = this.props;
-    const {
-      setWalletMode
-    } = actions;
-    setWalletMode('hot');
-    onStageSelect(0);
-    e.preventDefault();
-    return false;
-  }
-
   onChange = (e, { name, value }) => {
     this.setState({
       [name]: value,
@@ -117,8 +103,10 @@ class WelcomeAccountContainer extends Component<Props> {
   render() {
     const {
       accounts,
+      hardwareLedgerImport,
       onStageSelect,
       settings,
+      stage,
       t,
       validate
     } = this.props;
@@ -222,27 +210,33 @@ class WelcomeAccountContainer extends Component<Props> {
               size="small"
               style={{ marginTop: '1em' }}
             />
-            {(settings.walletMode === 'cold')
-              ? (
-                <Button
-                  content={t('welcome_cancel_coldwallet')}
-                  icon="x"
-                  onClick={this.cancelColdWallet}
-                  size="small"
-                  style={{ marginTop: '1em' }}
-                />
-              )
-              : (
-                <Button
-                  content={t('back')}
-                  icon="arrow left"
-                  onClick={() => onStageSelect(0)}
-                  size="small"
-                  style={{ marginTop: '1em' }}
-                />
-              )
-            }
+            <Button
+              content={t('back')}
+              icon="arrow left"
+              onClick={() => onStageSelect(0)}
+              size="small"
+              style={{ marginTop: '1em' }}
+            />
           </Container>
+          {((stage === 1 || (stage === 2 && validate.ACCOUNT !== 'SUCCESS'))
+            && settings.walletMode !== 'cold')
+            ? (
+              <React.Fragment>
+                <Divider horizontal>or</Divider>
+                <Container textAlign="center">
+                  <Button
+                    color="purple"
+                    content={t('welcome:welcome_lookup_account_ledger')}
+                    icon="usb"
+                    onClick={hardwareLedgerImport}
+                    size="small"
+                    style={{ marginTop: '1em' }}
+                  />
+                </Container>
+              </React.Fragment>
+            )
+            : false
+          }
         </Form>
       </React.Fragment>
     );

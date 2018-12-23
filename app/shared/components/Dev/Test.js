@@ -15,7 +15,7 @@ import GlobalTransactionHandler from '../Global/Transaction/Handler';
 
 import DevStateTabs from './State/Tabs';
 
-import ENUWallet from '../../utils/ENU/Wallet';
+import ENUWallet from '../../utils/Anchor/Wallet';
 
 class DevTest extends Component<Props> {
   state = {
@@ -59,11 +59,7 @@ class DevTest extends Component<Props> {
     // Export as a single wallet JSON format
     const json = JSON.parse(model1.json())
     // Create a new model loading the exported format
-    const model2 = new ENUWallet(json);
-    // Log the two models to compare
-    console.log(model1.json())
     console.log(model2.json())
-    // Log the props export format
     console.log(model2.exportProps())
   }
   render() {

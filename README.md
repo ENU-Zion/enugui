@@ -2,6 +2,14 @@
 
 `EnuGui` is a limited-functionality release of a light wallet being designed for the Enumivo blockchain. This application can be used to connect to a remote Enumivo API endpoint to perform producer voting actions and a few basic wallet commands.
 
+### Features
+
+- **Block Producer Voting**: Select which block producers to support and cast your vote. Please note that the block producer voting UI is not a research tool; it is a simple interface that provides a secure way to vote.
+- **Token Transfers**: Transfer ENU or any other token you may have a balance for to another user or exchanges.
+- **CPU/Bandwidth Staking**: Stake your ENU as either Bandwidth or CPU. This grants rights to resource usage on the network, in addition to conveying weight while voting for block producers.
+- **Local Wallet**: Set a password while importing your private key to create a local wallet. Your key will be encrypted locally using this password. This password will be required each time you need to unlock the wallet.
+- **Temporary Usage**: If you prefer not to store your keys within the application, simply choose not to set a password. When the application quits, your key will be forgotten.
+
 The latest release will always be available on the releases page of this repository:
 
 [https://github.com/enumivo/enugui/releases](https://github.com/enumivo/enugui/releases)

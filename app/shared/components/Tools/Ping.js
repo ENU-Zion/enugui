@@ -129,11 +129,7 @@ class ToolsPing extends Component<Props> {
     }, () => {
       this.props.actions.pingSetEstimatedRequests(estimatedRequests);
       this.props.actions.pingNodes(endpoints, {
-        account_name: settings.account || 'aiden.pearce',
         offset: -1,
-        pos: -1
-      });
-    });
   })
   start = () => {
     this.reset(() => {

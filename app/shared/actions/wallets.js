@@ -11,6 +11,40 @@ import enu from './helpers/enu';
 const ecc = require('enujs-ecc');
 const CryptoJS = require('crypto-js');
 
+export function duplicateWallet(account, authorization, chainDuplicatingTo, chainDuplicatingFrom) {
+  return (dispatch: () => void, getState) => {
+    const { wallets } = getState();
+    const currentWallet = find(wallets, { chainId: chainDuplicatingFrom, authorization, account });
+    const newWallet = Object.assign({}, currentWallet, { chainId: chainDuplicatingTo });
+
+    return dispatch({
+      type: types.ADD_WALLET,
+      payload: newWallet
+    })
+  }
+}
+
+export function importWalletFromBackup(wallet) {
+  return (dispatch: () => void) => {
+    let mode = 'watch';
+    if (wallet.type === 'key' && wallet.data) {
+      mode = 'hot';
+    }
+    return dispatch({
+      type: types.IMPORT_WALLET_KEY,
+      payload: {
+        account: wallet.account,
+        authorization: wallet.authority,
+        chainId: wallet.chainId,
+        data: wallet.data,
+        mode,
+        path: wallet.path,
+        pubkey: wallet.pubkey
+      }
+    });
+  };
+}
+
 export function importWallet(
   chainId,
   account,
@@ -41,13 +75,16 @@ export function importWallet(
         walletMode: mode
       })));
     }
-    dispatch({
-      type: types.SYSTEM_BLOCKCHAINS_ENSURE,
-      payload: {
-        chainId,
-        node: settings.node,
-      }
-    });
+    // as long as this isn't an offline wallet, ensure the blockchain exists
+    if (settings.walletMode !== 'cold') {
+      dispatch({
+        type: types.SYSTEM_BLOCKCHAINS_ENSURE,
+        payload: {
+          chainId,
+          node: settings.node,
+        }
+      });
+    }
     return dispatch({
       type: types.IMPORT_WALLET_KEY,
       payload: {
@@ -93,13 +130,13 @@ export function removeWallet(chainId, account, authorization) {
 export function useWallet(chainId, account, authorization) {
   return (dispatch: () => void, getState) => {
     const { wallet, wallets } = getState();
-    // Find the wallet by account name + authorization
-    const newWallet = find(wallets, { account, authorization, chainId });
+      walletQuery.authorization = authorization
+    }
+    const newWallet = find(wallets, walletQuery);
     // Lock the wallet to remove old account keys
     dispatch({
       type: types.WALLET_LOCK
     });
-    // Set the wallet mode configuration
     dispatch(setWalletMode(newWallet.mode));
     // Update the settings for the current account
     dispatch(setSettings({
@@ -206,6 +243,7 @@ export function upgradeWatchWallet(account, authorization, swap = false) {
 
 export default {
   importWallet,
+  importWalletFromBackup,
   importWallets,
   upgradeWallet,
   upgradeWatchWallet,

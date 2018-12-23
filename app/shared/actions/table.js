@@ -20,6 +20,11 @@ export function getTable(code, scope, table, limit = 1000, index = false, previo
       query.lower_bound = ` ${previous[previous.length - 1][index]}`;
       query.table_key = index;
     }
+
+    if (!connection.httpEndpoint) {
+      return;
+    }
+
     enu(connection).getTableRows(query).then((results) => {
       const { more } = results;
       let { rows } = results;
