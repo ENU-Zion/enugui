@@ -18,11 +18,6 @@ const initialEditState = {
   editAuthorization: undefined,
 };
 
-const initialEditState = {
-  editAccount: undefined,
-  editAuthorization: undefined,
-};
-
 class ToolsTableRowWallet extends Component<Props> {
   constructor(props) {
     super(props);
@@ -48,10 +43,6 @@ class ToolsTableRowWallet extends Component<Props> {
       actions.unlockWallet(password);
     }
   }
-  resetEditWallet = () => this.setState(Object.assign(
-    this.state,
-    initialEditState
-  ));
   resetEditWallet = () => this.setState(Object.assign(
     this.state,
     initialEditState
@@ -94,16 +85,6 @@ class ToolsTableRowWallet extends Component<Props> {
         />
       )
     }
-    if (editAccount && editAuthorization) {
-      modal = (
-        <GlobalAccountEdit
-          account={editAccount}
-          authorization={editAuthorization}
-          data={wallet}
-          onClose={this.resetEditWallet}
-        />
-      )
-    }
     const items = [
       (
         <Dropdown.Header icon="warning sign" content={t('wallet:wallet_advanced_header')} />
@@ -130,7 +111,6 @@ class ToolsTableRowWallet extends Component<Props> {
       account === current.account
       && authorization === current.authorization
     );
-
     let icon = 'disk';
     // Create delete button based on wallet
     switch (mode) {
