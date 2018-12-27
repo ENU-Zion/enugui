@@ -15,6 +15,7 @@ import Test from './Test';
 import Tools from './Tools';
 import Wallet from '../components/Wallet';
 import Notifications from '../components/Notifications';
+import ModalConstitution from '../components/Global/Modal/Constitution';
 
 import * as AccountsActions from '../actions/accounts';
 import * as AppActions from '../actions/app';
@@ -197,6 +198,16 @@ class BasicVoterContainer extends Component<Props> {
         >
           {activeTab}
         </Segment>
+        {(settings.chainId === 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f')
+          ? (
+            <ModalConstitution
+              actions={actions}
+              isUser={(keys.account)}
+              settings={settings}
+            />
+          )
+          : false
+        }
       </div>
     );
   }
