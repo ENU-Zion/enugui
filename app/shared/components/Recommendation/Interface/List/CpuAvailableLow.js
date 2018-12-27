@@ -28,14 +28,6 @@ class RecommendationInterfaceCpuAvailableLow extends Component<Props> {
           icon="warning"
           warning
         >
-          <p>
-            {t('recommendations_warning_cpu_available_low')}
-            &nbsp;-&nbsp;
-            <GlobalModalDangerLink
-              content={t('recommendations_warning_cpu_emergency_link')}
-              settings={settings}
-            />
-          </p>
         </Message>
       ) : '';
   }

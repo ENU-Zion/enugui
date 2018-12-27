@@ -110,18 +110,6 @@ const paneMapping = [
     requiredContract: 'producerinfo'
   },
   {
-    container: true,
-    element: GlobalUtilsPingContainer,
-    modes: ['cold', 'hot', 'watch', 'skip', 'temp'],
-    name: 'ping',
-    requiredContract: 'producerinfo'
-  },
-  // {
-  //   element: ToolsBidName,
-  //   modes: ['hot', 'watch'],
-  //   name: 'bid_name',
-  // },
-  {
     element: ToolsContacts,
     modes: ['hot', 'watch'],
     name: 'contacts',
@@ -140,6 +128,11 @@ const paneMapping = [
     element: ToolsKeysValidator,
     modes: ['cold', 'hot', 'skip', 'watch', 'temp'],
     name: 'keyvalidator',
+  },
+  {
+    element: ToolsBidName,
+    modes: ['hot', 'watch'],
+    name: 'name_bidding',
   },
   {
     element: ToolsProxy,
@@ -210,7 +203,8 @@ class ToolsContainer extends Component<Props> {
           }
         }
         return (
-          (walletTemp && pane.modes.includes('temp'))
+          !walletMode
+          || (walletTemp && pane.modes.includes('temp'))
           || (!skipImport && !walletTemp && pane.modes.includes(walletMode))
           || (skipImport && pane.modes.includes('skip'))
         );

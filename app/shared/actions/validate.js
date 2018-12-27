@@ -63,7 +63,7 @@ export function validateNode(node) {
     });
     // Ensure there's a value to test
     if (node || node.length !== 0) {
-      // Establish ENU connection
+      // Establish Enumivo connection
       try {
         const {
           actions,

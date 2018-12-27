@@ -1,4 +1,4 @@
-# EnuGui - Enumivo Block Producer Voting & Wallet
+# EnuGui - Enumivo Gui Wallet
 
 `EnuGui` is a limited-functionality release of a light wallet being designed for the Enumivo blockchain. This application can be used to connect to a remote Enumivo API endpoint to perform producer voting actions and a few basic wallet commands.
 
@@ -10,15 +10,23 @@
 - **Local Wallet**: Set a password while importing your private key to create a local wallet. Your key will be encrypted locally using this password. This password will be required each time you need to unlock the wallet.
 - **Temporary Usage**: If you prefer not to store your keys within the application, simply choose not to set a password. When the application quits, your key will be forgotten.
 
+## Get EnuGui
+
+### Releases
+
 The latest release will always be available on the releases page of this repository:
 
 [https://github.com/enumivo/enugui/releases](https://github.com/enumivo/enugui/releases)
 
 To determine which file you need, if you are a...
 
-- **MacOS User**: Download either the DMG (`EnuGui-***.dmg`) or ZIP (`EnuGui-***-mac.zip`) file.
-- **Windows User**: Download the EXE (`EnuGui-***.exe`) file.
-- **Linux User**: Download either the SNAP (`EnuGui-***-_amd64.snap`) or DEB (`EnuGui-***-_amd64.deb`) file
+- **MacOS User**: Download either the DMG (`enugui-***.dmg`) or ZIP (`enugui-***-mac.zip`) file.
+- **Windows User**: Download the EXE (`enugui-***.exe`) file.
+- **Linux User**: Download either the SNAP (`enugui-***-_amd64.snap`) or DEB (`enugui-***-_amd64.deb`) file
+
+### Security: Private Keys
+
+When using `EnuGui`, all transactions are signed within the application and your key is never transmitted. If a local wallet password is specified, the application will also save and encrypt your key for future use, using AES-256 encryption.
 
 ### Endpoints
 
@@ -35,8 +43,8 @@ If you'd rather build the application yourself, please ensure you have nodejs/np
 **Note**: If you are configuring this Electron application within a Windows development environment, it will involve additional steps.
 
 ```
-git clone https://github.com/enumivo/enugui.git EnuGui
-cd EnuGui
+git clone https://github.com/enumivo/enugui.git enugui
+cd enugui
 npm install
 cd app
 npm install
@@ -53,14 +61,3 @@ If you are building a binary, it must be compiled from the target OS. Windows bu
 
 The files built will be located in the `releases` folder within the root project folder.
 
-### Running development mode
-
-```
-git clone https://github.com/enumivo/enugui.git EnuGui
-cd EnuGui
-npm install
-cd app
-npm install
-cd ..
-npm run dev
-```

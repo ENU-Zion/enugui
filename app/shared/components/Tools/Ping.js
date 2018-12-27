@@ -70,6 +70,10 @@ class ToolsPing extends Component<Props> {
         producersInfo
       } = this.props.producers;
       const endpoints = [
+        {
+          producer: 'aiden.pearce',
+          host: 'https://api.enumivo.org'
+        },
       ];
       Object.keys(producersInfo).forEach((key) => {
         const producer = producersInfo[key];

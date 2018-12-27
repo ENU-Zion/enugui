@@ -11,7 +11,7 @@ const initialState = {
   chainSymbol: 'ENU',
   expireInSeconds: 120,
   // forceActionDataHex: false,
-  historyPluginEnabled: true,
+   historyPluginEnabled: true,
   httpEndpoint: null,
   keyPrefix: 'ENU',
   sign: false,
@@ -87,6 +87,8 @@ export default function connection(state = initialState, action) {
       return Object.assign({}, state, {
         broadcast: false,
         expireInSeconds: 3600,
+        keyProvider: [],
+        keyProviderObfuscated: {},
         sign: false,
         signMethod: false
       });

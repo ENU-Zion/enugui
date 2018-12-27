@@ -1,13 +1,13 @@
 {
   "name": "EnuGui",
   "productName": "EnuGui",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "description": "",
   "main": "./main.prod.js",
   "author": {
     "name": "Enumivo",
     "email": "admin@enumivo.org",
-    "url": "https://enumivo.org"
+    "url": "https://github.com/enumivo"
   },
   "scripts": {
     "electron-rebuild": "node -r babel-register ../internals/scripts/ElectronRebuild.js",

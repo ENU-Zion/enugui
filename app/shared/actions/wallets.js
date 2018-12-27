@@ -131,10 +131,10 @@ export function useWallet(chainId, account, authorization) {
   return (dispatch: () => void, getState) => {
     const { wallet, wallets } = getState();
     // Find the wallet by account name + authorization when possible
-    const walletQuery = { account, chainId }
+    const walletQuery = { account, chainId };
     if (authorization) {
       // To be able to find legacy wallets, only add authorization to the query if defined
-      walletQuery.authorization = authorization
+      walletQuery.authorization = authorization;
     }
     const newWallet = find(wallets, walletQuery);
     // Lock the wallet to remove old account keys
@@ -148,6 +148,12 @@ export function useWallet(chainId, account, authorization) {
       account,
       authorization
     }));
+    if (newWallet.path) {
+      dispatch({
+        type: types.SET_CURRENT_WALLET,
+        payload: newWallet
+      });
+    }
     if (newWallet.mode !== 'cold') {
       // Update the account in local state
       dispatch(getAccount(account));
@@ -163,7 +169,7 @@ export function useWallet(chainId, account, authorization) {
 }
 
 // Upgrades a legacy hot wallet to the newest version
-export function upgradeWallet(account, authorization, password = false, swap = false) {
+export function upgradeWallet(chainId, account, authorization, password = false, swap = false) {
   return (dispatch: () => void, getState) => {
     const {
       connection,
@@ -171,7 +177,8 @@ export function upgradeWallet(account, authorization, password = false, swap = f
     } = getState();
     const [current] = partition(wallets, {
       account,
-      authorization
+      authorization,
+      chainId
     });
     if (current.length > 0) {
       enu(connection).getAccount(account).then((accountData) => {
@@ -186,7 +193,8 @@ export function upgradeWallet(account, authorization, password = false, swap = f
             account,
             accountData,
             authorization: auth,
-            chainId: connection.chainId,
+            chainId,
+            mode: wallet.mode || 'hot',
             oldAuthorization: wallet.authorization,
             pubkey,
           }
@@ -204,7 +212,7 @@ export function upgradeWallet(account, authorization, password = false, swap = f
 }
 
 // Upgrades a legacy watch wallet (with no authorization) to a watch wallet with set authorization
-export function upgradeWatchWallet(account, authorization, swap = false) {
+export function upgradeWatchWallet(chainId, account, authorization, swap = false) {
   return (dispatch: () => void, getState) => {
     const {
       connection,
@@ -213,7 +221,7 @@ export function upgradeWatchWallet(account, authorization, swap = false) {
     const [current] = partition(wallets, {
       account,
       authorization: false,
-      chainId: connection.chainId,
+      chainId,
       mode: 'watch'
     });
     if (current.length > 0) {
@@ -229,6 +237,7 @@ export function upgradeWatchWallet(account, authorization, swap = false) {
               accountData,
               authorization,
               chainId: connection.chainId,
+              mode: 'watch',
               oldAuthorization: false,
               pubkey,
             }
