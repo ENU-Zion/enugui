@@ -1,3 +1,5 @@
+import { get, set } from 'dot-prop-immutable';
+
 import * as types from '../types';
 import enu from '../helpers/enu';
 import { setSetting } from '../settings';
@@ -15,6 +17,7 @@ export function bidname(data) {
     });
 
     const { account } = settings;
+    const [, authorization] = connection.authorization.split('@');
 
     return enu(connection, true).transaction({
       actions: [
@@ -23,18 +26,27 @@ export function bidname(data) {
           name: 'bidname',
           authorization: [{
             actor: account,
-            permission: 'active'
+            permission: authorization
           }],
           data
         }
       ]
+    }, {
+      broadcast: connection.broadcast,
+      expireInSeconds: connection.expireInSeconds,
+      sign: connection.sign
     }).then((tx) => {
-      const recentBids = (settings.recentBids && settings.recentBids) || {};
 
-      recentBids[settings.account] =
-        (recentBids[settings.account] || []).concat({ newname: data.newname, bid: data.bid });
-      dispatch(setSetting('recentBids', recentBids));
-      dispatch(getBidForName(data.newname));
+      const currentRecentBids = get(settings, `recentBids.${settings.chainId}.${settings.account}`, []) || [];
+
+      currentRecentBids.push({ newname: data.newname, bid: data.bid });
+
+      const newRecentBidsState = set(settings.recentBids, `${settings.chainId}.${settings.account}`, currentRecentBids);
+
+      dispatch(setSetting('recentBids', newRecentBidsState));
+      setTimeout(() => {
+        dispatch(getBidForName(data.newname));
+      }, 500);
 
       return dispatch({
         payload: { tx },

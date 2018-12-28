@@ -120,6 +120,7 @@ class ProducersTable extends Component<Props> {
                 return (
                   <ProducersTableRow
                     addProducer={this.props.addProducer}
+                    connection={connection}
                     getProducerInfo={this.getProducerInfo}
                     hasInfo={hasInfo}
                     key={producer.key}
@@ -150,16 +151,32 @@ class ProducersTable extends Component<Props> {
         />
         <Grid>
           <Grid.Column width={8}>
-            <Header size="small">
-              {activatedStake.toLocaleString()} {t('block_producer_chain_symbol_staked', { connection: connection.chainSymbol })} ({activatedStakePercent}%)
-              <Header.Subheader>
-                <ProducersVoteWeight
-                  weight={totalVoteWeight}
-                />
-                {' '}
-                {t('block_producer_total_weight')}
-              </Header.Subheader>
-            </Header>
+            {(activatedStakePercent < 15)
+              ? (
+                <Header size="small">
+                  {activatedStake.toLocaleString()} {t('block_producer_chain_symbol_staked', { connection: connection.chainSymbol })} ({activatedStakePercent}%)
+                  <Header.Subheader>
+                    <ProducersVoteWeight
+                      weight={totalVoteWeight}
+                    />
+                    {' '}
+                    {t('block_producer_total_weight')}
+                  </Header.Subheader>
+                </Header>
+              )
+              : (
+                <Header size="small">
+                  {t('producers_block_producers')}
+                  <Header.Subheader>
+                    <ProducersVoteWeight
+                      weight={totalVoteWeight}
+                    />
+                    {' '}
+                    {t('block_producer_total_weight')}
+                  </Header.Subheader>
+                </Header>
+              )
+            }
           </Grid.Column>
           <Grid.Column width={8} key="ProducersVotingPreview" textAlign="right">
             <Input

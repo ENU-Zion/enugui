@@ -79,11 +79,6 @@ class WalletStatusStaked extends Component<Props> {
                             &nbsp;(&nbsp;
                             {t('wallet_status_cpu_low')}
                             &nbsp; - &nbsp;
-                            <GlobalModalDangerLink
-                              content={t('wallet_status_cpu_emergency_link')}
-                              link={`https://cpuemergency.com/?account=${settings.account}`}
-                              settings={settings}
-                            />
                             &nbsp;)
                           </span>
                         )}

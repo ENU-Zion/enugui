@@ -23,10 +23,9 @@ export function setWalletKey(data, password, mode = 'hot', existingHash = false,
     let authorization;
     if (auth) {
       authorization = auth;
-    }
-    if (accountData) {
-      const auth = new ENUAccount(accountData).getAuthorization(pubkey);
-      if (auth) {
+    } else if (accountData) {
+      const detectedAuth = new ENUAccount(accountData).getAuthorization(pubkey);
+      if (detectedAuth) {
         [, authorization] = auth.split('@');
       }
     }
@@ -40,13 +39,6 @@ export function setWalletKey(data, password, mode = 'hot', existingHash = false,
         }
       });
     }
-    dispatch({
-      type: types.SYSTEM_BLOCKCHAINS_ENSURE,
-      payload: {
-        chainId,
-        node: settings.node,
-      }
-    });
     dispatch({
       type: types.SET_CURRENT_KEY,
       payload: {

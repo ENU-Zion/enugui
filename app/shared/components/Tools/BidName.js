@@ -8,6 +8,7 @@ import {
   Segment,
   Table
 } from 'semantic-ui-react';
+import { get } from 'dot-prop-immutable';
 
 import ToolsModalBidName from './Modal/BidName';
 
@@ -44,7 +45,7 @@ class ToolsProxy extends Component<Props> {
     } = actions;
 
     if (!openModal) {
-      ((settings.recentBids && settings.recentBids[settings.account]) || []).forEach((bid) => {
+      (get(settings, `recentBids.${settings.chainId}.${settings.account}`) || []).forEach((bid) => {
         getBidForName(bid.newname);
       });
     }
@@ -70,6 +71,7 @@ class ToolsProxy extends Component<Props> {
       actions,
       balances,
       blockExplorers,
+      connection,
       keys,
       settings,
       system,
@@ -84,7 +86,10 @@ class ToolsProxy extends Component<Props> {
       successMessage
     } = this.state;
 
-    const nameBids = settings.recentBids && settings.recentBids[settings.account];
+    const nameBids = get(settings, `recentBids.${settings.chainId}.${settings.account}`, []) || [];
+    const relevantNameBids = nameBids.filter(nameBid => 
+      !!nameBid.highestBid && Number(nameBid.highestBid.split(' ')[0]) >= Number(nameBid.bid.split(' ')[0])
+    )
 
     return (
       <Segment basic>
@@ -93,6 +98,7 @@ class ToolsProxy extends Component<Props> {
           actions={actions}
           balance={balances[settings.account]}
           blockExplorers={blockExplorers}
+          connection={connection}
           keys={keys}
           nameBidToRemove={nameBidToRemove}
           onClose={this.onCloseModal}
@@ -104,13 +110,13 @@ class ToolsProxy extends Component<Props> {
           wallet={wallet}
         />
         <Header
-          content={t('tools_bid_name_header_text')}
+          content={t('tools_bid_name_info_header')}
           floated="left"
-          subheader={t('tools_bid_name_subheader_text')}
+          subheader={t('tools_bid_name_info_content')}
         />
         <Message
-          content={t('tools_bid_name_info_content')}
-          header={t('tools_bid_name_info_header')}
+          content={t('tools_bid_name_message_content')}
+          header={t('tools_bid_name_message_header')}
           icon="circle question"
           info
         />
@@ -125,7 +131,7 @@ class ToolsProxy extends Component<Props> {
           {t('tools_bid_name_table_header')}
         </h2>
 
-        {(!nameBids || nameBids.length === 0)
+        {(relevantNameBids.length === 0)
           ? (
             <Message
               content={t('tools_bid_name_none')}
@@ -148,24 +154,28 @@ class ToolsProxy extends Component<Props> {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {nameBids.map((nameBid) => (
-                  <Table.Row key={nameBid.newname}>
-                    <Table.Cell>
-                      {nameBid.newname}
-                    </Table.Cell>
-                    <Table.Cell>
-                      {nameBid.bid}
-                    </Table.Cell>
-                    <Table.Cell>
-                      {nameBid.highestBid || nameBid.bid}
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Label color={nameBid.highestBid === nameBid.bid ? 'green' : 'red'}>
-                        {nameBid.highestBid === nameBid.bid ? t('tools_bid_highest_bid') : t('tools_bid_not_highest_bid')}
-                      </Label>
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
+                {relevantNameBids.map((nameBid) => {
+                  const isHighestBid = (nameBid.highestBid && Number(nameBid.highestBid.split(' ')[0])) === Number(nameBid.bid.split(' ')[0]);
+
+                  return (
+                    <Table.Row key={nameBid.newname}>
+                      <Table.Cell>
+                        {nameBid.newname}
+                      </Table.Cell>
+                      <Table.Cell>
+                        {nameBid.bid}
+                      </Table.Cell>
+                      <Table.Cell>
+                        {nameBid.highestBid}
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Label color={isHighestBid ? 'green' : 'red'}>
+                          {isHighestBid ? t('tools_bid_highest_bid') : t('tools_bid_not_highest_bid')}
+                        </Label>
+                      </Table.Cell>
+                    </Table.Row>
+                  )
+                })}
               </Table.Body>
             </Table>
           )}

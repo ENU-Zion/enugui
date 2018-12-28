@@ -27,8 +27,15 @@ class ToolsFormPermissionsAuth extends Component<Props> {
     super(props);
     let { auth } = props;
     const newAuth = !(auth);
-    if (!auth || auth.required_auth.keys.length === 0) {
+    if (!auth || auth.required_auth.keys.length === 0 && auth.required_auth.accounts.length === 0) {
       auth = Object.assign({}, defaultAuth);
+    }
+    if (!auth || auth.required_auth.keys.length === 0 && auth.required_auth.accounts.length !== 0) {
+      auth = Object.assign({}, auth);
+      auth.required_auth.keys.push({
+        key: '',
+        weight: 1
+      });
     }
     this.state = Object.assign({}, {
       auth: {
@@ -97,9 +104,6 @@ class ToolsFormPermissionsAuth extends Component<Props> {
     } = this.props;
     const { auth, parent, permission } = this.state;
     let authorization = `${settings.account}@${settings.authorization}`;
-    if (permission === 'owner') {
-      authorization = `${settings.account}@owner`;
-    }
     actions.updateauth(permission, parent, auth, authorization);
   }
   render() {
