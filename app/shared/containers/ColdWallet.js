@@ -13,7 +13,6 @@ import ColdWallet from '../components/ColdWallet/Wallet';
 import GlobalAccountSelect from './Global/Account/Select';
 import TabMenu from '../components/TabMenu';
 import Tools from './Tools';
-import ModalConstitution from '../components/Global/Modal/Constitution';
 
 import * as AccountsActions from '../actions/accounts';
 import * as SettingsActions from '../actions/settings';
@@ -115,16 +114,6 @@ class ColdWalletContainer extends Component<Props> {
             )
           }
         </Segment>
-        {(settings.chainId === 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f')
-          ? (
-            <ModalConstitution
-              actions={actions}
-              isUser={(keys.account)}
-              settings={settings}
-            />
-          )
-          : false
-        }
       </React.Fragment>
     );
   }
