@@ -2,13 +2,16 @@
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
 import {
+  Button,
   Header,
   Label,
   Message,
+  Popup,
   Segment,
   Table
 } from 'semantic-ui-react';
 import { get } from 'dot-prop-immutable';
+import { sortBy } from 'lodash';
 
 import ToolsModalBidName from './Modal/BidName';
 
@@ -23,11 +26,6 @@ class ToolsProxy extends Component<Props> {
 
   componentDidMount() {
     this.tick();
-    this.interval = setInterval(this.tick.bind(this), 30000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
   }
 
   tick() {
@@ -49,6 +47,18 @@ class ToolsProxy extends Component<Props> {
         getBidForName(bid.newname);
       });
     }
+  }
+
+  onFetchRecentBids = (e) => {
+    const  { actions } = this.props;
+
+    const {
+      getBidsForAccount
+    } = actions;
+
+    getBidsForAccount();
+
+    e.preventDefault();
   }
 
   onOpenModal = () => this.setState({ openModal: true });
@@ -87,9 +97,11 @@ class ToolsProxy extends Component<Props> {
     } = this.state;
 
     const nameBids = get(settings, `recentBids.${settings.chainId}.${settings.account}`, []) || [];
-    const relevantNameBids = nameBids.filter(nameBid => 
-      !!nameBid.highestBid && Number(nameBid.highestBid.split(' ')[0]) >= Number(nameBid.bid.split(' ')[0])
-    )
+    const relevantNameBids = nameBids.filter(nameBid =>
+      !nameBid.bid || (!!nameBid.highestBid && Number(nameBid.highestBid.split(' ')[0]) >= Number(nameBid.bid.split(' ')[0]))
+    );
+
+    const relevantNameBidsSorted = sortBy(relevantNameBids, 'newname');
 
     return (
       <Segment basic>
@@ -130,11 +142,31 @@ class ToolsProxy extends Component<Props> {
         <h2>
           {t('tools_bid_name_table_header')}
         </h2>
+        <Popup
+          content={(t('tools_bidname_search_button_popup'))}
+          inverted
+          trigger={(
+            <span>
+              <Button
+                disabled={system.NAMEBID === 'PENDING'}
+                loading={system.NAMEBID === 'PENDING'}
+                onClick={this.onFetchRecentBids}
+              >
+                {t('tools_bidname_search_recent_bids')}
+              </Button>
+            </span>
+          )}
+        />
+        {(system.NAMEBID === 'PENDING') && (
+          <React.Fragment>
+            {t('tools_bidname_fetching_recent_bids')}
+          </React.Fragment>
+        )}
 
-        {(relevantNameBids.length === 0)
+        {(relevantNameBidsSorted.length === 0)
           ? (
             <Message
-              content={t('tools_bid_name_none')}
+              content={t('tools_bid_name_none_loaded')}
               warning
             />
           ) : (
@@ -154,8 +186,8 @@ class ToolsProxy extends Component<Props> {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {relevantNameBids.map((nameBid) => {
-                  const isHighestBid = (nameBid.highestBid && Number(nameBid.highestBid.split(' ')[0])) === Number(nameBid.bid.split(' ')[0]);
+                {relevantNameBidsSorted.map((nameBid) => {
+                  const isHighestBid = !nameBid.bid || (nameBid.highestBid && Number(nameBid.highestBid.split(' ')[0])) === Number(nameBid.bid.split(' ')[0]);
 
                   return (
                     <Table.Row key={nameBid.newname}>
@@ -163,7 +195,7 @@ class ToolsProxy extends Component<Props> {
                         {nameBid.newname}
                       </Table.Cell>
                       <Table.Cell>
-                        {nameBid.bid}
+                        {nameBid.bid || nameBid.highestBid}
                       </Table.Cell>
                       <Table.Cell>
                         {nameBid.highestBid}

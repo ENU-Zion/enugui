@@ -8,6 +8,7 @@ import ProducersVotingPreviewSelection from './Preview/Selection';
 class ProducersVotingPreview extends Component<Props> {
   render() {
     const {
+      account,
       actions,
       blockExplorers,
       lastError,
@@ -16,7 +17,8 @@ class ProducersVotingPreview extends Component<Props> {
       settings,
       submitting,
       system,
-      t
+      t,
+      unregisteredProducers
     } = this.props;
 
     return (
@@ -32,11 +34,13 @@ class ProducersVotingPreview extends Component<Props> {
         }}
         content={(
           <ProducersVotingPreviewSelection
+            account={account}
             lastError={lastError}
             onConfirm={onConfirm}
             selected={selected}
             settings={settings}
             submitting={submitting}
+            unregisteredProducers={unregisteredProducers}
           />
         )}
         icon="exchange"

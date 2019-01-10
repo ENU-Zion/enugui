@@ -11,7 +11,7 @@ const initialState = {
   chainSymbol: 'ENU',
   expireInSeconds: 120,
   // forceActionDataHex: false,
-   historyPluginEnabled: true,
+  historyPluginEnabled: true,
   httpEndpoint: null,
   keyPrefix: 'ENU',
   sign: false,

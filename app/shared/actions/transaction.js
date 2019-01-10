@@ -1,10 +1,5 @@
-import { get, set } from 'dot-prop-immutable';
-
 import * as types from './types';
 import enu from './helpers/enu';
-import ENUContract from '../utils/ENU/Contract';
-
-const Enu = require('enujs');
 
 export function buildTransaction(contract, action, account, data) {
   return (dispatch: () => void, getState) => {
@@ -47,7 +42,6 @@ export function buildTransaction(contract, action, account, data) {
         payload: { err },
         type: types.SYSTEM_TRANSACTION_BUILD_FAILURE
       }));
-
   };
 }
 

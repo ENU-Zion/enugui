@@ -20,8 +20,8 @@ export function duplicateWallet(account, authorization, chainDuplicatingTo, chai
     return dispatch({
       type: types.ADD_WALLET,
       payload: newWallet
-    })
-  }
+    });
+  };
 }
 
 export function importWalletFromBackup(wallet) {
@@ -140,6 +140,11 @@ export function useWallet(chainId, account, authorization) {
     // Lock the wallet to remove old account keys
     dispatch({
       type: types.WALLET_LOCK
+    });
+    //  Reset the unregistered producers
+    dispatch({
+      type: types.SET_UNREGISTERED_PRODUCERS,
+      payload: { unregisteredProducers: [] }
     });
     // Set the wallet mode configuration
     dispatch(setWalletMode(newWallet.mode));

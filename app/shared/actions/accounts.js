@@ -281,12 +281,14 @@ export function getCurrencyBalance(account, requestedTokens = false) {
     } = getState();
     if (account && (settings.node || settings.node.length !== 0)) {
       const { customTokens } = settings;
-      let selectedTokens = [`enu.token:${connection.chainSymbol || 'ENU'}`];
-      if (customTokens && customTokens.length > 0) {
-        selectedTokens = [...customTokens, ...selectedTokens];
+      const newCustomTokens = customTokens.filter((token) => (connection.chainId === token.split(':')[0]));
+      let selectedTokens = [`${connection.chainId}:enu.token:${connection.chainSymbol || 'ENU'}`];
+      if (newCustomTokens && newCustomTokens.length > 0) {
+        selectedTokens = [...newCustomTokens, ...selectedTokens];
       }
       // if specific tokens are requested, use them
       if (requestedTokens) {
+        requestedTokens.map((token) => `${connection.chainId}:${token}`);
         selectedTokens = requestedTokens;
       }
       dispatch({
@@ -296,24 +298,26 @@ export function getCurrencyBalance(account, requestedTokens = false) {
           tokens: selectedTokens
         }
       });
-      forEach(selectedTokens, (namespace) => {
-        const [contract, symbol] = namespace.split(':');
-        enu(connection).getCurrencyBalance(contract, account, symbol).then((results) =>
-          dispatch({
-            type: types.GET_ACCOUNT_BALANCE_SUCCESS,
-            payload: {
-              account_name: account,
-              contract,
-              precision: formatPrecisions(results),
-              symbol,
-              tokens: formatBalances(results, symbol)
-            }
-          }))
-          .catch((err) => dispatch({
-            type: types.GET_ACCOUNT_BALANCE_FAILURE,
-            payload: { err, account_name: account }
-          }));
-      });
+
+        forEach(selectedTokens, (namespace) => {
+          const [, contract, symbol] = namespace.split(':');
+          eos(connection).getCurrencyBalance(contract, account, symbol).then((results) =>
+            dispatch({
+              type: types.GET_ACCOUNT_BALANCE_SUCCESS,
+              payload: {
+                account_name: account,
+                contract,
+                precision: formatPrecisions(results),
+                symbol,
+                tokens: formatBalances(results, symbol)
+              }
+            }))
+            .catch((err) => dispatch({
+              type: types.GET_ACCOUNT_BALANCE_FAILURE,
+              payload: { err, account_name: account }
+            }));
+        });
+      }
     }
   };
 }
@@ -323,9 +327,9 @@ function formatPrecisions(balances) {
   for (let i = 0; i < balances.length; i += 1) {
     const [amount, symbol] = balances[i].split(' ');
     const [, suffix] = amount.split('.');
-    var suffixLen = 0;
-    if(suffix !== undefined) {
-        suffixLen = suffix.length;
+    let suffixLen = 0;
+    if (suffix !== undefined) {
+      suffixLen = suffix.length;
     }
     precision[symbol] = suffixLen;
   }
@@ -360,7 +364,7 @@ export function getAccountByKey(key) {
         return dispatch({
           type: types.SYSTEM_ACCOUNT_BY_KEY_SUCCESS,
           payload: { accounts }
-        })
+        });
       }).catch((err) => dispatch({
         type: types.SYSTEM_ACCOUNT_BY_KEY_FAILURE,
         payload: { err, key }

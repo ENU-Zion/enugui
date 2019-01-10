@@ -1,5 +1,5 @@
-import sortBy from 'lodash/sortBy';
-import concat from 'lodash/concat';
+import { concat, intersection, sortBy } from 'lodash';
+import { get } from 'dot-prop-immutable';
 
 import enu from './helpers/enu';
 import * as types from './types';
@@ -146,6 +146,34 @@ export function getProducersInfo(previous = false) {
   };
 }
 
+export function setUnregisteredProducers() {
+  return (dispatch: () => void, getState) => {
+    const { accounts, producers, settings } = getState();
+    const { list } = producers;
+    const voterInfo = get(accounts, `${settings.account}.voter_info`);
+    if (!voterInfo) {
+      return dispatch({
+        type: types.SET_UNREGISTERED_PRODUCERS,
+        payload: { unregisteredProducers: [] }
+      });
+    }
+    const selected = get(voterInfo, 'producers', []);
+    const unregisteredProducers = [];
+    const availableProducers = list.map((producer) => producer.owner);
+    const validSelected = intersection(availableProducers, selected);
+    selected.forEach((producer) => {
+      if (!validSelected.includes(producer)) {
+        unregisteredProducers.push(producer);
+      }
+    });
+
+    return dispatch({
+      type: types.SET_UNREGISTERED_PRODUCERS,
+      payload: { unregisteredProducers }
+    });
+  };
+}
+
 export function getProducerInfo(producer) {
   return (dispatch: () => void, getState) => {
     dispatch({
@@ -190,5 +218,6 @@ export default {
   clearProducerInfo,
   getProducerInfo,
   getProducers,
-  getProducersInfo
+  getProducersInfo,
+  setUnregisteredProducers
 };

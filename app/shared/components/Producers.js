@@ -145,6 +145,7 @@ class Producers extends Component<Props> {
       actions,
       allBlockExplorers,
       balances,
+      blockchains,
       connection,
       globals,
       history,
@@ -167,12 +168,15 @@ class Producers extends Component<Props> {
       selected,
       submitting
     } = this.state;
+    const { unregisteredProducers } = producers;
     let sidebar = [(
       <WalletPanel
         actions={actions}
         accounts={accounts}
         balances={balances}
+        blockchains={blockchains}
         blockExplorers={allBlockExplorers[connection.chainKey]}
+        connection={connection}
         globals={globals}
         key="WalletPanel"
         keys={keys}
@@ -213,6 +217,7 @@ class Producers extends Component<Props> {
 
           {(!isProxying) ? (
             <ProducersVotingPreview
+              account={account}
               actions={actions}
               blockExplorers={allBlockExplorers[connection.chainKey]}
               lastError={lastError}
@@ -225,17 +230,20 @@ class Producers extends Component<Props> {
               settings={settings}
               submitting={submitting}
               system={system}
+              unregisteredProducers={unregisteredProducers}
             />
           ) : ''}
 
           <ProducersSelector
             account={accounts[settings.account]}
+            actions={actions}
             isProxying={isProxying}
             modified={modified}
             removeProducer={this.removeProducer.bind(this)}
             selected={selected}
             submitProducerVotes={() => this.previewProducerVotes(true)}
             submitting={submitting}
+            unregisteredProducers={unregisteredProducers}
           />
         </React.Fragment>
       );
@@ -281,11 +289,6 @@ class Producers extends Component<Props> {
         <Grid divided>
           <Grid.Row>
             <Grid.Column width={6}>
-              <SidebarAccount
-                actions={actions}
-                history={history}
-                wallet={wallet}
-              />
               {sidebar}
             </Grid.Column>
             <Grid.Column width={10}>

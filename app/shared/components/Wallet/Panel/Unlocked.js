@@ -13,6 +13,9 @@ import WalletPanelButtonTransferSend from './Button/Transfer/Send';
 import WalletPanelButtonRamSell from './Button/Ram/Sell';
 import WalletPanelButtonRamBuy from './Button/Ram/Buy';
 
+import WalletPanelButtonWithdraw from './Button/Withdraw';
+import WalletPanelButtonCrosschainTransfer from './Button/CrosschainTransfer';
+
 class WalletPanelUnlocked extends Component<Props> {
   state = { activeIndex: 0 }
 
@@ -29,6 +32,7 @@ class WalletPanelUnlocked extends Component<Props> {
       actions,
       accounts,
       balances,
+      blockchains,
       blockExplorers,
       connection,
       globals,
@@ -38,18 +42,10 @@ class WalletPanelUnlocked extends Component<Props> {
       transaction,
       t
     } = this.props;
+    if (!settings.account) return false;
     return (
       <div>
-        {(settings.walletMode !== 'watch' && !settings.walletTemp)
-          ? (
-            <WalletPanelButtonLock
-              lockWallet={actions.lockWallet}
-            />
-          )
-          : ''
-        }
         <Segment vertical>
-
           <Accordion
             as={Menu}
             fluid
@@ -66,18 +62,23 @@ class WalletPanelUnlocked extends Component<Props> {
                 active={activeIndex === 0}
               >
                 <Segment.Group>
-                  <Segment>
-                    <WalletPanelButtonStake
-                      actions={actions}
-                      accounts={accounts}
-                      balances={balances}
-                      blockExplorers={blockExplorers}
-                      connection={connection}
-                      validate={validate}
-                      settings={settings}
-                      system={system}
-                    />
-                  </Segment>
+                  {(settings.excludeForChainKey.includes(connection.chainKey))
+                    ? false
+                    : (
+                      <Segment>
+                        <WalletPanelButtonStake
+                          actions={actions}
+                          accounts={accounts}
+                          balances={balances}
+                          blockExplorers={blockExplorers}
+                          connection={connection}
+                          validate={validate}
+                          settings={settings}
+                          system={system}
+                        />
+                      </Segment>
+                    )
+                  }
                   <Segment>
                     <WalletPanelButtonTransferSend
                       actions={actions}
@@ -93,30 +94,72 @@ class WalletPanelUnlocked extends Component<Props> {
                       accountName={settings.account}
                     />
                   </Segment>
-                  <Segment>
-                    <WalletPanelButtonRamBuy
-                      account={accounts[settings.account]}
-                      actions={actions}
-                      balances={balances}
-                      blockExplorers={blockExplorers}
-                      connection={connection}
-                      globals={globals}
-                      settings={settings}
-                      system={system}
-                    />
-                  </Segment>
-                  <Segment>
-                    <WalletPanelButtonRamSell
-                      account={accounts[settings.account]}
-                      actions={actions}
-                      balances={balances}
-                      blockExplorers={blockExplorers}
-                      connection={connection}
-                      globals={globals}
-                      settings={settings}
-                      system={system}
-                    />
-                  </Segment>
+                  {(settings.excludeForChainKey.includes(connection.chainKey))
+                    ? false
+                    : (
+                      <Segment>
+                        <WalletPanelButtonRamBuy
+                          account={accounts[settings.account]}
+                          actions={actions}
+                          balances={balances}
+                          blockExplorers={blockExplorers}
+                          connection={connection}
+                          globals={globals}
+                          settings={settings}
+                          system={system}
+                        />
+                      </Segment>
+                    )
+                  }
+                  {(settings.excludeForChainKey.includes(connection.chainKey))
+                    ? false
+                    : (
+                      <Segment>
+                        <WalletPanelButtonRamSell
+                          account={accounts[settings.account]}
+                          actions={actions}
+                          balances={balances}
+                          blockExplorers={blockExplorers}
+                          connection={connection}
+                          globals={globals}
+                          settings={settings}
+                          system={system}
+                        />
+                      </Segment>
+                    )
+                  }
+                  {(connection.supportedContracts.includes("withdraw"))
+                    && (
+                      <Segment>
+                        <WalletPanelButtonWithdraw
+                          actions={actions}
+                          balances={balances}
+                          blockchains={blockchains}
+                          blockExplorers={blockExplorers}
+                          connection={connection}
+                          settings={settings}
+                          system={system}
+                          transaction={transaction}
+                        />
+                      </Segment>
+                    )
+                  }
+                  {(connection.supportedContracts.includes("crosschaintransfer") || connection.chainSymbol === "EOS")
+                    && (
+                      <Segment>
+                        <WalletPanelButtonCrosschainTransfer
+                          actions={actions}
+                          balances={balances}
+                          blockchains={blockchains}
+                          blockExplorers={blockExplorers}
+                          connection={connection}
+                          settings={settings}
+                          system={system}
+                          transaction={transaction}
+                        />
+                      </Segment>
+                    )
+                  }
                   {(settings.walletMode === 'watch')
                     ? (
                       <Segment>

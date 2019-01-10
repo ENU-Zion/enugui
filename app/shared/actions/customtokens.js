@@ -60,7 +60,8 @@ export function getCustomTokens(previous = false) {
       return dispatch({
         type: types.SYSTEM_CUSTOMTOKENS_SUCCESS,
         payload: {
-          tokens
+          tokens,
+          chainId: connection.chainId
         }
       });
     }).catch((err) => dispatch({

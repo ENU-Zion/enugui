@@ -13,7 +13,6 @@ type Props = {
   actions: {},
   allBlockExplorers: {},
   balances: {},
-  balances: {},
   chain: {},
   connection: {},
   globals: {},
@@ -35,6 +34,7 @@ export default class Wallet extends Component<Props> {
       actions,
       accounts,
       allBlockExplorers,
+      blockchains,
       balances,
       chain,
       connection,
@@ -52,11 +52,11 @@ export default class Wallet extends Component<Props> {
       <Grid divided>
         <Grid.Row>
           <Grid.Column width={6}>
-            <SidebarAccount />
             <WalletPanel
               actions={actions}
               accounts={accounts}
               balances={balances}
+              blockchains={blockchains}
               blockExplorers={allBlockExplorers[connection.chainKey]}
               connection={connection}
               globals={globals}

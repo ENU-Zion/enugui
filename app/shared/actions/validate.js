@@ -1,10 +1,12 @@
+import { find } from 'lodash';
+
 import { getCurrencyBalance } from './accounts';
 import * as types from './types';
 import * as chain from './chain';
 import { getGlobals } from './globals';
 import { historyPluginCheck } from './connection';
+
 import enu from './helpers/enu';
-import { find } from 'lodash';
 
 const ecc = require('enujs-ecc');
 
@@ -55,7 +57,7 @@ export function validateAccount(account) {
   };
 }
 
-export function validateNode(node) {
+export function validateNode(node, expectedChainId = false, saveAsDefault = false) {
   return (dispatch: () => void, getState) => {
     dispatch({
       node,
@@ -66,7 +68,6 @@ export function validateNode(node) {
       // Establish Enumivo connection
       try {
         const {
-          actions,
           blockchains,
           connection,
           settings
@@ -91,12 +92,21 @@ export function validateNode(node) {
           // If we received a valid height, confirm this server can be connected to
           if (result.head_block_num > 1) {
             const blockchain = find(blockchains, { chainId: result.chain_id });
+            if (expectedChainId && expectedChainId !== result.chain_id) {
+              return dispatch({
+                type: types.VALIDATE_NODE_FAILURE,
+                payload: {
+                  error: 'mismatch_chainid'
+                }
+              });
+            }
             // Dispatch success
             dispatch({
               payload: {
                 blockchain,
                 info: result,
                 node: httpEndpoint,
+                saveAsDefault,
                 settings,
               },
               type: types.VALIDATE_NODE_SUCCESS
@@ -191,6 +201,7 @@ export function clearValidationState() {
 }
 
 export default {
+  clearValidationState,
   validateAccount,
   validateNode,
   validateKey

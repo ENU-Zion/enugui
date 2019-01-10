@@ -22,7 +22,7 @@ const initialState = {
   // Custom tokens the wallet should be tracking
   customTokens: [
     // Always track the ENU token
-    'enu.token:ENU'
+    'enu-mainnet:enu.token:ENU'
   ],
   // State to view by default in DevTest
   devTestDefaultState: false,
@@ -30,6 +30,8 @@ const initialState = {
   displayResourcesAvailable: true,
   // Whether or not to display known testnets for the various networks
   displayTestNetworks: false,
+  // Default filter for components, functionalities
+  excludeForChainKey: ['beos-testnet'],
   // Default filter spam transfers to false
   filterSpamTransfersUnder: 0.0000,
   // Default Idle Timeout

@@ -37,6 +37,7 @@ import * as ValidateActions from '../actions/validate';
 import * as VoteProducerActions from '../actions/system/voteproducer';
 import * as WalletActions from '../actions/wallet';
 import * as SystemStateActions from '../actions/system/systemstate';
+import * as WithdrawActions from '../actions/withdraw';
 
 type Props = {
   actions: {
@@ -70,8 +71,11 @@ class BasicVoterContainer extends Component<Props> {
 
     const {
       getBlockExplorers,
-      getCurrencyStats
+      getCurrencyStats,
+      initApp
     } = actions;
+
+    initApp();
 
     switch (settings.walletMode) {
       case 'cold': {
@@ -85,8 +89,10 @@ class BasicVoterContainer extends Component<Props> {
           getCurrencyStats();
           getBlockExplorers();
           forEach(settings.customTokens, (token) => {
-            const [contract, symbol] = token.split(':');
-            getCurrencyStats(contract, symbol.toUpperCase());
+            const [chainId, contract, symbol] = token.split(':');
+            if (chainId === settings.chainId) {
+              getCurrencyStats(contract, symbol.toUpperCase());
+            }
           });
         }
       }
@@ -249,7 +255,8 @@ function mapDispatchToProps(dispatch) {
       ...TransferActions,
       ...ValidateActions,
       ...VoteProducerActions,
-      ...WalletActions
+      ...WalletActions,
+      ...WithdrawActions
     }, dispatch)
   };
 }

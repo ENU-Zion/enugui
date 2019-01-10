@@ -9,6 +9,7 @@ import GlobalAccountEdit from '../../../../containers/Global/Account/Edit';
 import GlobalButtonElevate from '../../../../containers/Global/Button/Elevate';
 import GlobalFragmentAuthorization from '../../../Global/Fragment/Authorization';
 import GlobalFragmentBlockchain from '../../../Global/Fragment/Blockchain';
+import GlobalFragmentChainLogo from '../../../Global/Fragment/ChainLogo';
 import GlobalFragmentWalletType from '../../../Global/Fragment/WalletType';
 import GlobalButtonWalletUpgrade from '../../../../containers/Global/Button/Wallet/Upgrade';
 import ENUAccount from '../../../../utils/ENU/Account';
@@ -87,7 +88,7 @@ class ToolsTableRowWallet extends Component<Props> {
     }
     const items = [
       (
-        <Dropdown.Header icon="warning sign" content={t('wallet:wallet_advanced_header')} />
+        <Dropdown.Header key="advanced-header" icon="warning sign" content={t('wallet:wallet_advanced_header')} />
       ),
       (
         <Dropdown.Item
@@ -147,6 +148,7 @@ class ToolsTableRowWallet extends Component<Props> {
         icon = 'id card';
         items.push((
           <GlobalButtonElevate
+            key='remove'
             onSuccess={() => this.removeWallet(account, authorization)}
             settings={settings}
             trigger={(
@@ -176,14 +178,11 @@ class ToolsTableRowWallet extends Component<Props> {
           </Header>
         </Table.Cell>
         <Table.Cell collapsing>
-          {(blockchain)
-            ? (
-              <GlobalFragmentBlockchain
-                blockchain={blockchain}
-              />
-            )
-            : false
-          }
+         <GlobalFragmentChainLogo
+           avatar
+           chainId={blockchain.chainId}
+           name={blockchain.name}
+          />
         </Table.Cell>
         <Table.Cell>
           <GlobalFragmentWalletType

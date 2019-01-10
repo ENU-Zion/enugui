@@ -65,14 +65,14 @@ export function setSettingWithValidation(key, value) {
         // If nodes are changing, force clear any locally cached data
         dispatch({ type: types.CLEAR_ACCOUNT_CACHE });
         dispatch({ type: types.CLEAR_PRODUCER_CACHE });
-        dispatch(validate.validateNode(value));
+        dispatch(validate.validateNode(value, false, true));
         break;
       }
       default: {
         break;
       }
     }
-    dispatch({
+    return dispatch({
       type: types.SET_SETTING,
       payload: {
         [key]: value
@@ -83,10 +83,10 @@ export function setSettingWithValidation(key, value) {
 
 export function addCustomToken(contract, symbol) {
   return (dispatch: () => void, getState) => {
-    const { settings } = getState();
+    const { connection, settings } = getState();
     const { customTokens } = settings;
 
-    const name = [contract.toLowerCase(), symbol.toUpperCase()].join(':');
+    const name = [connection.chainId, contract.toLowerCase(), symbol.toUpperCase()].join(':');
 
     let tokens = [];
     if (customTokens) {
@@ -104,10 +104,10 @@ export function addCustomToken(contract, symbol) {
 
 export function removeCustomToken(contract, symbol) {
   return (dispatch: () => void, getState) => {
-    const { settings } = getState();
+    const { connection, settings } = getState();
     const { customTokens } = settings;
 
-    const name = [contract.toLowerCase(), symbol.toUpperCase()].join(':');
+    const name = [connection.chainId, contract.toLowerCase(), symbol.toUpperCase()].join(':');
 
     let tokens = [];
     if (customTokens) {

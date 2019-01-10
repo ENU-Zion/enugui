@@ -1,7 +1,7 @@
 {
   "account_authority": "Account/Authority",
   "application_name": "EnuGui",
-  "application_version": "0.6.6",
+  "application_version": "0.6.8",
   "back": "Back",
   "block_height": "Numero di Blocco",
   "blockchain": "Blockchain",
@@ -18,6 +18,7 @@
   "public_key": "Public Key",
   "remove": "Remove",
   "reset_application": "DEBUG: Reset dell'applicazione",
+  "feature_not_supported_blockchain": "This feature is not yet available on this blockchain.",
   "search": "Cerca...",
   "upgrade": "Upgrade",
   "value": "Value",

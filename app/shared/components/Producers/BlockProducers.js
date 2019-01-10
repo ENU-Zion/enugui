@@ -10,14 +10,14 @@ class BlockProducers extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-      amount: 40,
+      amount: 10,
       querying: false
     };
   }
 
   componentDidMount() {
     this.tick();
-    this.interval = setInterval(this.tick.bind(this), 60000);
+    this.interval = setInterval(this.tick.bind(this), 120000);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -83,7 +83,7 @@ class BlockProducers extends Component<Props> {
 
   loadMore = () => this.setState({ amount: this.state.amount + 20 });
 
-  resetDisplayAmount = () => this.setState({ amount: 40 });
+  resetDisplayAmount = () => this.setState({ amount: 10 });
   isQuerying = (querying) => this.setState({ querying });
 
   tick() {
