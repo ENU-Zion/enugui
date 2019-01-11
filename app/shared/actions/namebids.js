@@ -57,10 +57,10 @@ export function getBidsForAccount(previous = false) {
     let { recentBids } = settings;
 
     const query = {
-      code: 'eosio',
+      code: 'enumivo',
       json: true,
       limit: 1000,
-      scope: 'eosio',
+      scope: 'enumivo',
       table: 'namebids'
     };
 
@@ -72,7 +72,7 @@ export function getBidsForAccount(previous = false) {
       });
     }
 
-    eos(connection).getTableRows(query).then((results) => {
+    enu(connection).getTableRows(query).then((results) => {
       const { rows } = results;
 
       rows.forEach((namebid) => {
@@ -82,7 +82,7 @@ export function getBidsForAccount(previous = false) {
         if (bidIndex === -1 && namebid.high_bidder === settings.account) {
           recentBids = set(recentBids, `${settings.chainId}.${settings.account}`, currentBids.concat({
             newname: namebid.newname,
-            highestBid: `${(namebid.high_bid / 10000).toFixed(4)} EOS`
+            highestBid: `${(namebid.high_bid / 10000).toFixed(4)} ENU`
           }));
         }
       });

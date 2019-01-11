@@ -301,7 +301,7 @@ export function getCurrencyBalance(account, requestedTokens = false) {
 
         forEach(selectedTokens, (namespace) => {
           const [, contract, symbol] = namespace.split(':');
-          eos(connection).getCurrencyBalance(contract, account, symbol).then((results) =>
+          enu(connection).getCurrencyBalance(contract, account, symbol).then((results) =>
             dispatch({
               type: types.GET_ACCOUNT_BALANCE_SUCCESS,
               payload: {

@@ -144,7 +144,7 @@ class WalletPanelUnlocked extends Component<Props> {
                       </Segment>
                     )
                   }
-                  {(connection.supportedContracts.includes("crosschaintransfer") || connection.chainSymbol === "EOS")
+                  {(connection.supportedContracts.includes("crosschaintransfer") || connection.chainSymbol === "ENU")
                     && (
                       <Segment>
                         <WalletPanelButtonCrosschainTransfer

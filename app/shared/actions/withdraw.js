@@ -4,8 +4,8 @@ import {
   SYSTEM_WITHDRAW_FAILURE
 } from "./types";
 
-import EOSContract from "../utils/EOS/Contract";
-import eos from "./helpers/eos";
+import ENUContract from "../utils/ENU/Contract";
+import enu from "./helpers/enu";
 import { getCurrencyBalance } from "./accounts";
 
 export function withdraw(from, to, quantity, storeName) {
@@ -23,10 +23,10 @@ export function withdraw(from, to, quantity, storeName) {
     const { connection } = getState();
     
 
-    eos(connection, true).getAbi(storeName)
+    enu(connection, true).getAbi(storeName)
       .then((c) => {
-        const contract = new EOSContract(c.abi, c.account_name);
-        eos(connection, true)
+        const contract = new ENUContract(c.abi, c.account_name);
+        enu(connection, true)
           .contract(contract.account)
           .then(({ withdraw }) => {
             withdraw(

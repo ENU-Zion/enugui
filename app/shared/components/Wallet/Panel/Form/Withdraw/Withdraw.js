@@ -14,7 +14,7 @@ import { debounce, findIndex, includes } from "lodash";
 import GlobalFormFieldAccount from "../../../../Global/Form/Field/Account";
 import FormFieldMultiToken from "../../../../Global/Form/Field/MultiToken";
 import FormMessageError from "../../../../Global/Form/Message/Error";
-import EOSContract from "../../../../../utils/EOS/Contract";
+import ENUContract from "../../../../../utils/ENU/Contract";
 import WalletPanelFormWithdrawConfirming from "./Confirming";
 
 class WalletPanelFormWithdraw extends Component<Props> {
@@ -113,7 +113,7 @@ class WalletPanelFormWithdraw extends Component<Props> {
     } else if (asset === "PXEOS") {
       const { blockchains } = this.props;
       const nodeUrl = blockchains
-        .filter(({ _id }) => _id === "eos-mainnet")
+        .filter(({ _id }) => _id === "enu-mainnet")
         .map(({ node }) => node)[0];
       const url = `${nodeUrl}/v1/chain/get_account`;
       try {
