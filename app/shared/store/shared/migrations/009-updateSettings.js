@@ -12,7 +12,6 @@ const update = (settings, defaultChainId) => {
     }
   });
   newSettings.customTokens = uniq(customTokens);
-  newSettings.excludeForChainKey = ['beos-testnet'];
   return newSettings;
 };
 

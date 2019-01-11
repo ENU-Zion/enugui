@@ -1,7 +1,5 @@
 {
   "tools_account_creation_header": "Confirm account creation",
-  "tools_beos_account_taken_error": "BEOS account is taken.",
-  "tools_beos_account_validation_error": "Illegal BEOS account name: account must have 12 symbols (a-z lower case only, 1-5 and . not at the end are allowed). The creation of the account will fail unless the creating account has access to a premium namespace.",
   "tools_bid_highest_bid": "highest bid",
   "tools_bid_name_bid": "Your Bid Amount",
   "tools_bid_name_highest_bid": "Highest Bid",

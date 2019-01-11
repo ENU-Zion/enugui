@@ -35,11 +35,7 @@ export default class GlobalModalExplorerLink extends Component<Props> {
     const urlPartsWithoutVariable = blockExplorer[linkType].split(`{${linkType}}`);
 
     let generatedLink = null;
-    if ((linkType === 'txid') && (urlPartsWithoutVariable[0] === 'https://explore.beos.world/transactions/')) {
-      generatedLink = `${urlPartsWithoutVariable[0]}${linkBlockId}/${linkData}${urlPartsWithoutVariable[1]}`;
-    } else {
-      generatedLink = `${urlPartsWithoutVariable[0]}${linkData}${urlPartsWithoutVariable[1]}`;
-    }
+    generatedLink = `${urlPartsWithoutVariable[0]}${linkData}${urlPartsWithoutVariable[1]}`;
 
     return (
       <GlobalModalDangerLink

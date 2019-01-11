@@ -6,7 +6,6 @@ import { Header, Segment } from 'semantic-ui-react';
 
 import GlobalTransactionHandler from '../Global/Transaction/Handler';
 import ToolsFormCreateAccount from './Form/CreateAccount';
-import CreateBitsharesEosAccount from './Form/CreateBitsharesEosAccount';
 import WalletPanelLocked from '../Wallet/Panel/Locked';
 
 class ToolsCreateAccount extends Component<Props> {
@@ -49,19 +48,7 @@ class ToolsCreateAccount extends Component<Props> {
               actionName="CREATEACCOUNT"
               actions={actions}
               blockExplorers={allBlockExplorers[connection.chainKey]}
-              content={connection.chain === "BEOS" ? (
-                <CreateBitsharesEosAccount
-                  account={account}
-                  balance={balances[settings.account]}
-                  connection={connection}
-                  contacts={settings.contacts}
-                  globals={globals}
-                  hideCancel
-                  key="CreateAccountForm"
-                  system={system}
-                  settings={settings}
-                />
-              ) : (
+              content={(
                 <ToolsFormCreateAccount
                   account={account}
                   balance={balances[settings.account]}

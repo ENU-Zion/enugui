@@ -13,9 +13,6 @@ import WalletPanelButtonTransferSend from './Button/Transfer/Send';
 import WalletPanelButtonRamSell from './Button/Ram/Sell';
 import WalletPanelButtonRamBuy from './Button/Ram/Buy';
 
-import WalletPanelButtonWithdraw from './Button/Withdraw';
-import WalletPanelButtonCrosschainTransfer from './Button/CrosschainTransfer';
-
 class WalletPanelUnlocked extends Component<Props> {
   state = { activeIndex: 0 }
 
@@ -124,38 +121,6 @@ class WalletPanelUnlocked extends Component<Props> {
                           globals={globals}
                           settings={settings}
                           system={system}
-                        />
-                      </Segment>
-                    )
-                  }
-                  {(connection.supportedContracts.includes("withdraw"))
-                    && (
-                      <Segment>
-                        <WalletPanelButtonWithdraw
-                          actions={actions}
-                          balances={balances}
-                          blockchains={blockchains}
-                          blockExplorers={blockExplorers}
-                          connection={connection}
-                          settings={settings}
-                          system={system}
-                          transaction={transaction}
-                        />
-                      </Segment>
-                    )
-                  }
-                  {(connection.supportedContracts.includes("crosschaintransfer") || connection.chainSymbol === "ENU")
-                    && (
-                      <Segment>
-                        <WalletPanelButtonCrosschainTransfer
-                          actions={actions}
-                          balances={balances}
-                          blockchains={blockchains}
-                          blockExplorers={blockExplorers}
-                          connection={connection}
-                          settings={settings}
-                          system={system}
-                          transaction={transaction}
                         />
                       </Segment>
                     )

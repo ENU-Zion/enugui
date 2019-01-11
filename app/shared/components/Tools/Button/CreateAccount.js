@@ -4,7 +4,6 @@ import { translate } from 'react-i18next';
 
 import GlobalTransactionModal from '../../Global/Transaction/Modal';
 import ToolsFormCreateAccount from '../Form/CreateAccount';
-import ToolsFormCreateBitsharesEosAccount from '../Form/CreateBitsharesEosAccount';
 
 class ToolsButtonCreateAccount extends Component<Props> {
   props: Props;
@@ -32,17 +31,7 @@ class ToolsButtonCreateAccount extends Component<Props> {
           content: t('tools_button_create_account'),
           icon: 'share square'
         }}
-        content={ connection.chain === "BEOS" ? (
-          <ToolsFormCreateBitsharesEosAccount
-            account={account}
-            actions={actions}
-            balance={balance}
-            connection={connection}
-            contacts={settings.contacts}
-            globals={globals}
-            key="CreateAccountForm"
-            system={system}
-          /> : (
+        content={  (
             <ToolsFormCreateAccount
             account={account}
             actions={actions}
