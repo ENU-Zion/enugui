@@ -299,29 +299,27 @@ export function getCurrencyBalance(account, requestedTokens = false) {
         }
       });
 
-        forEach(selectedTokens, (namespace) => {
-          const [, contract, symbol] = namespace.split(':');
-          enu(connection).getCurrencyBalance(contract, account, symbol).then((results) =>
-            dispatch({
-              type: types.GET_ACCOUNT_BALANCE_SUCCESS,
-              payload: {
-                account_name: account,
-                contract,
-                precision: formatPrecisions(results),
-                symbol,
-                tokens: formatBalances(results, symbol)
-              }
-            }))
-            .catch((err) => dispatch({
-              type: types.GET_ACCOUNT_BALANCE_FAILURE,
-              payload: { err, account_name: account }
-            }));
-        });
-      }
+      forEach(selectedTokens, (namespace) => {
+        const [, contract, symbol] = namespace.split(':');
+        enu(connection).getCurrencyBalance(contract, account, symbol).then((results) =>
+          dispatch({
+            type: types.GET_ACCOUNT_BALANCE_SUCCESS,
+            payload: {
+              account_name: account,
+              contract,
+              precision: formatPrecisions(results),
+              symbol,
+              tokens: formatBalances(results, symbol)
+            }
+          }))
+          .catch((err) => dispatch({
+            type: types.GET_ACCOUNT_BALANCE_FAILURE,
+            payload: { err, account_name: account }
+          }));
+      });
     }
-  }
+  };
 }
-
 function formatPrecisions(balances) {
   const precision = {};
   for (let i = 0; i < balances.length; i += 1) {
