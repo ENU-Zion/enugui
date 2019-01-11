@@ -319,7 +319,7 @@ export function getCurrencyBalance(account, requestedTokens = false) {
         });
       }
     }
-  };
+  }
 }
 
 function formatPrecisions(balances) {
