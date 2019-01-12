@@ -14,6 +14,9 @@ import * as ValidateActions from '../../actions/validate';
 import * as WalletActions from '../../actions/wallet';
 import * as WalletsActions from '../../actions/wallets';
 
+const defaultChainId = 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f';
+import { update as update009 } from '../../store/shared/migrations/009-updateSettings';
+
 const { ipcRenderer } = require('electron');
 
 class WelcomeImportContainer extends Component<Props> {
@@ -61,8 +64,9 @@ class WelcomeImportContainer extends Component<Props> {
         }
       });
       if (settings && settings.schema === 'anchor.v1.settings') {
-        actions.validateNode(settings.data.node);
-        actions.setSettings(settings.data);
+        const newSettings = update009(settings.data, defaultChainId);
+        actions.validateNode(newSettings.node);
+        actions.setSettings(newSettings);
       } else {
         // unable to import settings
         console.log(settings);

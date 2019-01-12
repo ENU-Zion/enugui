@@ -29,6 +29,7 @@ class WalletPanelUnlocked extends Component<Props> {
       actions,
       accounts,
       balances,
+      blockchains,
       blockExplorers,
       connection,
       globals,
@@ -38,18 +39,10 @@ class WalletPanelUnlocked extends Component<Props> {
       transaction,
       t
     } = this.props;
+    if (!settings.account) return false;
     return (
       <div>
-        {(settings.walletMode !== 'watch' && !settings.walletTemp)
-          ? (
-            <WalletPanelButtonLock
-              lockWallet={actions.lockWallet}
-            />
-          )
-          : ''
-        }
         <Segment vertical>
-
           <Accordion
             as={Menu}
             fluid

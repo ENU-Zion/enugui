@@ -12,7 +12,13 @@ export default class GlobalModalExplorerLink extends Component<Props> {
       settings
     } = this.props;
 
+    let {
+      linkBlockId
+    } = this.props;
+
     const { blockExplorer: selected } = settings;
+
+    if (!blockExplorers) return false;
 
     const blockExplorer = (selected in Object.keys(blockExplorers))
       ? blockExplorers[selected]
@@ -22,9 +28,14 @@ export default class GlobalModalExplorerLink extends Component<Props> {
       return false;
     }
 
+    if (linkBlockId) {
+      linkBlockId = linkBlockId.toString();
+    }
+
     const urlPartsWithoutVariable = blockExplorer[linkType].split(`{${linkType}}`);
 
-    const generatedLink = `${urlPartsWithoutVariable[0]}${linkData}${urlPartsWithoutVariable[1]}`;
+    let generatedLink = null;
+    generatedLink = `${urlPartsWithoutVariable[0]}${linkData}${urlPartsWithoutVariable[1]}`;
 
     return (
       <GlobalModalDangerLink

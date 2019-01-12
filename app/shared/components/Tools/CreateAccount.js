@@ -58,6 +58,7 @@ class ToolsCreateAccount extends Component<Props> {
                   hideCancel
                   key="CreateAccountForm"
                   system={system}
+                  settings={settings}
                 />
               )}
               onClose={this.onClose}

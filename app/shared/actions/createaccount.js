@@ -5,6 +5,8 @@ import * as AccountActions from './accounts';
 import enu from './helpers/enu';
 
 import { delegatebwParams } from './system/delegatebw';
+import contracts from './contracts';
+import ENUContract from '../utils/ENU/Contract';
 
 export function createAccount(
   accountName,
@@ -22,34 +24,34 @@ export function createAccount(
     } = getState();
 
     const currentAccount = settings.account;
-
+    
     dispatch({
       payload: { connection },
       type: types.SYSTEM_CREATEACCOUNT_PENDING
     });
 
     return enu(connection, true).transaction(tr => {
-      tr.newaccount({
-        creator: currentAccount,
-        name: accountName,
-        owner: ownerKey,
-        active: activeKey
-      });
-
-      tr.buyrambytes({
-        payer: currentAccount,
-        receiver: accountName,
-        bytes: Number(ramAmount)
-      });
-
-      tr.delegatebw(delegatebwParams(
-        connection.chainSymbol,
-        currentAccount,
-        accountName,
-        delegatedBw.split(' ')[0],
-        delegatedCpu.split(' ')[0],
-        transferTokens
-      ));
+        tr.newaccount({
+          creator: currentAccount,
+          name: accountName,
+          owner: ownerKey,
+          active: activeKey
+        });
+  
+        tr.buyrambytes({
+          payer: currentAccount,
+          receiver: accountName,
+          bytes: Number(ramAmount)
+        });
+  
+        tr.delegatebw(delegatebwParams(
+          connection.chainSymbol,
+          currentAccount,
+          accountName,
+          delegatedBw.split(' ')[0],
+          delegatedCpu.split(' ')[0],
+          transferTokens
+        ));
     }, {
       broadcast: connection.broadcast,
       expireInSeconds: connection.expireInSeconds,

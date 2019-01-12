@@ -19,21 +19,23 @@ class GlobalTransactionMessageSuccess extends Component<Props> {
 
     const links = [];
 
-    if (transaction) {
+    if (blockExplorers && transaction) {
       links.push(<ExplorerLink
         blockExplorers={blockExplorers}
         content={`${transaction.transaction_id.substr(0, 8)}...${transaction.transaction_id.substr(-8)}`}
         linkData={transaction.transaction_id}
+        linkBlockId={transaction.processed.block_num}
         linkType="txid"
         settings={settings}
       />);
     }
-    if (transactions) {
+    if (blockExplorers && transactions) {
       transactions.map((tx) =>
         links.push(<ExplorerLink
           blockExplorers={blockExplorers}
           content={`${tx.transaction_id.substr(0, 8)}...${tx.transaction_id.substr(-8)}`}
           linkData={tx.transaction_id}
+          linkBlockId={tx.processed.block_num}
           linkType="txid"
           settings={settings}
         />));
@@ -49,14 +51,44 @@ class GlobalTransactionMessageSuccess extends Component<Props> {
           <p>{t('global_transaction_complete_message')}</p>
           <Segment padded textAlign="center">
             <p>txids</p>
-            {links.map((link, idx) => (
-              <p key={idx}>
-                #{idx+1}
-                {' - '}
-                {link}
-              </p>
-            ))}
-            <p>({`${t('global_transaction_complete_link_to')} ${settings.blockExplorer}`})</p>
+            {(blockExplorers)
+              ? (
+                <React.Fragment>
+                  {links.map((link, idx) => (
+                    <p key={idx}>
+                      #{idx+1}
+                      {' - '}
+                      {link}
+                    </p>
+                  ))}
+                  <p>
+                    {`${t('global_transaction_complete_link_to')} ${settings.blockExplorer}`}
+                  </p>
+                </React.Fragment>
+              )
+              : (
+                <React.Fragment>
+                  {(transaction)
+                    ? (
+                      <p>{transaction.transaction_id}</p>
+                    )
+                    : false
+                  }
+                  {(transactions)
+                    ? (
+                      <p>
+                        {transactions.map((tx) =>
+                          <p key={tx.transaction_id}>
+                            {tx.transaction_id}
+                          </p>
+                        )}
+                      </p>
+                    )
+                    : false
+                  }
+                </React.Fragment>
+              )
+            }
           </Segment>
           <Message
             icon

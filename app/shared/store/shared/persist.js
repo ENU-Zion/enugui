@@ -4,6 +4,10 @@ import createElectronStorage from 'redux-persist-electron-storage';
 
 import ENUAccount from '../../utils/ENU/Account';
 
+import { update as update009 } from './migrations/009-updateSettings';
+
+const defaultChainId = 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f';
+
 const migrations = {
   /*
     2 - Wallet Migration
@@ -200,26 +204,33 @@ const migrations = {
       wallets
     } = state;
     const modifiedWallet = Object.assign({}, wallet);
-    modifiedWallet.chainId = 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f';
+    modifiedWallet.chainId = defaultChainId;
     const modifiedWallets = [];
     wallets.forEach((current) => {
       const newWallet = Object.assign({}, current);
-      newWallet.chainId = 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f';
+      newWallet.chainId = defaultChainId;
       modifiedWallets.push(newWallet);
     });
     const modifiedSettings = Object.assign({}, settings);
-    modifiedSettings.chainId = 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f';
+    modifiedSettings.chainId = defaultChainId;
     return Object.assign({}, state, {
       settings: modifiedSettings,
       wallet: modifiedWallet,
       wallets: modifiedWallets
     });
-  }
+  },
+  /*
+  9 - More blockchain options
+
+    - Provide exclude in settings
+    - Update default settings.customTokens
+  */
+  9: (state) => Object.assign({}, state, { settings: update009(state.settings, defaultChainId) }),
 };
 
 const persistConfig = {
   key: 'enugui-config',
-  version: 8,
+  version: 9,
   migrate: createMigrate(migrations, { debug: true }),
   storage: createElectronStorage(),
   whitelist: [

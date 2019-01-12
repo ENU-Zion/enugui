@@ -1,9 +1,9 @@
 // @flow
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
-import { findIndex } from 'lodash';
+import { find, findIndex } from 'lodash';
 
-import { Button, Checkbox, Container, Header, Segment, Table } from 'semantic-ui-react';
+import { Button, Checkbox, Container, Header, Popup, Segment, Table } from 'semantic-ui-react';
 
 import GlobalModalSettingsCustomToken from '../Global/Modal/Settings/CustomTokens';
 
@@ -21,13 +21,31 @@ class ToolsCustomTokens extends Component<Props> {
     actions.getCustomTokens();
   }
   scan = () => {
-    const { actions, customtokens, settings } = this.props;
-    const tokens = customtokens.tokens.map((token) => `${token.contract.toLowerCase()}:${token.symbol.toUpperCase()}`);
+    const {
+      actions,
+      connection,
+      customtokens,
+      settings
+    } = this.props;
+    const {
+      chainId
+    } = connection;
+    let {
+      tokens
+    } = customtokens;
+
+    if (tokens && tokens[chainId]) {
+      tokens = tokens[chainId];
+    } else {
+      tokens = [];
+    }
+
+    tokens = tokens.map((token) => `${chainId}:${token.contract.toLowerCase()}:${token.symbol.toUpperCase()}`);
     actions.getCurrencyBalance(settings.account, tokens);
   }
   toggleCustomToken = (e, { checked, name }) => {
     const { actions } = this.props;
-    const [contract, symbol] = name.split(':');
+    const [chainId, contract, symbol] = name.split(':');
     if (checked) {
       actions.addCustomToken(contract, symbol);
     } else {
@@ -38,6 +56,8 @@ class ToolsCustomTokens extends Component<Props> {
     const {
       actions,
       balances,
+      blockchains,
+      connection,
       customtokens,
       globals,
       settings,
@@ -49,13 +69,18 @@ class ToolsCustomTokens extends Component<Props> {
     const {
       addingToken
     } = this.state;
-    const {
+    let {
       tokens
     } = customtokens;
+    if (tokens && tokens[connection.chainId]) {
+      tokens = tokens[connection.chainId];
+    } else {
+      tokens = [];
+    }
     if (customTokens && customTokens.length) {
       customTokens.forEach((token) => {
-        const [contract, symbol] = token.split(':');
-        if (findIndex(customtokens.tokens, { symbol, contract }) === -1) {
+        const [chainId, contract, symbol] = token.split(':');
+        if (findIndex(tokens, { symbol, contract }) === -1) {
           tokens.unshift({
             contract,
             custom: true,
@@ -64,6 +89,9 @@ class ToolsCustomTokens extends Component<Props> {
         }
       });
     }
+    let filterTokens = customTokens.filter((token) => (connection.chainId !== token.split(':')[0]));
+    filterTokens = filterTokens.map((token) => (token.split(':')[2]));
+    const blockchain = find(blockchains, { chainId: connection.chainId });
     return (
       <Segment basic>
         <Header>
@@ -73,13 +101,31 @@ class ToolsCustomTokens extends Component<Props> {
           </Header.Subheader>
         </Header>
         <Container>
-          <Button
-            color="green"
-            content={t('tools_customtokens_scan')}
-            icon="search"
-            onClick={this.scan}
-            size="small"
-          />
+          {(blockchain.supportedContracts.includes('customtokens'))
+            ? (
+              <Button
+                color="green"
+                content={t('tools_customtokens_scan')}
+                icon="search"
+                onClick={this.scan}
+                size="small"
+              />
+            )
+            : (
+              <Popup
+                content={t('feature_not_supported_blockchain')}
+                inverted
+                trigger={(
+                  <Button
+                    color="grey"
+                    content={t('tools_customtokens_scan')}
+                    icon="search"
+                    size="small"
+                  />
+                )}
+              />
+            )
+          }
           <Button
             color="blue"
             content={t('wallet:wallet_status_add_custom_token_action')}
@@ -108,15 +154,16 @@ class ToolsCustomTokens extends Component<Props> {
           <Table.Body>
             {([].concat(tokens)
                 .filter((token) => (token.symbol !== 'ENU'))
+                .filter((token) => (filterTokens.indexOf(token.symbol) === -1))
                 .map((token) => {
-                  const name = `${token.contract}:${token.symbol}`;
+                  const name = `${connection.chainId}:${token.contract}:${token.symbol}`;
                   const isSelected = !!(settings.customTokens && settings.customTokens.indexOf(name) !== -1);
                   let balance = false;
                   if (balances && settings.account && balances[settings.account]) {
                     balance = balances[settings.account][token.symbol];
                   }
                   return (
-                    <Table.Row key={`${token.contract}-${token.symbol}`}>
+                    <Table.Row key={`${connection.chainId}-${token.contract}-${token.symbol}`}>
                       <Table.Cell>
                         <Header size="small">
                           {token.contract}

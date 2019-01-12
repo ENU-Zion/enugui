@@ -70,8 +70,11 @@ class BasicVoterContainer extends Component<Props> {
 
     const {
       getBlockExplorers,
-      getCurrencyStats
+      getCurrencyStats,
+      initApp
     } = actions;
+
+    initApp();
 
     switch (settings.walletMode) {
       case 'cold': {
@@ -85,8 +88,10 @@ class BasicVoterContainer extends Component<Props> {
           getCurrencyStats();
           getBlockExplorers();
           forEach(settings.customTokens, (token) => {
-            const [contract, symbol] = token.split(':');
-            getCurrencyStats(contract, symbol.toUpperCase());
+            const [chainId, contract, symbol] = token.split(':');
+            if (chainId === settings.chainId) {
+              getCurrencyStats(contract, symbol.toUpperCase());
+            }
           });
         }
       }

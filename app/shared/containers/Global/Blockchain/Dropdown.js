@@ -8,6 +8,7 @@ import { find } from 'lodash';
 import { Button, Dropdown, Header, Icon, Input, Segment, Tab } from 'semantic-ui-react';
 
 import GlobalButtonElevate from '../Button/Elevate';
+import GlobalFragmentChainLogo from '../../../components/Global/Fragment/ChainLogo';
 import * as BlockchainsActions from '../../../actions/blockchains';
 import * as WalletActions from '../../../actions/wallet';
 import * as WalletsActions from '../../../actions/wallets';
@@ -58,8 +59,10 @@ class GlobalBlockchainDropdown extends Component<Props> {
       ))
       .sort((a, b) => a.name > b.name)
       .map((b) => {
+        const image = <GlobalFragmentChainLogo avatar chainId={b.chainId} name={b.name} />;
         return {
           props: {
+            image,
             key: b.chainId,
             onClick: () => this.swapBlockchain(b.chainId),
             text: `${b.name} ${(b.testnet ? '(TESTNET)' : '')}`,
@@ -79,23 +82,29 @@ class GlobalBlockchainDropdown extends Component<Props> {
         selection={selection}
         trigger={(
           <span>
+            <GlobalFragmentChainLogo
+              avatar
+              chainId={blockchain.chainId}
+              name={blockchain.name}
+              style={{
+                marginRight: '0.5em'
+              }}
+            />
             {(blockchain && blockchain.name) ? blockchain.name : t(defaultLocString)}
           </span>
         )}
       >
-        <Dropdown.Menu key="parent">
-          <Dropdown.Menu key="menu" scrolling>
-            {options.map(option => {
-                const {
-                  props,
-                  b
-                } = option;
-                return (
-                  <Dropdown.Item {...props} />
-                );
-              })
-            }
-          </Dropdown.Menu>
+        <Dropdown.Menu style={{ minWidth: '200px' }}>
+          {options.map(option => {
+              const {
+                props,
+                b
+              } = option;
+              return (
+                <Dropdown.Item {...props} />
+              );
+            })
+          }
         </Dropdown.Menu>
       </Dropdown>
     );

@@ -23,7 +23,6 @@ export function historyPluginCheck() {
   return (dispatch: () => void, getState) => {
     const {
       connection,
-      settings
     } = getState();
 
     return enu(connection).getActions('aiden.pearce').then((result) => dispatch({

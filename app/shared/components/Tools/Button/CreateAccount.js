@@ -31,8 +31,8 @@ class ToolsButtonCreateAccount extends Component<Props> {
           content: t('tools_button_create_account'),
           icon: 'share square'
         }}
-        content={(
-          <ToolsFormCreateAccount
+        content={  (
+            <ToolsFormCreateAccount
             account={account}
             actions={actions}
             balance={balance}
@@ -42,6 +42,7 @@ class ToolsButtonCreateAccount extends Component<Props> {
             key="CreateAccountForm"
             system={system}
           />
+          )
         )}
         icon="share square"
         title={t('tools_create_account_header')}

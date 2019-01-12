@@ -22,7 +22,7 @@ const initialState = {
   // Custom tokens the wallet should be tracking
   customTokens: [
     // Always track the ENU token
-    'enu.token:ENU'
+    'enu-mainnet:enu.token:ENU'
   ],
   // State to view by default in DevTest
   devTestDefaultState: false,
