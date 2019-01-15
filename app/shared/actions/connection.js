@@ -24,8 +24,9 @@ export function historyPluginCheck() {
     const {
       connection,
     } = getState();
-
-    return enu(connection).getActions('aiden.pearce').then((result) => dispatch({
+    let historyAccount;
+    historyAccount = 'aiden.pearce';
+    return enu(connection).getActions(historyAccount).then((result) => dispatch({
       type: types.SET_CONNECTION_HISTORY_PLUGIN_ENABLED,
       payload: { enabled: (result.actions && result.actions.length !== 0) }
     })).catch(() => dispatch({

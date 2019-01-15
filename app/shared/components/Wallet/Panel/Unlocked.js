@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
 import { Accordion, Menu, Segment } from 'semantic-ui-react';
+import { find } from 'lodash';
 
 import WalletPanelButtonBroadcast from './Button/Broadcast';
 import WalletPanelButtonLock from './Button/Lock';
@@ -39,6 +40,7 @@ class WalletPanelUnlocked extends Component<Props> {
       transaction,
       t
     } = this.props;
+    const blockchain = find(blockchains, { chainId: connection.chainId });
     if (!settings.account) return false;
     return (
       <div>
@@ -59,18 +61,25 @@ class WalletPanelUnlocked extends Component<Props> {
                 active={activeIndex === 0}
               >
                 <Segment.Group>
-                  <Segment>
-                    <WalletPanelButtonStake
-                      actions={actions}
-                      accounts={accounts}
-                      balances={balances}
-                      blockExplorers={blockExplorers}
-                      connection={connection}
-                      validate={validate}
-                      settings={settings}
-                      system={system}
-                    />
-                  </Segment>
+                  {(blockchain
+                    && blockchain.excludeFeatures
+                    && blockchain.excludeFeatures.includes('tokenstaking'))
+                    ? false
+                    : (
+                      <Segment>
+                        <WalletPanelButtonStake
+                          actions={actions}
+                          accounts={accounts}
+                          balances={balances}
+                          blockExplorers={blockExplorers}
+                          connection={connection}
+                          validate={validate}
+                          settings={settings}
+                          system={system}
+                        />
+                      </Segment>
+                    )
+                  }
                   <Segment>
                     <WalletPanelButtonTransferSend
                       actions={actions}
@@ -86,30 +95,44 @@ class WalletPanelUnlocked extends Component<Props> {
                       accountName={settings.account}
                     />
                   </Segment>
-                  <Segment>
-                    <WalletPanelButtonRamBuy
-                      account={accounts[settings.account]}
-                      actions={actions}
-                      balances={balances}
-                      blockExplorers={blockExplorers}
-                      connection={connection}
-                      globals={globals}
-                      settings={settings}
-                      system={system}
-                    />
-                  </Segment>
-                  <Segment>
-                    <WalletPanelButtonRamSell
-                      account={accounts[settings.account]}
-                      actions={actions}
-                      balances={balances}
-                      blockExplorers={blockExplorers}
-                      connection={connection}
-                      globals={globals}
-                      settings={settings}
-                      system={system}
-                    />
-                  </Segment>
+                  {(blockchain
+                    && blockchain.excludeFeatures
+                    && blockchain.excludeFeatures.includes('rambuy'))
+                    ? false
+                    : (
+                      <Segment>
+                        <WalletPanelButtonRamBuy
+                          account={accounts[settings.account]}
+                          actions={actions}
+                          balances={balances}
+                          blockExplorers={blockExplorers}
+                          connection={connection}
+                          globals={globals}
+                          settings={settings}
+                          system={system}
+                        />
+                      </Segment>
+                    )
+                  }
+                  {(blockchain
+                    && blockchain.excludeFeatures
+                    && blockchain.excludeFeatures.includes('ramsell'))
+                    ? false
+                    : (
+                      <Segment>
+                        <WalletPanelButtonRamSell
+                          account={accounts[settings.account]}
+                          actions={actions}
+                          balances={balances}
+                          blockExplorers={blockExplorers}
+                          connection={connection}
+                          globals={globals}
+                          settings={settings}
+                          system={system}
+                        />
+                      </Segment>
+                    )
+                  }
                   {(settings.walletMode === 'watch')
                     ? (
                       <Segment>
