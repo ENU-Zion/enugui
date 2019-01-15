@@ -27,7 +27,6 @@ import * as ContractsActions from '../actions/contracts';
 import * as CreateAccountActions from '../actions/createaccount';
 import * as GlobalsActions from '../actions/globals';
 import * as ProducersActions from '../actions/producers';
-import * as ProposalsActions from '../actions/governance/proposals';
 import * as SellRamActions from '../actions/system/sellram';
 import * as SettingsActions from '../actions/settings';
 import * as StakeActions from '../actions/stake';
@@ -220,7 +219,6 @@ function mapStateToProps(state) {
     globals: state.globals,
     keys: state.keys,
     producers: state.producers,
-    proposals: state.proposals,
     settings: state.settings,
     system: state.system,
     tables: state.tables,
@@ -236,7 +234,6 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
       ...AccountsActions,
       ...AppActions,
-      ...BEOSWithdrawActions,
       ...BlockExplorersActions,
       ...BuyRamActions,
       ...BuyRamBytesActions,
@@ -246,7 +243,6 @@ function mapDispatchToProps(dispatch) {
       ...CreateAccountActions,
       ...GlobalsActions,
       ...ProducersActions,
-      ...ProposalsActions,
       ...SellRamActions,
       ...SettingsActions,
       ...StakeActions,

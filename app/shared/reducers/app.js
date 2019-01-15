@@ -2,20 +2,9 @@ import * as types from '../actions/types';
 
 
 const contractBasedFeatures = [
-  // Used in retrieval of EOS Token information
-  // https://github.com/greymass/customtokens
   'customtokens',
-  // Used in retrieval of EOS Block Producer information
-  // https://github.com/greymass/producerjson
   'producerinfo',
-  // Used in retrieval of EOS Referendum Proposals
-  // https://github.com/eoscanada/eosio.forum
-  'proposals',
-  // Used in retrieval of EOS Proxies information
-  // https://github.com/AlohaEOS/eos-proxyinfo
-  'regproxyinfo',
-  // BEOS features for exchanging BTS <-> BEOS
-  'beosexchange'
+  'regproxyinfo'
 ];
 
 const initialState = {
