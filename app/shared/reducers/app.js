@@ -1,6 +1,19 @@
 import * as types from '../actions/types';
 
-export default function balances(state = {}, action) {
+
+const contractBasedFeatures = [
+  'customtokens',
+  'producerinfo',
+  'regproxyinfo'
+];
+
+const initialState = {
+  constants: {},
+  download: undefined,
+  features: contractBasedFeatures
+};
+
+export default function app(state = initialState, action) {
   switch (action.type) {
     case types.APP_UPDATE_DOWNLOAD_PROGRESS: {
       return Object.assign({}, state, {

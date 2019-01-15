@@ -5,6 +5,7 @@ import createElectronStorage from 'redux-persist-electron-storage';
 import ENUAccount from '../../utils/ENU/Account';
 
 import { update as update009 } from './migrations/009-updateSettings';
+import { update as update010 } from './migrations/010-updateBlockchains';
 
 const defaultChainId = 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f';
 
@@ -220,17 +221,25 @@ const migrations = {
     });
   },
   /*
-  9 - More blockchain options
+    9 - More blockchain options
 
     - Provide exclude in settings
     - Update default settings.customTokens
   */
-  9: (state) => Object.assign({}, state, { settings: update009(state.settings, defaultChainId) }),
+  9: (state) => Object.assign({}, state, {
+    settings: update009(state.settings, defaultChainId)
+  }),
+  /*
+    10 - Added excludeFeatures to all chains
+  */
+  10: (state) => Object.assign({}, state, {
+    blockchains: update010(state.blockchains),
+  }),
 };
 
 const persistConfig = {
   key: 'enugui-config',
-  version: 9,
+  version: 10,
   migrate: createMigrate(migrations, { debug: true }),
   storage: createElectronStorage(),
   whitelist: [

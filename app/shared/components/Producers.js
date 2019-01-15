@@ -146,6 +146,7 @@ class Producers extends Component<Props> {
       allBlockExplorers,
       balances,
       blockchains,
+      blockExplorers,
       connection,
       globals,
       history,

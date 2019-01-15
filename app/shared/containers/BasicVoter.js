@@ -252,7 +252,7 @@ function mapDispatchToProps(dispatch) {
       ...TransferActions,
       ...ValidateActions,
       ...VoteProducerActions,
-      ...WalletActions
+      ...WalletActions,
     }, dispatch)
   };
 }
