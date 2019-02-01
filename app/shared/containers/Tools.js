@@ -98,11 +98,6 @@ const paneMapping = [
   },
   {
     header: true,
-    modes: ['hot', 'watch'],
-    name: 'hardware'
-  },
-  {
-    header: true,
     modes: ['cold', 'hot', 'watch', 'skip', 'temp'],
     name: 'services',
   },
