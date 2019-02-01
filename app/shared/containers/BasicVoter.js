@@ -51,7 +51,8 @@ type Props = {
   wallet: {},
   balances: {},
   accounts: {},
-  system: {}
+  system: {},
+  chain: {}
 };
 
 class BasicVoterContainer extends Component<Props> {

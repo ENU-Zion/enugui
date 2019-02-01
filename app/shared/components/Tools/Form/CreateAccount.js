@@ -24,11 +24,17 @@ class ToolsFormCreateAccount extends Component<Props> {
       activeKeyValue,
       balance,
       connection,
+      ownerKeyValue
+    } = props;
+
+    let {
       delegatedBw,
       delegatedCpu,
-      ownerKeyValue,
       ramAmount
     } = props;
+
+    let disableStakingFields = false;
+    let disableDelegatedResourceWarning = false;
 
     this.state = {
       accountName,
@@ -36,11 +42,13 @@ class ToolsFormCreateAccount extends Component<Props> {
       confirming: false,
       delegatedBw,
       delegatedCpu,
-      chainSymbolBalance: balance && balance[connection.chainSymbol] || 0,
+      chainSymbolBalance: (balance && balance[connection.chainSymbol]) || 0,
       formErrors: {},
       ownerKeyValue,
       ramAmount,
-      submitDisabled: true
+      submitDisabled: true,
+      disableStakingFields,
+      disableDelegatedResourceWarning
     };
   }
 
@@ -278,7 +286,9 @@ class ToolsFormCreateAccount extends Component<Props> {
       ownerKeyValue,
       ramAmount,
       ramPrice,
-      transferTokens
+      transferTokens,
+      disableStakingFields,
+      disableDelegatedResourceWarning
     } = this.state;
 
     let {
@@ -316,12 +326,13 @@ class ToolsFormCreateAccount extends Component<Props> {
     const shouldShowPublicKeysWarning = activeKeyValue && activeKeyValue === ownerKeyValue;
 
     const shouldShowDelegatedResourceWarning =
-      (decimalDelegatedBw &&
+      !disableDelegatedResourceWarning &&
+      ((decimalDelegatedBw &&
         decimalDelegatedBw.lessThan(1) &&
         decimalDelegatedBw.greaterThan(0)) ||
       (decimalDelegatedCpu &&
         decimalDelegatedCpu.lessThan(1) &&
-        decimalDelegatedCpu.greaterThan(0));
+        decimalDelegatedCpu.greaterThan(0)));
 
     const shouldShowtransferTokensWarning = transferTokens;
 
@@ -375,6 +386,7 @@ class ToolsFormCreateAccount extends Component<Props> {
                   label={t('tools_form_create_account_delegated_bw_label', { chainSymbol: connection.chainSymbol })}
                   name="delegatedBw"
                   onChange={this.onChange}
+                  readOnly={disableStakingFields}
                 />
                 <GlobalFormFieldToken
                   connection={connection}
@@ -382,6 +394,7 @@ class ToolsFormCreateAccount extends Component<Props> {
                   label={t('tools_form_create_account_delegated_cpu_label', { chainSymbol: connection.chainSymbol })}
                   name="delegatedCpu"
                   onChange={this.onChange}
+                  readOnly={disableStakingFields}
                 />
                 <Form.Checkbox
                   checked={transferTokens}

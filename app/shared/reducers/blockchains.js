@@ -14,8 +14,8 @@ const knownChains = [
       "producerinfo",
       "regproxyinfo"
     ],
-    "symbol": "ENU",
-    "testnet": false
+    symbol: 'ENU',
+    testnet: false
   }
 ];
 
