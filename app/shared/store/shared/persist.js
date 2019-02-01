@@ -6,6 +6,7 @@ import ENUAccount from '../../utils/ENU/Account';
 
 import { update as update009 } from './migrations/009-updateSettings';
 import { update as update010 } from './migrations/010-updateBlockchains';
+import { update as update011 } from './migrations/011-updateBlockchains';
 
 const defaultChainId = 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f';
 
@@ -235,13 +236,20 @@ const migrations = {
   10: (state) => Object.assign({}, state, {
     blockchains: update010(state.blockchains),
   }),
+  /*
+    11 - Rechange blockchains supported contracts
+  */
+  11: (state) => Object.assign({}, state, {
+    blockchains: update011(state.blockchains),
+  }),
 };
 
 const persistConfig = {
   key: 'enugui-config',
-  version: 10,
+  version: 11,
   migrate: createMigrate(migrations, { debug: true }),
   storage: createElectronStorage(),
+  timeout: 0, // The code base checks for falsy, so 0 disables
   whitelist: [
     'blockchains',
     'settings',

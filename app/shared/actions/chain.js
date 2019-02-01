@@ -7,11 +7,14 @@ export function getInfo() {
     dispatch({
       type: types.GET_CHAIN_INFO_REQUEST
     });
-    const { connection } = getState();
-    enu(connection).getInfo(true).then((chain) => dispatch({
-      type: types.GET_CHAIN_INFO_SUCCESS,
-      payload: { chain }
-    })).catch((err) => dispatch({
+    const { connection, chain: previousChain } = getState();
+
+    enu(connection).getInfo(true).then((chain) => {
+      return dispatch({
+        type: types.GET_CHAIN_INFO_SUCCESS,
+        payload: { chain }
+      })
+    }).catch((err) => dispatch({
       type: types.GET_CHAIN_INFO_FAILURE,
       payload: { err },
     }));

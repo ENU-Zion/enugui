@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import compose from 'lodash/fp/compose';
 
-import { Menu, Tab } from 'semantic-ui-react';
+import { Menu, Tab, Item } from 'semantic-ui-react';
 
 import ContractInterface from './Contract/Interface';
 import GlobalUtilsPingContainer from './Global/Utils/Ping';
@@ -99,6 +99,11 @@ const paneMapping = [
   {
     header: true,
     modes: ['cold', 'hot', 'watch', 'skip', 'temp'],
+    name: 'services',
+  },
+  {
+    header: true,
+    modes: ['cold', 'hot', 'watch', 'skip', 'temp'],
     name: 'utilities',
   },
   {
@@ -183,15 +188,16 @@ class ToolsContainer extends Component<Props> {
       t
     } = this.props;
     return paneMapping
-      .filter((pane) => {
-        const {
-          settings
+    .filter((pane) => {
+      const {
+        settings
         } = this.props;
         const {
           skipImport,
           walletMode,
           walletTemp
         } = settings;
+
         const paneRequiresContract = !!pane.requiredContract;
         if (paneRequiresContract) {
           if (connection.supportedContracts &&
@@ -211,6 +217,9 @@ class ToolsContainer extends Component<Props> {
         );
       })
       .map((pane) => {
+        const {
+          chain
+          } = this.props;
         if (pane.header) {
           return {
             menuItem: (
@@ -223,6 +232,7 @@ class ToolsContainer extends Component<Props> {
             )
           };
         }
+
         return {
           menuItem: t(`tools_menu_${pane.name}`),
           render: () => {
