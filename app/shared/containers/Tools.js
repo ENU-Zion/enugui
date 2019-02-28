@@ -138,8 +138,7 @@ const paneMapping = [
   {
     element: ToolsBidName,
     modes: ['hot', 'watch'],
-    name: 'name_bidding',
-    requiredContract: 'bidname'
+    name: 'name_bidding'
   },
   {
     element: ToolsProxy,
