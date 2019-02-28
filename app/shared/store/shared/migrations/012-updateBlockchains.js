@@ -1,18 +1,17 @@
-import { uniq } from 'lodash';
-
 const update = (blockchains) => {
-  // If prior state had no array, return one
-  if (!blockchains) return [];
-  // Otherwise update it
   const newBlockchains = [];
+  
   blockchains.forEach((blockchain) => {
     const chain = Object.assign({}, blockchain);
-    // Ensure array exists for value
-    if (!chain.excludeFeatures) {
-      chain.excludeFeatures = [];
+    // Adding bidname supportedContracts for all blockchains except for
+
+    if (chain.chainId !== '73647cde120091e0a4b85bced2f3cfdb3041e266cbbe95cee59b73235a1b3b6f') {
+      chain.supportedContracts.push('bidname');
     }
+
     newBlockchains.push(chain);
   });
+
   return newBlockchains;
 };
 

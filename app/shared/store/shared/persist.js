@@ -7,6 +7,7 @@ import ENUAccount from '../../utils/ENU/Account';
 import { update as update009 } from './migrations/009-updateSettings';
 import { update as update010 } from './migrations/010-updateBlockchains';
 import { update as update011 } from './migrations/011-updateBlockchains';
+import { update as update012 } from './migrations/012-updateBlockchains';
 
 const defaultChainId = 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f';
 
@@ -241,6 +242,12 @@ const migrations = {
   */
   11: (state) => Object.assign({}, state, {
     blockchains: update011(state.blockchains),
+  }),
+  /*
+   12 - Rechange blockchains supported contracts
+ */
+  12: (state) => Object.assign({}, state, {
+    blockchains: update012(state.blockchains),
   }),
 };
 

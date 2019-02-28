@@ -8,6 +8,9 @@ export default function tables(state = initialState, action) {
     case types.RESET_ALL_STATES: {
       return initialState;
     }
+    case types.CLEAR_TABLES: {
+      return initialState;
+    }
     case types.SYSTEM_GETTABLE_SUCCESS: {
       const {
         code,
@@ -17,8 +20,7 @@ export default function tables(state = initialState, action) {
         table,
       } = action.payload;
 
-      // overwrite state to only store one table at a time
-      return set({}, `${code}.${scope}.${table}`, { more, rows });
+      return set(state, `${code}.${scope}.${table}`, { more, rows });
     }
     default: {
       return state;

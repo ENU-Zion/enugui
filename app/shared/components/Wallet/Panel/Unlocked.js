@@ -6,7 +6,6 @@ import { find } from 'lodash';
 import { get } from 'dot-prop-immutable';
 
 import WalletPanelButtonBroadcast from './Button/Broadcast';
-import WalletPanelButtonLock from './Button/Lock';
 import WalletPanelButtonStake from './Button/Stake';
 
 import WalletPanelButtonTransferReceive from './Button/Transfer/Receive';
@@ -30,6 +29,7 @@ class WalletPanelUnlocked extends Component<Props> {
     const {
       actions,
       accounts,
+      app,
       balances,
       blockExplorers,
       chain,
@@ -76,6 +76,7 @@ class WalletPanelUnlocked extends Component<Props> {
                   <Segment>
                     <WalletPanelButtonTransferSend
                       actions={actions}
+                      app={app}
                       balances={balances}
                       blockExplorers={blockExplorers}
                       connection={connection}
@@ -164,4 +165,4 @@ class WalletPanelUnlocked extends Component<Props> {
   }
 }
 
-export default translate('wallet')(WalletPanelUnlocked);
+export default translate(['wallet'])(WalletPanelUnlocked);

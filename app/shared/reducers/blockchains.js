@@ -10,6 +10,7 @@ const knownChains = [
     "name": "ENU",
     "node": "https://api.enumivo.org",
     "supportedContracts": [
+      'bidname',
       "customtokens",
       "producerinfo",
       "regproxyinfo"

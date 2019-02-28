@@ -2,12 +2,15 @@
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
 import { Button, Divider, Form, Header, Message } from 'semantic-ui-react';
+import { attempt, isError } from 'lodash';
 
 import GlobalTransactionModal from '../../../Global/Transaction/Modal';
 import GlobalFormFieldGeneric from '../../../Global/Form/Field/Generic';
 import WalletModalContentBroadcast from '../../../Wallet/Modal/Content/Broadcast';
 
 const initialState = {
+  arrayOptions: {},
+  currentArrayValues: {},
   form: {}
 };
 
@@ -24,11 +27,16 @@ class ContractInterfaceFormAction extends Component<Props> {
       this.resetForm(nextProps.contractAction);
     }
   }
-  formatField = (contractAction, name, value = '') => {
+  formatField = (contractAction, name, value = '', type = null) => {
     const {
       contract
     } = this.props;
-    const fieldType = contract.getFieldType(contractAction, name);
+    let fieldType = contract.getFieldType(contractAction, name);
+
+    if (type === 'array') {
+      fieldType = 'array';
+    }
+
     switch (fieldType) {
       case 'int': {
         return parseInt(value, 10);
@@ -36,23 +44,32 @@ class ContractInterfaceFormAction extends Component<Props> {
       case 'bool': {
         return value ? 1 : 0;
       }
+      case 'array': {
+        return value;
+      }
+      case 'string': {
+        return String(value);
+      }
       default: {
+        if (!isError(attempt(JSON.parse, value))) {
+          return JSON.parse(value);
+        }
         return String(value);
       }
     }
-  }
-  onChange = (e, { name, value }) => {
+  };
+  onChange = (e, { name, value }, type = null) => {
     const { contractAction } = this.props;
     this.setState({
       form: Object.assign(
         {},
         this.state.form,
         {
-          [name]: this.formatField(contractAction, name, value)
+          [name]: this.formatField(contractAction, name, value, type)
         }
       )
     });
-  }
+  };
   onToggle = (e, { name, checked }) => {
     this.setState({
       form: Object.assign(
@@ -63,7 +80,7 @@ class ContractInterfaceFormAction extends Component<Props> {
         }
       )
     });
-  }
+  };
   onSubmit = () => {
     const {
       actions,
@@ -73,7 +90,7 @@ class ContractInterfaceFormAction extends Component<Props> {
     } = this.props;
     const { form } = this.state;
     actions.buildTransaction(contract, contractAction, settings.account, form);
-  }
+  };
   resetForm = (contractAction) => {
     const {
       contract
@@ -84,7 +101,7 @@ class ContractInterfaceFormAction extends Component<Props> {
       formData[field.name] = this.formatField(contractAction, field.name);
     });
     this.setState({ form: formData });
-  }
+  };
   render() {
     const {
       actions,
@@ -96,12 +113,49 @@ class ContractInterfaceFormAction extends Component<Props> {
       t,
       transaction
     } = this.props;
+    const {
+      currentArrayValues
+    } = this.state;
     const signing = !!(system.TRANSACTION_BUILD === 'PENDING');
     const fields = contract.getFields(contractAction);
-
     const formFields = [];
-    fields.forEach((field) => {
+    const fieldsMeta = fields.map((field) => {
+      if (field.type.substr(field.type.length - 2) === '[]') {
+        return { ...field, type: 'array' };
+      }
+      return field;
+    });
+    fieldsMeta.forEach((field) => {
       switch (field.type) {
+        case 'array': {
+          const options = (currentArrayValues[field.name] || [])
+            .map(option => ({ text: option, value: option, key: option }))
+            .concat([{
+              key: '',
+              text: t('interface_form_field_options_entry'),
+              value: 'placeholder',
+              disabled: true
+            }]);
+          formFields.push((
+            <Form.Select
+              allowAdditions
+              fluid
+              label={field.name}
+              multiple
+              name={field.name}
+              options={options}
+              search
+              selection
+              value={currentArrayValues[field.name] || []}
+              onChange={(e, { name, value }) => {
+                this.setState({ currentArrayValues: { [name]: value } }, () => {
+                  this.onChange(null, { name, value }, field.type);
+                });
+              }}
+            />
+          ));
+          break;
+        }
         case 'bool': {
           formFields.push((
             <Form.Checkbox
@@ -119,7 +173,8 @@ class ContractInterfaceFormAction extends Component<Props> {
               key={`${contractAction}-${field.name}-${field.type}`}
               label={`${field.name} (${field.type})`}
               name={field.name}
-              onChange={this.onChange}
+              onChange={this.onChange
+              }
             />
           ));
         }

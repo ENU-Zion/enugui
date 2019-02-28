@@ -45,10 +45,12 @@ import * as StakeActions from '../actions/stake';
 import * as SystemStateActions from '../actions/system/systemstate';
 import * as TableActions from '../actions/table';
 import * as TransactionActions from '../actions/transaction';
+import * as TransferActions from '../actions/transfer';
 import * as UnregProxyActions from '../actions/system/unregproxy';
 import * as UpdateAuthActions from '../actions/system/updateauth';
 import * as WalletActions from '../actions/wallet';
 import * as WalletsActions from '../actions/wallets';
+import * as AppActions from '../actions/app';
 
 const paneMapping = [
   {
@@ -137,6 +139,7 @@ const paneMapping = [
     element: ToolsBidName,
     modes: ['hot', 'watch'],
     name: 'name_bidding',
+    requiredContract: 'bidname'
   },
   {
     element: ToolsProxy,
@@ -300,6 +303,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       ...AccountsActions,
+      ...AppActions,
       ...BidNameActions,
       ...ContractsActions,
       ...CreateAccountActions,
@@ -314,6 +318,7 @@ function mapDispatchToProps(dispatch) {
       ...SystemStateActions,
       ...TableActions,
       ...TransactionActions,
+      ...TransferActions,
       ...UnregProxyActions,
       ...UpdateAuthActions,
       ...WalletActions,

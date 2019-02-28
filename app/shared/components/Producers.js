@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tab, Grid, Divider } from 'semantic-ui-react';
+import { Tab, Grid, Divider, Message } from 'semantic-ui-react';
 import { translate } from 'react-i18next';
 import { intersection } from 'lodash';
 
@@ -8,7 +8,6 @@ import ProducersProxy from './Producers/Proxy';
 import ProducersVotingPreview from './Producers/BlockProducers/Modal/Preview';
 import Proxies from './Producers/Proxies';
 import ProducersSelector from './Producers/BlockProducers/Selector';
-import SidebarAccount from '../containers/Sidebar/Account';
 import WalletPanel from './Wallet/Panel';
 
 class Producers extends Component<Props> {
@@ -149,7 +148,6 @@ class Producers extends Component<Props> {
       blockExplorers,
       connection,
       globals,
-      history,
       keys,
       producers,
       settings,
@@ -194,8 +192,11 @@ class Producers extends Component<Props> {
     const modified = (selected.sort().toString() !== producers.selected.sort().toString());
     const currentProxy = (account && account.voter_info && account.voter_info.proxy);
 
+    const producersVotedIn =
+      connection.chainId !== '73647cde120091e0a4b85bced2f3cfdb3041e266cbbe95cee59b73235a1b3b6f';
+
     if (isValidUser && settings.walletMode !== 'wait') {
-      sidebar = (
+      sidebar = (producersVotedIn) ? (
         <React.Fragment>
           <ProducersProxy
             account={account}
@@ -247,6 +248,10 @@ class Producers extends Component<Props> {
             unregisteredProducers={unregisteredProducers}
           />
         </React.Fragment>
+      ) : (
+        <Message
+          content={t('producers_no_voting')}
+        />
       );
     }
 

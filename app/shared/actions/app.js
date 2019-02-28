@@ -20,5 +20,6 @@ export function initApp() {
 
 export default {
   downloadProgress,
+  getConstants,
   initApp
 };

@@ -28,21 +28,27 @@ export default class GlobalModalExplorerLink extends Component<Props> {
       return false;
     }
 
-    if (linkBlockId) {
-      linkBlockId = linkBlockId.toString();
+    if (linkBlockId || linkType === 'account') {
+      linkBlockId = linkBlockId && linkBlockId.toString();
+
+      const urlPartsWithoutVariable = blockExplorer[linkType].split(`{${linkType}}`);
+
+      let generatedLink = null;
+      if ((linkType === 'txid') && (urlPartsWithoutVariable[0] === 'https://explore.beos.world/transactions/')) {
+        generatedLink = `${urlPartsWithoutVariable[0]}${linkBlockId}/${linkData}${urlPartsWithoutVariable[1]}`;
+      } else {
+        generatedLink = `${urlPartsWithoutVariable[0]}${linkData}${urlPartsWithoutVariable[1]}`;
+      }
+
+      return (
+        <GlobalModalDangerLink
+          content={content}
+          link={generatedLink}
+          settings={settings}
+        />
+      );
     }
 
-    const urlPartsWithoutVariable = blockExplorer[linkType].split(`{${linkType}}`);
-
-    let generatedLink = null;
-    generatedLink = `${urlPartsWithoutVariable[0]}${linkData}${urlPartsWithoutVariable[1]}`;
-
-    return (
-      <GlobalModalDangerLink
-        content={content}
-        link={generatedLink}
-        settings={settings}
-      />
-    );
+    return content;
   }
 }
