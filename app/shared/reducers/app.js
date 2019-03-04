@@ -20,6 +20,14 @@ export default function app(state = initialState, action) {
         download: action.payload
       });
     }
+    case types.SYSTEM_GETCONSTANTS_SUCCESS: {
+      return Object.assign({}, state, {
+        constants: action.payload.data
+      });
+    }
+    case types.SYSTEM_GETCONSTANTS_FAILURE: {
+      return Object.assign({}, initialState);
+    }
     default: {
       return state;
     }
